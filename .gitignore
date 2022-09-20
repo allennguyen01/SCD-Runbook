@@ -1,0 +1,7 @@
+*.log
+
+images/
+
+outputCSV/*.xlsx
+
+extractLarge.py

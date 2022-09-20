@@ -1,0 +1,4 @@
+ID,Label,Enabled Flag,PID Name
+19151819,FUT_FileTrigger,0,TRN_FUT_TRIGGERED
+19151820,SMF_FUT_FileTrigger,0,TRN_FUT_TRIGGERED
+15105742,Succeeded,1,Extract_Application_Folder_From_Trigger_Path
