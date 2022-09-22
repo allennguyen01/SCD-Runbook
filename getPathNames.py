@@ -27,8 +27,11 @@ for id in pidDict:
     pathName = ''
     tempPID = pid
     tempName = name
+
+    whileIdx = 0
     while True:
-        pathName = tempName + '/' + pathName
+        pathName = '' if whileIdx == 0 else tempName + '/' + pathName
+        whileIdx += 1
         if tempPID == '0':
             break
         tempName = pidDict[tempPID][0]
@@ -41,4 +44,4 @@ for id in pidDict:
 # Create a list of all Job Plans as dictionaries
 pidColumns = ['ID', 'Name', 'PID', 'Type ID', 'Path Name']
 
-createCSV(pidList, pidDict, pidColumns, 'outputCSV\Path_Names_test.csv')
+createCSV(pidList, pidDict, pidColumns, 'outputCSV\Path_Names_test_1.csv')
