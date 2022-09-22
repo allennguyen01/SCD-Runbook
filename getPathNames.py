@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-import csv
+import pandas as pd
 from createCSV import createCSV
 
 tree = ET.parse('XMLs\BREAKFIX_20220913.xml')
@@ -9,6 +9,7 @@ Objects = root.iter('Object')
 
 pidDict = {}
 pidList = []
+lst = []
 
 # Iterate through every Object element 
 for obj in Objects:
@@ -30,18 +31,18 @@ for id in pidDict:
 
     whileIdx = 0
     while True:
-        pathName = '' if whileIdx == 0 else tempName + '/' + pathName
+        pathName = tempName if whileIdx == 0 else tempName + '/' + pathName
         whileIdx += 1
         if tempPID == '0':
             break
         tempName = pidDict[tempPID][0]
         tempPID = pidDict[tempPID][1]
-    pidDict.update({id : [name, pid, typeid, pathName]})
+    lst.append([id, name, pid, typeid, pathName])
 
-# trn_fit_id = '15101196'
-# print(pidDict[trn_fit_id][0], pidDict[trn_fit_id][(len(pidDict[trn_fit_id])-1)])
+pathNameDF = pd.DataFrame(lst, columns=['ID', 'Name', 'PID', 'Type ID', 'Path Name'])
+pathNameDF.to_csv('outputCSV/Path_Names.csv', index=False)
 
 # Create a list of all Job Plans as dictionaries
-pidColumns = ['ID', 'Name', 'PID', 'Type ID', 'Path Name']
+# pidColumns = ['ID', 'Name', 'PID', 'Type ID', 'Path Name']
 
-createCSV(pidList, pidDict, pidColumns, 'outputCSV\Path_Names_test_1.csv')
+# createCSV(pidList, pidDict, pidColumns, 'outputCSV\Path_Names_test.csv')
