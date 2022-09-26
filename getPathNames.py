@@ -26,6 +26,7 @@ for id in pidDict:
     name = pidDict[id][0]
     pid = pidDict[id][1]
     typeid = pidDict[id][2]
+    pidName = pidDict[pid][0] if pid != '0' else 'SimCorp Dimension'
     pathName = ''
     tempPID = pid
     tempName = name
@@ -38,9 +39,9 @@ for id in pidDict:
             break
         tempName = pidDict[tempPID][0]
         tempPID = pidDict[tempPID][1]
-    lst.append([id, name, pid, typeid, pathName])
+    lst.append([id, name, pid, pidName, typeid, pathName])
 
-pathNameDF = pd.DataFrame(lst, columns=['ID', 'Name', 'PID', 'Type ID', 'Path Name'])
+pathNameDF = pd.DataFrame(lst, columns=['ID', 'Name', 'Parent ID', 'Parent Name', 'Object Type', 'Path Name'])
 pathNameDF.to_csv('outputCSV/Path_Names.csv', index=False)
 
 # Create a list of all Job Plans as dictionaries
