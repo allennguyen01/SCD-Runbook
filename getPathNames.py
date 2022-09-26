@@ -14,7 +14,8 @@ lst = []
 # Iterate through every Object element 
 for obj in Objects:
     typeid = obj.get('typeid')
-    if  typeid == 'Reference' or typeid == 'JobPlan' or typeid == 'Plan':
+    if typeid in {'Reference', 'JobPlan', 'Plan', 'Job'}:
+    # if  typeid == 'Reference' or typeid == 'JobPlan' or typeid == 'Plan' or typeid == 'Job':
         ID = obj.find('ID').text
         name = obj.find('Name').text
         PID = obj.find('PID').find('ID').text
