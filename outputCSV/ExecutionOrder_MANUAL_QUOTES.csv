@@ -1,0 +1,6 @@
+ID,Action Label,Parent Name,Next Action ID
+28889519,CompletionTrigger-e5a3b0ba-218d-4289-94e7-d76d26fdca57,Verify PRICE_DATE in MANUAL_STANDARD_QUOTES file,15105101
+28889519,CompletionTrigger-51ea9f9e-3c16-4c87-b228-f9dcc56b25d5,Verify PRICE_DATE in MANUAL_STANDARD_QUOTES file,28890497
+28890497,CompletionTrigger-7f5b886d-5d9d-48bc-bffb-17a1a03b90b1,Send_Email_Summary,15105101
+15105101,Succeeded,Copy_To_Direct_and_Archive,15105102
+15105102,Succeeded,MANUAL_QUOTE,25333505
