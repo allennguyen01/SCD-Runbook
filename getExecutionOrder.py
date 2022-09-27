@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
-from getPathNames import pidDict 
+from getPathNames import pathNameDF 
 
 tree = ET.parse('XMLs\SCD_DWH_LOAD.xml')
 root = tree.getroot()
@@ -28,7 +28,7 @@ for event in Events:
     if typeid == 'Event':
         ID = event.find('Actions').find('EventAction').find('CommandArgument').find('ID')
         ID = ID.text if ID is not None else ''
-        name = pidDict[ID][0]
+        name = pathNameDF.loc[ID]['Name']
 
         label = event.find('ID').find('Label').text
         if 'FileTrigger' in label:
@@ -42,12 +42,23 @@ for event in Events:
 for id in eventsDict:
     currParentID = eventsDict[id][2]
     if currParentID not in eventsDict:
+        # Add first job that executes
         ID = currParentID
-        name = pidDict[ID][0]
-        parentID = pidDict[ID][1]
-        parentPathName = pidDict[ID][4]
-        eventsList.append(ID, name, parentPathName, parentID)
+        currObj = pathNameDF.loc[ID]
+        name = currObj['Name']
+        parentName = currObj['Parent Name']
+        parentID = currObj['Parent ID']
+        eventsList.append([ID, name, parentName, parentID])
 
+        # Add top level plan
+        ID = parentID
+        currObj = pathNameDF.loc[ID]
+        name = currObj['Path Name']
+        parentName = currObj['Parent Name']
+        parentID = None
+        eventsList.append([ID, name, parentName, parentID])
 
 eoDF = pd.DataFrame(eventsList, columns=['ID', 'Name', 'Parent Name', 'Parent ID'])
-eoDF.to_csv('outputCSV\ExecutionOrder_SCD_DWH_LOAD_1.csv', index=False)
+eoDF = eoDF.set_index('ID')
+
+eoDF.to_csv('outputCSV\ExecutionOrder_SCD_DWH_LOAD.csv')
