@@ -9,13 +9,13 @@ Objects = root.iter('Object')
 
 pidDict = {}
 pidList = []
-lst = []
+dfList = []
+idList = []
 
 # Iterate through every Object element 
 for obj in Objects:
     typeid = obj.get('typeid')
     if typeid in {'Reference', 'JobPlan', 'Plan', 'Job'}:
-    # if  typeid == 'Reference' or typeid == 'JobPlan' or typeid == 'Plan' or typeid == 'Job':
         ID = obj.find('ID').text
         name = obj.find('Name').text
         PID = obj.find('PID').find('ID').text
@@ -39,12 +39,10 @@ for id in pidDict:
             break
         tempName = pidDict[tempPID][0]
         tempPID = pidDict[tempPID][1]
-    lst.append([id, name, pid, pidName, typeid, pathName])
+    idList.append(id)
+    dfList.append([name, pid, pidName, typeid, pathName])
 
-pathNameDF = pd.DataFrame(lst, columns=['ID', 'Name', 'Parent ID', 'Parent Name', 'Object Type', 'Path Name'])
-pathNameDF.to_csv('outputCSV/Path_Names.csv', index=False)
+pathNameDF = pd.DataFrame(dfList, columns=['Name', 'Parent ID', 'Parent Name', 'Object Type', 'Path Name'], index=idList)
+pathNameDF.index.name = 'ID'
 
-# Create a list of all Job Plans as dictionaries
-# pidColumns = ['ID', 'Name', 'PID', 'Type ID', 'Path Name']
-
-# createCSV(pidList, pidDict, pidColumns, 'outputCSV\Path_Names_test.csv')
+pathNameDF.to_csv('outputCSV/Path_Names.csv')
