@@ -1,6 +1,8 @@
-ID,Action Label,Parent Name,Next Action ID
-28889519,CompletionTrigger-e5a3b0ba-218d-4289-94e7-d76d26fdca57,Verify PRICE_DATE in MANUAL_STANDARD_QUOTES file,15105101
-28889519,CompletionTrigger-51ea9f9e-3c16-4c87-b228-f9dcc56b25d5,Verify PRICE_DATE in MANUAL_STANDARD_QUOTES file,28890497
-28890497,CompletionTrigger-7f5b886d-5d9d-48bc-bffb-17a1a03b90b1,Send_Email_Summary,15105101
-15105101,Succeeded,Copy_To_Direct_and_Archive,15105102
-15105102,Succeeded,MANUAL_QUOTE,25333505
+ID,Name,Parent Name,Parent ID,Label
+15105101,Copy_To_Direct_and_Archive,Verify PRICE_DATE in MANUAL_STANDARD_QUOTES file,28889519,CompletionTrigger-e5a3b0ba-218d-4289-94e7-d76d26fdca57
+28890497,Send_Email_Summary,Verify PRICE_DATE in MANUAL_STANDARD_QUOTES file,28889519,CompletionTrigger-51ea9f9e-3c16-4c87-b228-f9dcc56b25d5
+15105101,Copy_To_Direct_and_Archive,Send_Email_Summary,28890497,CompletionTrigger-7f5b886d-5d9d-48bc-bffb-17a1a03b90b1
+15105102,MANUAL_QUOTE,Copy_To_Direct_and_Archive,15105101,Succeeded
+25333505,Delete_From_Direct_After_Processing,MANUAL_QUOTE,15105102,Succeeded
+28889519,Verify PRICE_DATE in MANUAL_STANDARD_QUOTES file,MANUAL_QUOTE,15104824,Succeeded
+15104824,BreakFix/Plans/MANUAL_QUOTE,Plans,,Succeeded

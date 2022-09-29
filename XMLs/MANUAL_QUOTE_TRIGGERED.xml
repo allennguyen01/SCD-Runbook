@@ -1,0 +1,643 @@
+<Export>
+    <Objects>
+        <Object typeid="JobPlan">
+            <ID>15104825</ID>
+            <RID>15</RID>
+            <ClassID>13</ClassID>
+            <Label>MANUAL_QUOTE</Label>
+            <Name>MANUAL_QUOTE</Name>
+            <PID typeid="ObjectID">
+                <ID>0</ID>
+            </PID>
+            <Enabled>1</Enabled>
+            <GlobalDisable>0</GlobalDisable>
+            <Visibility>127</Visibility>
+            <Owner>BCIMC\szussino</Owner>
+            <Status>0</Status>
+            <OperationDateTime>0001-01-01T00:00:00</OperationDateTime>
+            <LockIsExclusive>0</LockIsExclusive>
+            <LockMode>0</LockMode>
+            <LockOperation>0</LockOperation>
+            <LockOwner></LockOwner>
+            <LockFlags></LockFlags>
+            <Guid>323046f8-f8eb-4c6b-9f2e-c0a45c798187</Guid>
+            <Client>L10204</Client>
+            <Creator>BCIMC\szussino</Creator>
+            <CreationTime>2022-04-13T23:21:22</CreationTime>
+            <Description></Description>
+            <ReadOnly>0</ReadOnly>
+            <RevisionAuthor>BCIMC\szussino</RevisionAuthor>
+            <RevisionTime>2022-04-14T14:55:05</RevisionTime>
+            <EventFilter>1966081;1966082;1966086;1966090;</EventFilter>
+            <Documentation typeid="DocumentationProperties"/>
+            <Properties typeid="VariableCollection">
+                <Variable typeid="Variable" t="12">
+                    <Name>Extensions</Name>
+                    <Value typeid="VariableCollection">
+                        <Variable typeid="Variable" t="12">
+                            <Name>SLASettings</Name>
+                            <Value typeid="VariableCollection"/>
+                        </Variable>
+                    </Value>
+                </Variable>
+                <Variable typeid="Variable" t="1">
+                    <Name>$ImportedSymbols</Name>
+                    <Value>vce_EFFECTIVE_DATE</Value>
+                </Variable>
+                <Variable typeid="Variable" t="3">
+                    <Name>Preprocessing.Strict</Name>
+                    <Value>0</Value>
+                </Variable>
+            </Properties>
+            <Tags typeid="VariableCollection">
+                <Variable typeid="Variable" t="12">
+                    <Name>V4_DateTimeEvent</Name>
+                    <Value typeid="DateTimeEvent">
+                        <ID typeid="ObjectID">
+                            <ID>28939222</ID>
+                            <RID>13</RID>
+                            <Label>DateTime</Label>
+                            <Name>DateTime</Name>
+                            <Path>/</Path>
+                        </ID>
+                        <PID typeid="ObjectID">
+                            <ID>15104825</ID>
+                            <RID>13</RID>
+                            <ClassID>13</ClassID>
+                            <Label>MANUAL_QUOTE</Label>
+                            <Name>MANUAL_QUOTE</Name>
+                            <Path>/</Path>
+                        </PID>
+                        <Attached>1</Attached>
+                        <Enabled>1</Enabled>
+                        <EventID>1966083</EventID>
+                        <Properties typeid="VariableCollection"/>
+                        <Actions typeid="EventActionCollection">
+                            <Count>1</Count>
+                            <EventAction typeid="EventAction">
+                                <CommandID>196609</CommandID>
+                                <CommandArgument></CommandArgument>
+                            </EventAction>
+                        </Actions>
+                        <V4Tag>0</V4Tag>
+                        <Type>4</Type>
+                        <DeferredUntil>2018-09-06T09:38:07</DeferredUntil>
+                        <Interval>36000000000</Interval>
+                        <IntervalOrigin>2020-02-29T21:42:53</IntervalOrigin>
+                        <ComputeIntervalWithDelta>0</ComputeIntervalWithDelta>
+                        <RunLastMissedExecution>1</RunLastMissedExecution>
+                        <OnNonBusinessDayAction>3</OnNonBusinessDayAction>
+                        <TimeZoneType>1</TimeZoneType>
+                        <ConstraintProperties typeid="ConstraintSchedulingProperties">
+                            <EarliestTimeEnabled>0</EarliestTimeEnabled>
+                            <EarliestTime>1900-01-01T00:00:00</EarliestTime>
+                            <LatestTimeEnabled>0</LatestTimeEnabled>
+                            <LatestTime>1900-01-01T23:59:00</LatestTime>
+                            <SpanBusinessDay>1</SpanBusinessDay>
+                        </ConstraintProperties>
+                    </Value>
+                </Variable>
+                <Variable typeid="Variable" t="12">
+                    <Name>V4_Constraint</Name>
+                    <Value typeid="Constraint">
+                        <PID typeid="ObjectID">
+                            <ID>15104825</ID>
+                            <RID>13</RID>
+                            <ClassID>13</ClassID>
+                            <Label>MANUAL_QUOTE</Label>
+                            <Name>MANUAL_QUOTE</Name>
+                            <Path>/SimCorp Dimension/BreakFix/Triggered_Plans</Path>
+                        </PID>
+                        <RID>13</RID>
+                        <Expression></Expression>
+                        <FailureAction>1</FailureAction>
+                        <RetryInterval>600000000</RetryInterval>
+                        <RetryLimit>5</RetryLimit>
+                        <V4WaitValues>2832337658315008</V4WaitValues>
+                        <Variables typeid="VariableCollection"/>
+                    </Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>GrantedAccess</Name>
+                    <Value>33550463</Value>
+                </Variable>
+            </Tags>
+            <Variables typeid="VariableCollection">
+                <Variable typeid="Variable" a="8197" t="1">
+                    <Name>vl_MANUAL_QUOTE_TRIGGER_FILENAME</Name>
+                    <Value>MANUAL_STD_CONTRACT_Q*.csv</Value>
+                </Variable>
+                <Variable typeid="Variable" a="8197" t="1">
+                    <Name>vl_DATE</Name>
+                    <Value>${vce_EFFECTIVE_DATE}</Value>
+                </Variable>
+                <Variable typeid="Variable" a="8197" t="1">
+                    <Name>vl_EFFECTIVE_DATE</Name>
+                    <Value>${vce_EFFECTIVE_DATE}</Value>
+                </Variable>
+            </Variables>
+            <SecurityAccounts typeid="SecurityAccountCollection">
+                <Dirty>0</Dirty>
+                <Count>8</Count>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>Administrators</Name>
+                    <Permission>-1</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_ADMIN_MAIN_TEST</Name>
+                    <Permission>-1</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_READ_MAIN_TEST</Name>
+                    <Permission>7</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_OPS_SIT</Name>
+                    <Permission>1</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_ADMIN_SCD_TEST</Name>
+                    <Permission>-1</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_DEVS_SCD_TEST</Name>
+                    <Permission>33550463</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_OPS_SCD_TEST</Name>
+                    <Permission>33550375</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_READ_SCD_TEST</Name>
+                    <Permission>7</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+            </SecurityAccounts>
+            <UserAccount typeid="ObjectID"/>
+            <Execution typeid="JobPlanExecutionProperties">
+                <MaximumActiveInstances>2</MaximumActiveInstances>
+                <OnActiveAction>3</OnActiveAction>
+                <OnActiveWaitDuration>0</OnActiveWaitDuration>
+                <OnMaxActiveInstancesAction>1</OnMaxActiveInstancesAction>
+                <AllowDeferredExecution>0</AllowDeferredExecution>
+            </Execution>
+            <Completion typeid="JobPlanCompletionProperties">
+                <DisableAfterFirstRun>0</DisableAfterFirstRun>
+                <KeepInstancesOnQueue>0</KeepInstancesOnQueue>
+                <HistoryRetentionEnabled>1</HistoryRetentionEnabled>
+                <HistoryRetentionPeriod>30</HistoryRetentionPeriod>
+                <OnFailureAction>1</OnFailureAction>
+                <MaximumRestarts>0</MaximumRestarts>
+                <RestartInterval>600000000</RestartInterval>
+                <RestartPreprocessing>0</RestartPreprocessing>
+                <RuleType>1</RuleType>
+                <Rules typeid="JobPlanCompletionRuleCollection">
+                    <Count>0</Count>
+                </Rules>
+            </Completion>
+            <RunTimeMonitor typeid="MonitoringProperties">
+                <Modified>1</Modified>
+                <Enabled>0</Enabled>
+                <ExpectedTime>0</ExpectedTime>
+                <UseAverageTime>1</UseAverageTime>
+                <DeltaTimeType>1</DeltaTimeType>
+                <DeltaTime>0</DeltaTime>
+                <DeltaTimePercentage>10</DeltaTimePercentage>
+                <AbortOnTimeOverrun>0</AbortOnTimeOverrun>
+                <FailOnTimeUnderrun>0</FailOnTimeUnderrun>
+            </RunTimeMonitor>
+            <SecurityDescriptor>AQAEgJwCAAC4AgAAAAAAABQAAAACAIgCCAAAAAAAGAD/////AQIAAAAAAAUgAAAAIAIAAAAAJAD/////AQUAAAAAAAUVAAAAqzP27cFkjsX0YZGX3AoAAAAAJAAHAAAAAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGX3goAAAAAJAABAAAAAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGX2SgAAAAAJAD/////AQUAAAAAAAUVAAAAqzP27cFkjsX0YZGXXygAAAAAJAB/8P8BAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGXYCgAAAAAJAAn8P8BAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGXYSgAAAAAJAAHAAAAAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGXYigAAFkAAADQE24ZWQAAADAYbhlZAAAA8P1tGVkAAACQ9G0ZWQAAANAJbhlZAAAAEAFuGVkAAAAwBG4ZWQAAAHAKbhlZAAAAsPdtGVkAAADwAm4ZWQAAADD/bRlZAAAAUBFuGVkAAAAQC24ZWQAAANDwbRlZAAAAsAFuGVkAAABQDG4ZWQAAADD6bRlZAAAAkA1uGVkAAADQ+m0ZWQAAAHD7bRlZAAAAEBBuGVkAAAAQ/G0ZWQAAALD8bRlZAAAAsBBuGVkAAADwEW4ZWQAAAHAUbhlZAAAAEBVuGVkAAACQNW4ZWQAAANA2bhlZAAAAkDpuGVkAAAAwMW4ZWQAAALAkbhlZAAAAUCVuGVkAAADQIm4ZWQAAANAxbhlZAAAAEDNuGVkAAAAwLG4ZWQAAAPA5bhlZAAAAkD9uGVkAAADwKm4ZWQAAAHAybhlZAAAAEC5uGVkAAABwI24ZWQAAAHAtbhlZAAAAbAB0AGUAcgABBQAAAAAABRUAAACrM/btwWSOxfRhkZdpBQAAAQIAAAAAAAUgAAAAIAIAAGIAZgA2ADEANgA0ADYAZAA4AAAA</SecurityDescriptor>
+            <TagNames typeid="TagCollection"/>
+        </Object>
+        <Object typeid="Reference">
+            <ID>15105103</ID>
+            <RID>1</RID>
+            <ClassID>39</ClassID>
+            <Label>MANUAL_QUOTE</Label>
+            <Name>MANUAL_QUOTE</Name>
+            <PID typeid="ObjectID">
+                <ID>15104825</ID>
+            </PID>
+            <Enabled>1</Enabled>
+            <GlobalDisable>0</GlobalDisable>
+            <Visibility>127</Visibility>
+            <Owner>BCIMC\MAOATES</Owner>
+            <Status>0</Status>
+            <OperationDateTime>0001-01-01T00:00:00</OperationDateTime>
+            <LockIsExclusive>0</LockIsExclusive>
+            <LockMode>0</LockMode>
+            <LockOperation>0</LockOperation>
+            <LockOwner></LockOwner>
+            <LockFlags></LockFlags>
+            <Guid>204a7689-6371-46e5-aa22-5c892510aa48</Guid>
+            <Client>L10204</Client>
+            <Creator>BCIMC\MAOATES</Creator>
+            <CreationTime>2020-03-23T23:40:07</CreationTime>
+            <Description></Description>
+            <ReadOnly>0</ReadOnly>
+            <RevisionAuthor>BCIMC\MAOATES</RevisionAuthor>
+            <RevisionTime>2020-02-29T23:33:14</RevisionTime>
+            <EventFilter></EventFilter>
+            <Documentation typeid="DocumentationProperties"/>
+            <Properties typeid="VariableCollection">
+                <Variable typeid="Variable" t="12">
+                    <Name>Extensions</Name>
+                    <Value typeid="VariableCollection">
+                        <Variable typeid="Variable" t="12">
+                            <Name>SLASettings</Name>
+                            <Value typeid="VariableCollection"/>
+                        </Variable>
+                    </Value>
+                </Variable>
+                <Variable typeid="Variable" t="1">
+                    <Name>$ImportedSymbols</Name>
+                    <Value></Value>
+                </Variable>
+            </Properties>
+            <Tags typeid="VariableCollection">
+                <Variable typeid="Variable" t="12">
+                    <Name>V4_DateTimeEvent</Name>
+                    <Value typeid="DateTimeEvent">
+                        <ID typeid="ObjectID"/>
+                        <PID typeid="ObjectID"/>
+                        <Attached>1</Attached>
+                        <Enabled>1</Enabled>
+                        <EventID>1966083</EventID>
+                        <Properties typeid="VariableCollection"/>
+                        <Actions typeid="EventActionCollection">
+                            <Count>0</Count>
+                        </Actions>
+                        <V4Tag>0</V4Tag>
+                        <Type>4</Type>
+                        <DeferredUntil>2018-09-06T09:38:12</DeferredUntil>
+                        <Interval>36000000000</Interval>
+                        <ComputeIntervalWithDelta>0</ComputeIntervalWithDelta>
+                        <RunLastMissedExecution>1</RunLastMissedExecution>
+                        <OnNonBusinessDayAction>3</OnNonBusinessDayAction>
+                        <TimeZoneType>1</TimeZoneType>
+                        <ConstraintProperties typeid="ConstraintSchedulingProperties">
+                            <EarliestTimeEnabled>0</EarliestTimeEnabled>
+                            <EarliestTime>1900-01-01T00:00:00</EarliestTime>
+                            <LatestTimeEnabled>0</LatestTimeEnabled>
+                            <LatestTime>1900-01-01T23:59:00</LatestTime>
+                            <SpanBusinessDay>1</SpanBusinessDay>
+                        </ConstraintProperties>
+                    </Value>
+                </Variable>
+                <Variable typeid="Variable" t="12">
+                    <Name>V4_Constraint</Name>
+                    <Value typeid="Constraint">
+                        <PID typeid="ObjectID">
+                            <ClassID>39</ClassID>
+                            <Label>MANUAL_QUOTE</Label>
+                            <Name>MANUAL_QUOTE</Name>
+                        </PID>
+                        <RID>-1</RID>
+                        <Expression></Expression>
+                        <FailureAction>1</FailureAction>
+                        <RetryInterval>600000000</RetryInterval>
+                        <RetryLimit>5</RetryLimit>
+                        <V4WaitValues>2832337658315008</V4WaitValues>
+                        <Variables typeid="VariableCollection"/>
+                    </Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>GrantedAccess</Name>
+                    <Value>-1</Value>
+                </Variable>
+            </Tags>
+            <Variables typeid="VariableCollection"/>
+            <SecurityAccounts typeid="SecurityAccountCollection">
+                <Dirty>0</Dirty>
+                <Count>8</Count>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>Administrators</Name>
+                    <Permission>-1</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_ADMIN_MAIN_TEST</Name>
+                    <Permission>-1</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_READ_MAIN_TEST</Name>
+                    <Permission>7</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_OPS_SIT</Name>
+                    <Permission>1</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_ADMIN_SCD_TEST</Name>
+                    <Permission>-1</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_DEVS_SCD_TEST</Name>
+                    <Permission>33550463</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_OPS_SCD_TEST</Name>
+                    <Permission>33550375</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_READ_SCD_TEST</Name>
+                    <Permission>7</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+            </SecurityAccounts>
+            <Target typeid="ObjectID">
+                <ID>15104824</ID>
+            </Target>
+            <SecurityDescriptor>AQAEgJwCAAC4AgAAAAAAABQAAAACAIgCCAAAAAAAGAD/////AQIAAAAAAAUgAAAAIAIAAAAAJAD/////AQUAAAAAAAUVAAAAqzP27cFkjsX0YZGX3AoAAAAAJAAHAAAAAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGX3goAAAAAJAABAAAAAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGX2SgAAAAAJAD/////AQUAAAAAAAUVAAAAqzP27cFkjsX0YZGXXygAAAAAJAB/8P8BAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGXYCgAAAAAJAAn8P8BAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGXYSgAAAAAJAAHAAAAAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGXYigAAMFkjsX0YZGX3AoAAAAAAAAAAAAAAAAAAAAAAAA2JE3knAAAAEIkTeScAAAAAAAAAAAAAAAFAAAAAAAAABgAAACcAAAABAAAAAAAAAADAAr/nAAAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEIkTeScAAAAUiRN5JwAAAAAAAAAAAAAAAYAAAAAAAAAaAAAAJwAAACAAAAAAAAAAIIA//+cAAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUiRN5JwAAABuJE3knAAAAAAAAAAAAAAABwAAAAAAAAAYAAAAnAAAAAEAAAAAAAAAEQAD/5wAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABuJE3knAAAAHokTeScAAAAAAAAAAAAAAAIAAAAAAAAAIgAAACcAAAA////PwAAAACCAP//nAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHokTeScAAAAbAB0AGUAcgABBQAAAAAABRUAAACrM/btwWSOxfRhkZfYBAAAAQIAAAAAAAUgAAAAIAIAAEQAYQB0AGUAVABpAG0AZQAAAAAA</SecurityDescriptor>
+            <TagNames typeid="TagCollection"/>
+        </Object>
+    </Objects>
+    <Constraints>
+        <Constraint typeid="Constraint">
+            <PID typeid="ObjectID">
+                <ID>15104825</ID>
+            </PID>
+            <RID>15</RID>
+            <Expression></Expression>
+            <FailureAction>1</FailureAction>
+            <RetryInterval>600000000</RetryInterval>
+            <RetryLimit>5</RetryLimit>
+            <V4WaitValues>2832337658315008</V4WaitValues>
+            <Variables typeid="VariableCollection"/>
+        </Constraint>
+        <Constraint typeid="Constraint">
+            <PID typeid="ObjectID">
+                <ID>15105103</ID>
+            </PID>
+            <RID>1</RID>
+            <Expression></Expression>
+            <FailureAction>1</FailureAction>
+            <RetryInterval>600000000</RetryInterval>
+            <RetryLimit>5</RetryLimit>
+            <V4WaitValues>2832337658315008</V4WaitValues>
+            <Variables typeid="VariableCollection"/>
+        </Constraint>
+    </Constraints>
+    <Events>
+        <Event typeid="DateTimeEvent">
+            <ID typeid="ObjectID">
+                <ID>28939222</ID>
+                <RID>14</RID>
+                <Label>DateTime</Label>
+            </ID>
+            <PID typeid="ObjectID">
+                <ID>15104825</ID>
+                <RID>14</RID>
+                <ClassID>13</ClassID>
+                <Label>MANUAL_QUOTE</Label>
+                <Name>MANUAL_QUOTE</Name>
+            </PID>
+            <Attached>1</Attached>
+            <Enabled>1</Enabled>
+            <EventID>1966083</EventID>
+            <Properties typeid="VariableCollection"/>
+            <Actions typeid="EventActionCollection">
+                <Count>1</Count>
+                <EventAction typeid="EventAction">
+                    <CommandID>196609</CommandID>
+                    <CommandArgument></CommandArgument>
+                </EventAction>
+            </Actions>
+            <V4Tag>0</V4Tag>
+            <Type>4</Type>
+            <DeferredUntil>2018-09-06T09:38:07</DeferredUntil>
+            <Interval>36000000000</Interval>
+            <IntervalOrigin>2020-02-29T21:42:53</IntervalOrigin>
+            <ComputeIntervalWithDelta>0</ComputeIntervalWithDelta>
+            <RunLastMissedExecution>1</RunLastMissedExecution>
+            <OnNonBusinessDayAction>3</OnNonBusinessDayAction>
+            <TimeZoneType>1</TimeZoneType>
+            <ConstraintProperties typeid="ConstraintSchedulingProperties">
+                <EarliestTimeEnabled>0</EarliestTimeEnabled>
+                <EarliestTime>1900-01-01T00:00:00</EarliestTime>
+                <LatestTimeEnabled>0</LatestTimeEnabled>
+                <LatestTime>1900-01-01T23:59:00</LatestTime>
+                <SpanBusinessDay>1</SpanBusinessDay>
+            </ConstraintProperties>
+        </Event>
+        <Event typeid="Event">
+            <ID typeid="ObjectID">
+                <ID>28939223</ID>
+                <RID>12</RID>
+                <Label>EndExecution</Label>
+            </ID>
+            <PID typeid="ObjectID">
+                <ID>15104825</ID>
+                <RID>11</RID>
+                <ClassID>13</ClassID>
+                <Label>MANUAL_QUOTE</Label>
+                <Name>MANUAL_QUOTE</Name>
+            </PID>
+            <Attached>1</Attached>
+            <Enabled>1</Enabled>
+            <EventID>2621445</EventID>
+            <Properties typeid="VariableCollection"/>
+            <Actions typeid="EventActionCollection">
+                <Count>1</Count>
+                <EventAction typeid="EventAction">
+                    <CommandID>65542</CommandID>
+                    <CommandArgument typeid="Notification">
+                        <Type>Notifications.Abat.EMail</Type>
+                        <Properties typeid="VariableCollection">
+                            <Variable typeid="Variable">
+                                <Name>Template</Name>
+                            </Variable>
+                            <Variable typeid="Variable" t="1">
+                                <Name>To</Name>
+                                <Description>Recipient e-mail address (i.e. person@company.com). Multiple addresses can be specified separated by a semicolon.</Description>
+                                <Value>bing.wang@bci.ca;jared.gale@bci.ca;Ahren.litke@bci.ca</Value>
+                            </Variable>
+                            <Variable typeid="Variable" t="1">
+                                <Name>CC</Name>
+                                <Description>CC e-mail address (i.e. person@company.com). Multiple addresses can be specified separated by a semicolon.</Description>
+                                <Value>martin.oates@bci.ca; jamal.saleh@bci.ca</Value>
+                            </Variable>
+                            <Variable typeid="Variable" t="1">
+                                <Name>BCC</Name>
+                                <Description>BCC e-mail address (i.e. person@company.com). Multiple addresses can be specified separated by a semicolon.</Description>
+                                <Value></Value>
+                            </Variable>
+                            <Variable typeid="Variable" t="1">
+                                <Name>Attachments</Name>
+                                <Description>Attachments are specified through a file specification. The file must be accessible from the Job Scheduler machine.</Description>
+                                <Value></Value>
+                            </Variable>
+                            <Variable typeid="Variable" t="2">
+                                <Name>UseSSL</Name>
+                                <Description>Indicates whether to use the Secure Sockets Layer (SSL) to encrypt the connection.</Description>
+                                <Value>0</Value>
+                            </Variable>
+                            <Variable typeid="Variable" t="2">
+                                <Name>Priority</Name>
+                                <Description>Indicates the priority of the E-Mail Message.</Description>
+                                <Value>0</Value>
+                            </Variable>
+                            <Variable typeid="Variable" t="1">
+                                <Name>Subject</Name>
+                                <Description>Subject of e-mail.</Description>
+                                <Value>Daily Yield Price Load - Completed</Value>
+                            </Variable>
+                            <Variable typeid="Variable" t="1">
+                                <Name>Message</Name>
+                                <Description>Body of the message. Click on the message to enable button which enables a separate editor.</Description>
+                                <Value>**** Do not reply to this email. ****
+
+The auto load of the Daily Yield Prices into SimCorp Dimension has completed successfully.</Value>
+                            </Variable>
+                        </Properties>
+                    </CommandArgument>
+                </EventAction>
+            </Actions>
+            <V4Tag>2</V4Tag>
+        </Event>
+        <Event typeid="Event">
+            <ID typeid="ObjectID">
+                <ID>28939224</ID>
+                <RID>12</RID>
+                <Label>FileTrigger</Label>
+            </ID>
+            <PID typeid="ObjectID">
+                <ID>15104825</ID>
+                <RID>11</RID>
+                <ClassID>13</ClassID>
+                <Label>MANUAL_QUOTE</Label>
+                <Name>MANUAL_QUOTE</Name>
+            </PID>
+            <Attached>1</Attached>
+            <Enabled>1</Enabled>
+            <EventID>1966081</EventID>
+            <Properties typeid="VariableCollection">
+                <Variable typeid="Variable" t="3">
+                    <Name>UseType</Name>
+                    <Value>0</Value>
+                </Variable>
+                <Variable typeid="Variable" t="12">
+                    <Name>ExpectedSchedules</Name>
+                    <Value typeid="ObjectIDCollection">
+                        <Count>0</Count>
+                    </Value>
+                </Variable>
+                <Variable typeid="Variable" t="12">
+                    <Name>$UserAccount</Name>
+                    <Value typeid="ObjectID">
+                        <ID>15098971</ID>
+                    </Value>
+                </Variable>
+                <Variable typeid="Variable" t="12">
+                    <Name>$Queue</Name>
+                    <Value typeid="ObjectID">
+                        <ID>15099388</ID>
+                    </Value>
+                </Variable>
+                <Variable typeid="Variable" t="7">
+                    <Name>ExpectedDeltaTime</Name>
+                    <Value>9000000000</Value>
+                </Variable>
+                <Variable typeid="Variable" t="1">
+                    <Name>WqlQuery</Name>
+                    <Value></Value>
+                </Variable>
+                <Variable typeid="Variable" t="1">
+                    <Name>Path</Name>
+                    <Value></Value>
+                </Variable>
+                <Variable typeid="Variable" t="1">
+                    <Name>Filter</Name>
+                    <Value>${vce_APP_SERVER}${vce_APPLICATION}${vce_ACTIVE_DATA_IN_FOLDER}${vce_SFTP_FOLDER}${vc_MANUAL_FOLDER}${vce_WORKING}${vl_MANUAL_QUOTE_TRIGGER_FILENAME}</Value>
+                </Variable>
+                <Variable typeid="Variable" t="3">
+                    <Name>IncludeSubdirectories</Name>
+                    <Value>0</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>ChangeType</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="3">
+                    <Name>ExpectedSchedulesEnabled</Name>
+                    <Value>0</Value>
+                </Variable>
+                <Variable typeid="Variable" t="3">
+                    <Name>TriggerOnceOnly</Name>
+                    <Value>0</Value>
+                </Variable>
+            </Properties>
+            <Actions typeid="EventActionCollection">
+                <Count>1</Count>
+                <EventAction typeid="EventAction">
+                    <CommandID>196609</CommandID>
+                    <CommandArgument typeid="ObjectID">
+                        <ID>15104825</ID>
+                    </CommandArgument>
+                </EventAction>
+            </Actions>
+            <V4Tag>3</V4Tag>
+        </Event>
+        <Event typeid="DateTimeEvent">
+            <ID typeid="ObjectID">
+                <ID>15105804</ID>
+                <RID>1</RID>
+                <Label>DateTime</Label>
+            </ID>
+            <PID typeid="ObjectID">
+                <ID>15105103</ID>
+                <RID>1</RID>
+                <ClassID>39</ClassID>
+                <Label>MANUAL_QUOTE</Label>
+                <Name>MANUAL_QUOTE</Name>
+            </PID>
+            <Attached>1</Attached>
+            <Enabled>1</Enabled>
+            <EventID>1966083</EventID>
+            <Properties typeid="VariableCollection"/>
+            <Actions typeid="EventActionCollection">
+                <Count>1</Count>
+                <EventAction typeid="EventAction">
+                    <CommandID>196609</CommandID>
+                    <CommandArgument></CommandArgument>
+                </EventAction>
+            </Actions>
+            <V4Tag>0</V4Tag>
+            <Type>4</Type>
+            <DeferredUntil>2018-09-06T09:38:12</DeferredUntil>
+            <Interval>36000000000</Interval>
+            <IntervalOrigin>2020-02-29T23:33:14</IntervalOrigin>
+            <ComputeIntervalWithDelta>0</ComputeIntervalWithDelta>
+            <RunLastMissedExecution>1</RunLastMissedExecution>
+            <OnNonBusinessDayAction>3</OnNonBusinessDayAction>
+            <TimeZoneType>1</TimeZoneType>
+            <ConstraintProperties typeid="ConstraintSchedulingProperties">
+                <EarliestTimeEnabled>0</EarliestTimeEnabled>
+                <EarliestTime>1900-01-01T00:00:00</EarliestTime>
+                <LatestTimeEnabled>0</LatestTimeEnabled>
+                <LatestTime>1900-01-01T23:59:00</LatestTime>
+                <SpanBusinessDay>1</SpanBusinessDay>
+            </ConstraintProperties>
+        </Event>
+    </Events>
+    <Dependencies>
+        <Dependency id="15098971" path="/SimCorp Dimension/BreakFix/Queues_Users/ASP_SCD_Service_User"/>
+        <Dependency id="15099388" path="/SimCorp Dimension/BreakFix/Queues_Users/SCD_Queue1"/>
+        <Dependency id="15104824" path="/SimCorp Dimension/BreakFix/Plans/MANUAL_QUOTE"/>
+    </Dependencies>
+    <Associations/>
+    <AuditPolicies/>
+</Export>
