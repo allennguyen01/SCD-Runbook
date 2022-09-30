@@ -24,9 +24,9 @@ for event in Events:
         label = event.find('ID').find('Label').text
         if 'FileTrigger' in label:
             continue
-        # eventID = event.find('EventID').text
+
         v4Tag = event.find('V4Tag').text
-        label = triggerDictionary[v4Tag] if v4Tag in triggerDictionary else ''
+        label = triggerDictionary[v4Tag] if v4Tag in triggerDictionary else None
         parentID = event.find('PID').find('ID').text
         parentName = event.find('PID').find('Name').text
         
@@ -45,7 +45,7 @@ for id in eventsDict:
         name = currObj['Name']
         parentName = currObj['Parent Name']
         parentID = currObj['Parent ID']
-        label = 'First Batch Job Group'
+        label = 'Starting Plan'
         eventsList.append([ID, name, parentName, parentID, label])
 
         # Add top level plan
@@ -54,10 +54,11 @@ for id in eventsDict:
         name = currObj['Path Name']
         parentName = currObj['Parent Name']
         parentID = currObj['Parent ID']
-        label = 'Top-level Plan'
+        label = 'Top-Level Plan'
         eventsList.append([ID, name, parentName, parentID, label])
 
 eoDF = pd.DataFrame(eventsList, columns=['ID', 'Name', 'Parent Name', 'Parent ID', 'Label'])
 eoDF = eoDF.set_index('ID')
+eoDF = eoDF.drop_duplicates(keep='first')
 
-eoDF.to_csv('outputCSV\ExecutionOrder_test_1.csv')
+eoDF.to_csv('outputCSV\ExecutionOrder_wo_duplicates.csv')
