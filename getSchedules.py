@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from createCSV import createCSV
+import pandas as pd
 
 tree = ET.parse('XMLs\BREAKFIX_20220913.xml')
 root = tree.getroot()
@@ -11,14 +11,12 @@ scheduleList = []
 
 # Iterate through every Object element 
 for obj in Objects:
-    # Store JobPlan Objects in dictionary with {ID : name}
     if obj.get('typeid') == 'Schedule':
         ID = obj.find('ID').text
         name = obj.find('Name').text
         scheduleDict.update({ID : name})
 
-print(scheduleDict)
+scheduleDF = pd.DataFrame(scheduleDict.items(), columns=['ID', 'Schedule Name'])
+scheduleDF = scheduleDF.set_index('ID')
 
-# jobPlanColumns = ["Job Plan ID", "Job Plan Name"]
-
-# createCSV(scheduleList, scheduleDict, jobPlanColumns, 'outputCSV\Job_Plans.csv')
+scheduleDF.to_csv('outputCSV/Schedules.csv')

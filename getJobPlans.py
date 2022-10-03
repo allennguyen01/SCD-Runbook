@@ -1,13 +1,14 @@
 import xml.etree.ElementTree as ET
-from createCSV import createCSV
+import pandas as pd
 
-tree = ET.parse('XMLs\ABAT_BREAKFIX_SCD_SOD.xml')
+tree = ET.parse('XMLs\BREAKFIX_20220913.xml')
 root = tree.getroot()
-
 Objects = root.iter('Object')
 
-jobPlanDict = {}
 jobPlanList = []
+scheduleDict = pd.read_csv('outputCSV\Schedules.csv', index_col='ID')
+print(scheduleDict)
+print(type(scheduleDict.loc[15104836]))
 
 # Iterate through every Object element 
 for obj in Objects:
@@ -15,14 +16,26 @@ for obj in Objects:
     if obj.get('typeid') == 'JobPlan':
         ID = obj.find('ID').text
         name = obj.find('Name').text
-        # pidName = obj.
-        # scheduleID = obj.find('Schedules').find('ID').text
-        Schedules = obj.iter('Schedules')
-        for sch in Schedules:          
-            scheduleID = obj.find('Tags').find('Variable').find('Value').find('Schedules').find('ObjectID').find('ID')
-        scheduleID = scheduleID.text if (scheduleID is not None) else ''
-        jobPlanDict.update({ID : [name, scheduleID]})
 
-jobPlanColumns = ["Job Plan ID", "Job Plan Name", 'Schedule ID']
+        scheduleIDList = []
+        for sch in obj.iter('Schedules'):
+            for schID in sch.findall('ObjectID'):
+                try:
+                    scheduleIDList.append(schID.find('ID').text)
+                except AttributeError:
+                    print(ID, name)
+                    continue
+            
+        if scheduleIDList == []:
+            continue
+        
+        scheduleList = [scheduleDict.loc[int(schID)]['Schedule Name'] for schID in scheduleIDList]
+        
+        jobPlanList.append([ID, name, scheduleIDList, scheduleList])
 
-createCSV(jobPlanList, jobPlanDict, jobPlanColumns, 'outputCSV\Job_Plans_with_Schedules.csv')
+jobPlanColumns = ["ID", "Job Plan Name", 'Schedule IDs', 'Schedules']
+
+jobPlanDF = pd.DataFrame(jobPlanList, columns=jobPlanColumns)
+jobPlanDF = jobPlanDF.set_index('ID')
+
+jobPlanDF.to_csv('outputCSV/JobPlans_schedules.csv')
