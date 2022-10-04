@@ -1,0 +1,248 @@
+<Export>
+    <Objects>
+        <Object typeid="Schedule">
+            <ID>15104846</ID>
+            <RID>1</RID>
+            <ClassID>25</ClassID>
+            <Label>SCD_DAILY_1am</Label>
+            <Name>SCD_DAILY_1am</Name>
+            <PID typeid="ObjectID">
+                <ID>0</ID>
+            </PID>
+            <Enabled>1</Enabled>
+            <GlobalDisable>0</GlobalDisable>
+            <Visibility>127</Visibility>
+            <Owner>BCIMC\MAOATES</Owner>
+            <Status>0</Status>
+            <OperationDateTime>0001-01-01T00:00:00</OperationDateTime>
+            <LockIsExclusive>0</LockIsExclusive>
+            <LockMode>0</LockMode>
+            <LockOperation>0</LockOperation>
+            <LockOwner></LockOwner>
+            <LockFlags></LockFlags>
+            <Guid>d022fd00-e5a3-4ee8-8288-1366b70081ac</Guid>
+            <Client>L10204</Client>
+            <Creator>BCIMC\MAOATES</Creator>
+            <CreationTime>2020-03-23T23:39:58</CreationTime>
+            <Description></Description>
+            <ReadOnly>0</ReadOnly>
+            <RevisionAuthor>BCIMC\MOATES_A</RevisionAuthor>
+            <RevisionTime>2020-03-12T15:12:19</RevisionTime>
+            <EventFilter></EventFilter>
+            <Documentation typeid="DocumentationProperties"/>
+            <Properties typeid="VariableCollection">
+                <Variable typeid="Variable" t="8">
+                    <Name>EndDate</Name>
+                    <Value>2021-01-10T16:57:31</Value>
+                </Variable>
+                <Variable typeid="Variable" t="12">
+                    <Name>Calendars</Name>
+                    <Value typeid="ObjectIDCollection">
+                        <Count>0</Count>
+                    </Value>
+                </Variable>
+                <Variable typeid="Variable" t="12">
+                    <Name>InclusionCalendars</Name>
+                    <Value typeid="ObjectIDCollection">
+                        <Count>0</Count>
+                    </Value>
+                </Variable>
+                <Variable typeid="Variable" t="12">
+                    <Name>ExactTimes</Name>
+                    <Value typeid="VariableCollection">
+                        <Variable typeid="Variable" t="12">
+                            <Value typeid="VariableCollection">
+                                <Variable typeid="Variable" t="7">
+                                    <Name>Interval</Name>
+                                    <Value>0</Value>
+                                </Variable>
+                                <Variable typeid="Variable" t="8">
+                                    <Name>EndValue</Name>
+                                    <Value>1899-12-30T17:00:00</Value>
+                                </Variable>
+                                <Variable typeid="Variable" t="8">
+                                    <Name>Value</Name>
+                                    <Value>2020-01-10T01:00:00</Value>
+                                </Variable>
+                            </Value>
+                        </Variable>
+                    </Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>Type</Name>
+                    <Value>2</Value>
+                </Variable>
+                <Variable typeid="Variable" t="3">
+                    <Name>TimeSpecificationEnabled</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>CalendarType</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_Type</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="8">
+                    <Name>FiscalCalendarStartDate</Name>
+                    <Value>2020-01-11T00:00:00</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>FiscalCalendarType</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_DailyInterval</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_Weekly_Interval</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_Weekly_DayOfWeek</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_Monthly_Type</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_MonthlyDayOfMonth</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_Monthly_Instance</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_Monthly_DayOfWeek</Name>
+                    <Value>8</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_Monthly_DaySeries</Name>
+                    <Value>0</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_Monthly_Interval</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="3">
+                    <Name>Dayspec_Monthly_FromBeginning</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="3">
+                    <Name>QuarterlyFromBeginning</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>QuarterlyOffset</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_QuarterlyDayOfWeek</Name>
+                    <Value>8</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>QuarterlyInterval</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_YearlyType</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_Yearly_MonthOfYear</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_Yearly_DayOfMonth</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_Yearly_Instance</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_Yearly_DayOfWeek</Name>
+                    <Value>1</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_Yearly_MonthSeries</Name>
+                    <Value>0</Value>
+                </Variable>
+                <Variable typeid="Variable" t="2">
+                    <Name>DaySpec_Yearly_DaySeries</Name>
+                    <Value>0</Value>
+                </Variable>
+                <Variable typeid="Variable" t="1">
+                    <Name>DateExpression</Name>
+                    <Value></Value>
+                </Variable>
+                <Variable typeid="Variable" t="8">
+                    <Name>StartDate</Name>
+                    <Value>2020-01-10T16:58:18</Value>
+                </Variable>
+            </Properties>
+            <Tags typeid="VariableCollection">
+                <Variable typeid="Variable" t="2">
+                    <Name>GrantedAccess</Name>
+                    <Value>-1</Value>
+                </Variable>
+            </Tags>
+            <Variables typeid="VariableCollection"/>
+            <SecurityAccounts typeid="SecurityAccountCollection">
+                <Dirty>0</Dirty>
+                <Count>8</Count>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>Administrators</Name>
+                    <Permission>-1</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_ADMIN_MAIN_TEST</Name>
+                    <Permission>-1</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_READ_MAIN_TEST</Name>
+                    <Permission>7</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_OPS_SIT</Name>
+                    <Permission>1</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_ADMIN_SCD_TEST</Name>
+                    <Permission>-1</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_DEVS_SCD_TEST</Name>
+                    <Permission>33550463</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_OPS_SCD_TEST</Name>
+                    <Permission>33550375</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+                <SecurityAccount typeid="SecurityAccount">
+                    <Name>BCIMC\ABAT_READ_SCD_TEST</Name>
+                    <Permission>7</Permission>
+                    <PermissionType>1</PermissionType>
+                </SecurityAccount>
+            </SecurityAccounts>
+            <SecurityDescriptor>AQAEgJwCAAC4AgAAAAAAABQAAAACAIgCCAAAAAAAGAD/////AQIAAAAAAAUgAAAAIAIAAAAAJAD/////AQUAAAAAAAUVAAAAqzP27cFkjsX0YZGX3AoAAAAAJAAHAAAAAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGX3goAAAAAJAABAAAAAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGX2SgAAAAAJAD/////AQUAAAAAAAUVAAAAqzP27cFkjsX0YZGXXygAAAAAJAB/8P8BAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGXYCgAAAAAJAAn8P8BAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGXYSgAAAAAJAAHAAAAAQUAAAAAAAUVAAAAqzP27cFkjsX0YZGXYigAABe71wgAgHEn4bvXCADArqY8vtcIAIAY0QW/1wgAQIL7zr/XCAAA7CWYwNcIAMBVUGHB1wgAAJPPvMPXCADA/PmFxNcIAIBmJE/F1wgAQNBOGMbXCAAAOnnhxtcIAEB3+DzJ1wgAAOEiBsrXCADASk3PytcIAIC0d5jL1wgAQB6iYczXCACAWyG9ztcIAEDFS4bP1wgAAC92T9DXCADAmKAY0dcIAIACy+HR1wgAwD9KPdTXCACAqXQG1dcIAEATn8/V1wgAAH3JmNbXCADA5vNh19cIAAAkc73Z1wgAwI2dhtrXCACA98dP29cIAEBh8hjc1wgAAMsc4tzXCABACJw939cIAAByxgbg1wgAwNvwz+DXCACARRuZ4dcIAECvRWLi1wgAgOzEveTXCABAVu+G5dcIAADAGVDm1wgAwClEGefXCACAk27i59cIAMDQ7T3q1wgAgDoYB+vXCABApELQ69cIbAB0AGUAcgABBQAAAAAABRUAAACrM/btwWSOxfRhkZfYBAAAAQIAAAAAAAUgAAAAIAIAADUAMAAxAAAABVYAYQBsAHUAN3bi</SecurityDescriptor>
+            <TagNames typeid="TagCollection"/>
+        </Object>
+    </Objects>
+    <Constraints/>
+    <Events/>
+    <Dependencies/>
+    <Associations/>
+    <AuditPolicies/>
+</Export>
