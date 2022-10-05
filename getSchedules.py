@@ -2,14 +2,6 @@ import xml.etree.ElementTree as ET
 import pandas as pd
 from datetime import *
 
-tree = ET.parse('XMLs\SCHEDULES_PROD.xml')
-root = tree.getroot()
-
-Objects = root.iter('Object')
-
-scheduleDict = {}
-scheduleList = []
-
 def getTime(obj):
     try:
         timeText = obj.findall('./Properties/Variable')[1].findall('./Value/Variable/Value/Variable')[2].findtext('Value')
@@ -25,22 +17,31 @@ def getTime(obj):
     
     return t
 
-# Iterate through every Object element 
-for obj in Objects:
-    if obj.get('typeid') == 'Schedule':
-        ID = obj.findtext('ID')
-        name = obj.findtext('Name')
-        # timeText = obj.findtext('[[.="ExactTimes"]="Value"]/../Value')
-        # timeText = obj.findtext('//Name[.="ExactTimes"]')
-        # timeText = obj.findtext("ID[.='15104839']")
-        # print(ID, name, timeText)
+# Not all times are being added in 
 
-        schTime = getTime(obj)
-        scheduleList.append([ID, name, schTime])
+def getSchedules(inXML, outCSV):
+    tree = ET.parse(inXML)
+    root = tree.getroot()
+    Objects = root.iter('Object')
 
-scheduleDF = pd.DataFrame(scheduleList, columns=['ID', 'Schedule Name', 'Time'])
-print(scheduleDF)
-scheduleDF = scheduleDF.set_index('ID')
+    scheduleList = []
 
-# scheduleDF.to_csv('outputCSV/Schedules_prod.csv')
+    # Iterate through every Object element 
+    for obj in Objects:
+        if obj.get('typeid') == 'Schedule':
+            ID = obj.findtext('ID')
+            name = obj.findtext('Name')
+            # timeText = obj.findtext('[[.="ExactTimes"]="Value"]/../Value')
+            # timeText = obj.findtext('//Name[.="ExactTimes"]')
+            # timeText = obj.findtext("ID[.='15104839']")
+            # print(ID, name, timeText)
 
+            schTime = getTime(obj)
+            scheduleList.append([ID, name, schTime])
+
+    scheduleDF = pd.DataFrame(scheduleList, columns=['ID', 'Schedule Name', 'Time'])
+    scheduleDF = scheduleDF.set_index('ID')
+
+    scheduleDF.to_csv(outCSV)
+
+# getSchedules('XMLs\SCHEDULES_PROD.xml','outputCSV/Schedules_prod.csv')
