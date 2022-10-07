@@ -8,8 +8,6 @@ def getJobPlans(inXML, inScheduleCSV, outJobPlanCSV):
 
     jobPlanList = []
     scheduleDict = pd.read_csv(inScheduleCSV, index_col='ID')
-    # print(scheduleDict)
-    # print(type(scheduleDict.loc[15104836]))
 
     # Iterate through every Object element 
     for obj in Objects:
@@ -18,35 +16,27 @@ def getJobPlans(inXML, inScheduleCSV, outJobPlanCSV):
             ID = obj.findtext('ID')
             name = obj.findtext('Name')
 
-            scheduleIDList = []
-
             # Get all schedule IDs of JobPlan and add them to a local list
-            for sch in obj.iter('Schedules'):
-                for schID in sch.findall('ObjectID'):
+            for schedules in obj.iter('Schedules'):
+                for sch in schedules.findall('ObjectID'):
                     try:
-                        scheduleIDList.append(schID.find('ID').text)
+                        schID = sch.findtext('ID')
+                        schName = scheduleDict.loc[int(schID)]['ScheduleName']
+                        # schTime = scheduleDict.loc[int(schID)]['Time']
+                        # jobPlanList.append([ID, name, schID, schName, schTime])
+                        jobPlanList.append([ID, schName])
+
                     except AttributeError:
                         print(ID, name)
                         continue
-            
-            # If JobPlan is not triggered by a schedule, don't add to JobPlan list 
-            if scheduleIDList == []:
-                continue
-            
 
-            scheduleList = [scheduleDict.loc[int(schID)]['Schedule Name'] for schID in scheduleIDList]
-
-            scheduleTimeList = [scheduleDict.loc[int(schID)]['Time'] for schID in scheduleIDList]
-            
-            jobPlanList.append([ID, name, scheduleIDList, scheduleList, scheduleTimeList])
-
-    jobPlanColumns = ["ID", "Job Plan Name", 'Schedule IDs', 'Schedule Names', 'Schedule Times']
+    # jobPlanColumns = ["ID", "Job Plan Name", 'Schedule ID', 'Schedule Name', 'Schedule Time']
+    jobPlanColumns = ["ID", 'SCHEDULENAME']
 
     jobPlanDF = pd.DataFrame(jobPlanList, columns=jobPlanColumns)
     jobPlanDF = jobPlanDF.set_index('ID')
 
     jobPlanDF.to_csv(outJobPlanCSV)
 
-# getJobPlans('XMLs\PROD_20221004.xml', 'outputCSV\Schedules_prod.csv', 'outputCSV\JobPlans_prod.csv')
-
-# getJobPlans('XMLs\BREAKFIX_20220913.xml', 'outputCSV\Schedules.csv', 'outputCSV\JobPlans_test.csv')
+if __name__ == "__main__":
+    getJobPlans('XMLs\PROD_20221004.xml', 'outputCSV\Schedules_PROD.csv', 'outputCSV\SCHEDULED_PLANS.csv')
