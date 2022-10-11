@@ -8,29 +8,33 @@ def getPathNames(inXML, outPathNameCSV):
     Objects = root.iter('Object')
 
     pidDict = {}
-    pidList = []
     dfList = []
-    idList = []
 
-    # Iterate through every Object element 
+    # Iterate through every Reference, JobPlan, Plan, or Job object
     for obj in Objects:
         typeid = obj.get('typeid')
         if typeid in {'Reference', 'JobPlan', 'Plan', 'Job'}:
-            ID = obj.find('ID').text
-            name = obj.find('Name').text
-            PID = obj.find('PID').find('ID').text
-            pidDict.update({ID: [name, PID, typeid]})
+            ID = obj.findtext('ID')
+            name = obj.findtext('Name')
+            PID = obj.find('PID').findtext('ID')
+            enabled = obj.findtext('Enabled')
+            state = 'Enabled' if enabled == '1' else 'Disabled'
+            pidDict.update({ID: [name, PID, state, typeid]})
 
     # Create path name
     for id in pidDict:
         name = pidDict[id][0]
         pid = pidDict[id][1]
-        typeid = pidDict[id][2]
+        state = pidDict[id][2]
+        typeid = pidDict[id][3]
         pidName = pidDict[pid][0] if pid != '0' else 'SimCorp Dimension'
         pathName = ''
         tempPID = pid
         tempName = name
 
+        # Generate the entire path name
+        # Start at the lowest level and concatenate at the front 
+        # until the highest level object is reached
         whileIdx = 0
         while True:
             pathName = tempName if whileIdx == 0 else tempName + '/' + pathName
@@ -39,11 +43,11 @@ def getPathNames(inXML, outPathNameCSV):
                 break
             tempName = pidDict[tempPID][0]
             tempPID = pidDict[tempPID][1]
-        idList.append(id)
-        dfList.append([name, pid, pidName, typeid, pathName])
+        
+        dfList.append([id, name, pid, pidName, state, typeid, pathName])
 
-    pathNameDict = pd.DataFrame(dfList, columns=['Name', 'Parent ID', 'Parent Name', 'Object Type', 'Path Name'], index=idList)
-    pathNameDict.index.name = 'ID'
+    pathNameDict = pd.DataFrame(dfList, columns=['ID', 'NAME', 'PARENT_ID', 'PARENT_NAME', 'STATE', 'OBJECT_TYPE', 'PATH_NAME'])
+    pathNameDict = pathNameDict.set_index('ID')
 
     pathNameDict.to_csv(outPathNameCSV)
 
