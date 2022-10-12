@@ -1,36 +1,40 @@
 import xml.etree.ElementTree as ET
-from createCSV import createCSV
+import pandas as pd
 
-tree = ET.parse('XMLs\BREAKFIX_20220913.xml')
-root = tree.getroot()
+def getFileTriggers(inXML, inVariablesCSV, outCSV):
+    tree = ET.parse(inXML)
+    root = tree.getroot()
+    Events = root.iter('Event')
 
-Events = root.iter('Event')
+    fileTriggerList = []
+    variablesDF = pd.read_csv(inVariablesCSV, index_col='ID')
 
-eventsDict = {}
-eventsList = []
-eventColumns = ['ID', 'Trigger Label', 'Enabled Flag', 'Triggered Plan', 'Description']
-
-# Iterate through every Event element 
-for event in Events:
-    typeid = event.get('typeid')
-    if typeid == 'Event':
-        # Store FileTriggers in dictionary with {ID : [Name, EnabledFlag, TriggeredPlanName, FileDescription]}
-        label = event.find('ID').find('Label').text
-        if 'FileTrigger' not in label:
-            continue
-
-        ID = event.find('ID').find('ID').text
-        
-        enabledFlag = event.find('Enabled').text
-        PIDName = event.find('PID').find('Name').text
-
-        description = ''
-        for var in event.find('Properties').findall('Variable'):
-            varName = var.find('Name').text
-            if varName != 'Filter':
+    # Iterate through every Event element 
+    for event in Events:
+        typeid = event.get('typeid')
+        if typeid == 'Event':
+            label = event.find('ID').findtext('Label')
+            if 'FileTrigger' not in label:
                 continue
-            description = var.find('Value').text
 
-        eventsDict.update({ID : [label, enabledFlag, PIDName, description]})
+            ID = event.find('ID').findtext('ID')
+            enabledFlag = 'True' if event.findtext('Enabled') == '1' else 'False'
+            PIDName = event.find('PID').findtext('ID')
 
-createCSV(eventsList, eventsDict, eventColumns, 'outputCSV\Events.csv')
+            description = ''
+
+            for var in event.find('Properties').findall('Variable'):
+                if var.findtext('Name') != 'Filter':
+                    continue
+                description = var.findtext('Value')
+
+            fileTriggerList.append([ID, label, enabledFlag, PIDName, description])
+
+    fileTriggerColumns = ['EVENT_ID', 'TRIGGERED_LABEL', 'ENABLED?', 'TRIGGER_PLAN', 'FILE_DESCRIPTION']
+    fileTriggerDF = pd.DataFrame(fileTriggerList, columns=fileTriggerColumns)
+    fileTriggerDF = fileTriggerDF.set_index('EVENT_ID')
+
+    fileTriggerDF.to_csv(outCSV)
+
+if __name__ == '__main__':
+    getFileTriggers('XMLs\PROD_20221004.xml', 'outputCSV\FileTriggers_PROD_test.csv')
