@@ -1,3 +1,4 @@
+from pydoc import Doc
 import xml.etree.ElementTree as ET
 import pandas as pd
 
@@ -19,7 +20,9 @@ def getPathNames(inXML, outPathNameCSV):
             PID = obj.find('PID').findtext('ID')
             enabled = obj.findtext('Enabled')
             state = 'Enabled' if enabled == '1' else 'Disabled'
-            pidDict.update({ID: [name, PID, state, typeid]})
+            description = obj.findtext('Description')
+            doc = obj.find('Documentation').findtext('Documentation')
+            pidDict.update({ID: [name, PID, state, typeid, description, doc]})
 
     # Create path name
     for id in pidDict:
@@ -27,6 +30,8 @@ def getPathNames(inXML, outPathNameCSV):
         pid = pidDict[id][1]
         state = pidDict[id][2]
         typeid = pidDict[id][3]
+        desc = pidDict[id][4]
+        doc = pidDict[id][5]
         pidName = pidDict[pid][0] if pid != '0' else 'SimCorp Dimension'
         pathName = ''
         tempPID = pid
@@ -44,12 +49,12 @@ def getPathNames(inXML, outPathNameCSV):
             tempName = pidDict[tempPID][0]
             tempPID = pidDict[tempPID][1]
         
-        dfList.append([id, name, pid, pidName, state, typeid, pathName])
+        dfList.append([id, name, pid, pidName, state, typeid, pathName, desc, doc])
 
-    pathNameDict = pd.DataFrame(dfList, columns=['ID', 'NAME', 'PARENT_ID', 'PARENT_NAME', 'STATE', 'OBJECT_TYPE', 'PATH_NAME'])
+    pathNameDict = pd.DataFrame(dfList, columns=['ID', 'NAME', 'PARENT_ID', 'PARENT_NAME', 'STATE', 'OBJECT_TYPE', 'PATH_NAME', 'DESCRIPTION', 'DOCUMENTATION'])
     pathNameDict = pathNameDict.set_index('ID')
 
     pathNameDict.to_csv(outPathNameCSV)
 
 if __name__ == "__main__":
-    getPathNames('XMLs\PROD_20221004.xml', 'outputCSV\PathNames_PROD.csv')
+    getPathNames('XMLs\PROD_2022_10_12.xml', 'outputCSV\PathNames_PROD_20221012.csv')
