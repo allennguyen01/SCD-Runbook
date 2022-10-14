@@ -3,7 +3,7 @@ import pyodbc
 from datetime import datetime, timedelta
 import pandas as pd
 
-def read_sql(SQL_query):
+def sql_to_dataframe(SQL_query):
     # Establish the Python SQL Server Connection
     cnxn_str = ("Driver=SQL Server;"
                 "Server=VIC1MSDBSTW03;"
@@ -27,7 +27,7 @@ def read_sql(SQL_query):
     return data
 
 def main():
-    print(read_sql('runbook_test.sql'))
+    scheduled_plan_data = sql_to_dataframe('SCHEDULED_PLANS.sql')
 
 if __name__ == '__main__':
     main()
