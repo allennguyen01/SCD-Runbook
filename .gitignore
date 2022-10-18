@@ -12,4 +12,4 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-DataTables_Website\jquery-3.6.1.js
+DataTables_Website/jquery-3.6.1.js
