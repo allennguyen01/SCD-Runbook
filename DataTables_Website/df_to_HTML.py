@@ -23,7 +23,7 @@ def df_to_HTMLTable(df):
     tableBody += f"{tabTab}</tbody>\n"
 
     # Wrap table tag around thead and tbody
-    table = f"<table border=\"1\" class=\"dataframe table table-hover table-bordered table-striped\" id=\"table_id\">\n{tableHead}{tableBody}{tabTab}</table>"
+    table = f"<table border=\"1\" class=\"table table-hover table-bordered table-striped\" id=\"table_id\">\n{tableHead}{tableBody}{tabTab}</table>"
     
     return table
 

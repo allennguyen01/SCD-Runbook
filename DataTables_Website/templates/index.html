@@ -1,0 +1,52 @@
+{% extends "head.html" %}
+
+{% block content %}
+<table border="1" class="table table-hover table-bordered table-striped" id="table_id">
+    <thead>
+        <tr style="text-align: right;">
+        <th>INDEX</th><th>NAME</th><th>PATH_NAME</th><th>STATE</th><th>ENTIRE_SCHEDULES</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>0</th>
+            <td><a href="/ABAT_DISABLE_ALERT_Call_For_Failed_Job_Plan">ABAT_DISABLE_ALERT_Call_For_Failed_Job_Plan</a></td><td>PROD/Scheduled_Plans/Admin/ABAT_DISABLE_ALERT_Call_For_Failed_Job_Plan</td><td>Enabled</td><td>08:00 AM</td>
+        </tr>
+        <tr>
+            <th>1</th>
+            <td><a href="/ABAT_DISABLE_ALERT_Queue_Stopped">ABAT_DISABLE_ALERT_Queue_Stopped</a></td><td>PROD/Scheduled_Plans/Admin/ABAT_DISABLE_ALERT_Queue_Stopped</td><td>Enabled</td><td>05:00 AM; 06:00 AM</td>
+        </tr>
+        <tr>
+            <th>2</th>
+            <td><a href="/ABAT_ENABLE_ALERT_Call_For_Failed_Job_Plan">ABAT_ENABLE_ALERT_Call_For_Failed_Job_Plan</a></td><td>PROD/Scheduled_Plans/Admin/ABAT_ENABLE_ALERT_Call_For_Failed_Job_Plan</td><td>Enabled</td><td>05:00 PM</td>
+        </tr>
+        <tr>
+            <th>3</th>
+            <td><a href="/ABAT_ENABLE_ALERT_Queue_Stopped">ABAT_ENABLE_ALERT_Queue_Stopped</a></td><td>PROD/Scheduled_Plans/Admin/ABAT_ENABLE_ALERT_Queue_Stopped</td><td>Enabled</td><td>01:00 PM; 06:00 PM</td>
+        </tr>
+        <tr>
+            <th>4</th>
+            <td><a href="/AR_ADHOC">AR_ADHOC</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/AR_ADHOC</td><td>Enabled</td><td>06:00 PM</td>
+        </tr>
+        <tr>
+            <th>5</th>
+            <td><a href="/AR_MTHLY">AR_MTHLY</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/AR_MTHLY</td><td>Enabled</td><td>06:00 AM; 10:00 PM</td>
+        </tr>
+        <tr>
+            <th>6</th>
+            <td><a href="/AR_SYS_CHG">AR_SYS_CHG</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/AR_SYS_CHG</td><td>Enabled</td><td>07:00 AM</td>
+        </tr>
+        <tr>
+            <th>7</th>
+            <td><a href="/AS_24D_CA_CR_SDTR">AS_24D_CA_CR_SDTR</a></td><td>PROD/Scheduled_Plans/AS_24D_CA_CR_SDTR</td><td>Enabled</td><td>05:00 AM</td>
+        </tr>
+        <tr>
+            <th>8</th>
+            <td><a href="/AUDIT_ACTIVE_USERS">AUDIT_ACTIVE_USERS</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/AUDIT_ACTIVE_USERS</td><td>Enabled</td><td>07:00 AM</td>
+        </tr>
+        <tr>
+            <th>9</th>
+            <td><a href="/CHECK_DWH_LOAD">CHECK_DWH_LOAD</a></td><td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_DWH_LOAD</td><td>Enabled</td><td></td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}
