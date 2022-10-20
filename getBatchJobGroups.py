@@ -1,47 +1,36 @@
 import xml.etree.ElementTree as ET
 import csv
-from getJobPlans import jobPlanDict
+import pandas as pd
+# from getJobPlans import jobPlanDict
 
-tree = ET.parse('XMLs/BREAKFIX_20220913.xml')
-root = tree.getroot()
+def getBatchJobGroups(inXML, pathNameCSV, outCSV):
+    tree = ET.parse(inXML)
+    root = tree.getroot()
+    pathNameDF = pd.read_csv(pathNameCSV, index_col='ID')
+    bjgColumns = ["ID", "BATCH_JOB_GROUP", "JOB_PLAN_ID", 'JOB_PLAN_NAME']
 
-Objects = root.iter('Object')
+    Objects = root.iter('Object')
 
-batchJobGroupDict = {}
-batchJobGroupList = []
+    batchJobGroupList = []
 
-# Iterate through every Object element 
-for obj in Objects:
-    # Store Batch Job Groups in dictionary with {ID: [name, PID]}
-    if obj.get('typeid') == 'Reference':
-        target = obj.find('Target').find('ID')
-        target = target.text if (target is not None) else ''
-        if target == '15101103':
+    # Iterate through every Object element 
+    for obj in Objects:
+        # If object is of Reference type, get the data of the object
+        if obj.get('typeid') == 'Reference':
             name = obj.find('Name').text
             ID = obj.find('ID').text
             PID = obj.find('PID').find('ID').text
-            # path = obj.find('Tags').find('Variable').find('Value').find('PID').find('Path')
-            # path = path.text if (path is not None) else ''
-            batchJobGroupDict.update({ID: [name, PID]})
+            parentObj = pathNameDF.loc[int(PID)]
+            if parentObj['OBJECT_TYPE'] != 'JobPlan':
+                continue
+            PIDName = pathNameDF.loc[int(PID)]['NAME'] if PID != '12249833' else ""
+            batchJobGroupList.append([ID, name, PID, PIDName])
 
-# Create a list of all Batch Job Groups as dictionaries
-for bjg in batchJobGroupDict:
-    bjgName = batchJobGroupDict[bjg][0]
-    jpID = batchJobGroupDict[bjg][1]
-    jpName = jobPlanDict[jpID]
-    # parentPath = batchJobGroupDict[bjg][2]
-    # targetID = batchJobGroupDict[bjg][3]
-    batchJobGroupList.append({"Batch Job Group ID" : bjg, "Batch Job Group Name" : bjgName, "Job Plan ID" : jpID, 'Job Plan Name' : jpName})
+    # Create CSV from batchJobGroupList
+    bjgDF = pd.DataFrame(batchJobGroupList, columns=bjgColumns)
+    bjgDF = bjgDF.set_index('ID')
+    bjgDF.to_csv(outCSV)
 
-# Create empty CSV file
-batchJobGroupCSV = open('outputCSV\Batch_Job_Groups.csv', 'w', newline='')
-
-# Write CSV of batch job groups with ID, Name, and Job Plan ID as columns
-with batchJobGroupCSV:
-    batchJobColumns = ["Batch Job Group ID", "Batch Job Group Name", "Job Plan ID", 'Job Plan Name']
-    writer = csv.DictWriter(batchJobGroupCSV, fieldnames=batchJobColumns)
-    writer.writeheader()
-    writer.writerows(batchJobGroupList)
-
-# print(jobPlanDict)
-# print(batchJobGroupDict)
+if __name__ == '__main__':
+    getBatchJobGroups('XMLs\PROD_2022_10_12.xml', 'outputCSV\PathNames_PROD_20221012.csv', 'outputCSV\Batch_Job_Groups_PROD.csv')
+    
