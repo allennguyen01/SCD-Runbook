@@ -5,10 +5,138 @@ import sys
 import pandas as pd
 from flask import Flask, render_template, url_for, redirect
 
-# sys.path.append('C:\\Users\\alnguyen\\OneDrive - BCI\\XML Batch Problem\\ActiveBatch_Runbook\\sql_to_dataframe.py')
-# import sql_to_dataframe
+page_template = """<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <title>%(pageTitle)s</title>
+            <meta name="description" content="">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
 
-app = Flask(__name__)
+            <link rel="stylesheet" href="styles.css">
+
+            <!-- Add jQuery and DataTables library and Bootstrap 5 integration -->
+            <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+            <!-- <script src="..\DataTables_Website\webpages\jquery-3.6.1.js"></script> -->
+            <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css"> -->
+
+            <!-- CSS library files needed for searchPane filter extension -->
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/searchpanes/2.0.2/css/searchPanes.bootstrap5.min.css">
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.bootstrap5.min.css">
+
+            <!-- JavaScript files needed for searchPane filter extension -->
+            <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.0.2/js/dataTables.searchPanes.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.0.2/js/searchPanes.bootstrap5.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+
+            <!-- CSS library files needed for export buttons feature -->
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css"/>
+
+            <!-- JavaScript files needed for buttons feature -->
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap5.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+                <!-- For Excel export button  -->
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+                <!-- For PDF export button -->
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+                <!-- For column visibility -->
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
+
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+
+            <script>
+            $(document).ready(function() {
+                var table = $('#table_id').DataTable({
+                    searchPanes: true,
+                    buttons: [
+                        {
+                            extend: 'excel',
+                            text: 'Export as Excel',
+                        },
+                        {
+                            extend: 'pdf',
+                            text: 'Export as PDF',
+                        },
+                        {
+                            extend: 'copy',
+                            text: 'Copy to clipboard',
+                        },
+                        {
+                            extend: 'collection',
+                            text: 'Show/hide columns',
+                            buttons: [ 'columnsVisibility' ],
+                            visibility: false
+                        }
+                    ]
+                });
+                table.searchPanes.container().prependTo(table.table().container());
+                table.searchPanes.resizePanes();
+                table.buttons().container().prependTo(table.table().container());
+            });
+            </script>
+
+            <script src="navbar.js"></script>
+        </head>
+    <body>
+
+    <div class="container-fluid">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+            <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                <img class="me-4" src="images\BCI-logo-250x129.png" alt="BCI" height="32px">
+                <span class="fs-4">SCD Runbook</span>
+            </a>
+    
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <button type="button" class="btn btn-light mx-2">
+                        <a href="index.html" class="nav-link" id="home-nav-a" onclick="addClassToActivePage()">
+                            Scheduled Plans
+                        </a>
+                    </button>
+                    
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn btn-light mx-2">
+                        <a href="imports.html" class="nav-link" id="imports-nav-a" onclick="addClassToActivePage()">
+                            SCD Imports
+                        </a>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn btn-light mx-2">
+                        <a href="exports.html" class="nav-link" id="exports-nav-a" onclick="addClassToActivePage()">
+                            SCD Exports
+                        </a>
+                    </button>
+                </li>
+            </ul>
+        </header>
+    </div>
+
+    <div class="p-4 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-2">
+            <h1 class="display-5 fw-bold"> %(pageTitle)s </h1>
+            <p class="col-md-8 fs-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Viverra adipiscing at in tellus integer feugiat. In arcu cursus euismod quis viverra nibh. Etiam dignissim diam quis enim.</p>
+            <button class="btn btn-primary btn-lg" type="button">Example button</button>
+        </div>
+    </div>
+
+        <div class="container-fluid">
+            %(bodyContent)s
+        </div>
+
+    </body>
+    </html>
+    """
 
 def create_table_template(sqlPath, outHTMLPath):
     df = sql_to_dataframe(sqlPath)
@@ -16,61 +144,36 @@ def create_table_template(sqlPath, outHTMLPath):
     # Inserted into page_template 
     tableHTML = df_to_HTMLTable(df)
 
-    page_template = """<!DOCTYPE html>
-    <html>
-        <head>
-            <meta charset="utf-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <title></title>
-            <meta name="description" content="">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-
-            <!-- Add jQuery and DataTables library -->
-            <script src="jquery-3.6.1.js"></script>
-            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
-            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
-
-            <!-- Bootstrap CSS -->
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-            <!-- Optional JavaScript -->
-            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-            <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
-
-            <script>
-            $(document).ready( function () {
-                $('#table_id').DataTable();
-            } );
-            </script>
-        </head>
-    <body>
-
-        %(tableHTML)s
-
-    </body>
-    </html>
-    """
+    bodyContent = tableHTML
+    pageTitle = 'Page Title' 
 
     with open(outHTMLPath, 'w') as f:
         f.write(page_template % vars())
 
-    for row in df:
+def create_plan_pages(sqlPath):
+    df = sql_to_dataframe(sqlPath)
+
+    plan_template = """
+        <h1>%(name)s</h1>
+
+        <h2>Schedule</h2>
+
+        <h2>SCD Config Information</h2>
+
+        <h2>Active Batch Execution</h2>
+    """
+
+    for i in range(len(df)):
+        row = df.iloc[i]
         name = row['NAME']
-        with open(f"DataTables_Website\plan_pages\{name}.html") as f:
-            f.write(f"<h1>{name}</h1>")
+        bodyContent = plan_template % vars()
+
+        with open(f"DataTables_Website\webpages\plan_pages\{name}.html", 'w') as f:
+            f.write(page_template % vars())
 
 if __name__ == '__main__':
-    @app.route("/")
-    def home():
-        return render_template('index.html')
-
-    @app.route("/<name>")
-    def plan(name):
-        return render_template('plan.html', name=name)
-
-    if __name__ == '__main__':
-        app.run(debug=True)
-
-    # create_table_template('DataTables_Website\SCHEDULED_PLANS_FIXED.sql', r'DataTables_Website\templates\index.txt')
+    create_table_template('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql', 'DataTables_Website\webpages\index.html')
+    create_table_template('DataTables_Website\SQL_queries\IMPORTS.sql', 'DataTables_Website\webpages\imports.html')
+    create_table_template('DataTables_Website\SQL_queries\EXPORTS.sql', 'DataTables_Website\webpages\exports.html')
+    # create_plan_pages('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql')
+    # create_plan_pages('DataTables_Website\SQL_queries\IMPORTS.sql')
