@@ -91,7 +91,7 @@ page_template = """<!DOCTYPE html>
     <div class="container-fluid">
         <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
             <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-                <img class="me-4" src="images\BCI-logo-250x129.png" alt="BCI" height="32px">
+                <img class="me-4" src="\images\BCI-logo-250x129.png" alt="BCI" height="32px">
                 <span class="fs-4">SCD Runbook</span>
             </a>
     
@@ -125,7 +125,7 @@ page_template = """<!DOCTYPE html>
     <div class="p-4 mb-4 bg-light rounded-3">
         <div class="container-fluid py-2">
             <h1 class="display-5 fw-bold"> %(pageTitle)s </h1>
-            <p class="col-md-8 fs-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Viverra adipiscing at in tellus integer feugiat. In arcu cursus euismod quis viverra nibh. Etiam dignissim diam quis enim.</p>
+            <p class="col-md-8 fs-4">If description or documentation available show here.</p>
             <button class="btn btn-primary btn-lg" type="button">Example button</button>
         </div>
     </div>
@@ -150,30 +150,37 @@ def create_table_template(sqlPath, outHTMLPath):
     with open(outHTMLPath, 'w') as f:
         f.write(page_template % vars())
 
-def create_plan_pages(sqlPath):
-    df = sql_to_dataframe(sqlPath)
+def create_plan_pages(sqlPath, SCDConfigSQLPath):
+    planDF = sql_to_dataframe(sqlPath)
 
     plan_template = """
         <h1>%(name)s</h1>
 
         <h2>Schedule</h2>
 
-        <h2>SCD Config Information</h2>
+        <h2>SCD Batch Job Group Execution</h2>
+        %(bjgTableHTML)s
 
-        <h2>Active Batch Execution</h2>
     """
+    configDF = sql_to_dataframe(SCDConfigSQLPath)
 
-    for i in range(len(df)):
-        row = df.iloc[i]
-        name = row['NAME']
+    for i in range(len(planDF)):
+        row = planDF.iloc[i]
+        name = row['Name']
+
+        planConfigDF = configDF.loc[configDF['Batch Job Group'] == name]
+        bjgTableHTML = df_to_HTMLTable(planConfigDF)
+
         bodyContent = plan_template % vars()
-
+        pageTitle = name
+        
         with open(f"DataTables_Website\webpages\plan_pages\{name}.html", 'w') as f:
             f.write(page_template % vars())
 
 if __name__ == '__main__':
-    create_table_template('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql', 'DataTables_Website\webpages\index.html')
-    create_table_template('DataTables_Website\SQL_queries\IMPORTS.sql', 'DataTables_Website\webpages\imports.html')
-    create_table_template('DataTables_Website\SQL_queries\EXPORTS.sql', 'DataTables_Website\webpages\exports.html')
+    # create_table_template('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql', 'DataTables_Website\webpages\index.html')
+    # create_table_template('DataTables_Website\SQL_queries\IMPORTS.sql', 'DataTables_Website\webpages\imports.html')
+    # create_table_template('DataTables_Website\SQL_queries\EXPORTS.sql', 'DataTables_Website\webpages\exports.html')
     # create_plan_pages('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql')
     # create_plan_pages('DataTables_Website\SQL_queries\IMPORTS.sql')
+    create_plan_pages('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql', 'DataTables_Website\SQL_queries\SCD_CONFIG.sql')
