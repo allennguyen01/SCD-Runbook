@@ -53,38 +53,10 @@ page_template = """<!DOCTYPE html>
             <!-- Bootstrap CSS -->
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
 
-            <script>
-            $(document).ready(function() {
-                var table = $('#table_id').DataTable({
-                    searchPanes: true,
-                    buttons: [
-                        {
-                            extend: 'excel',
-                            text: 'Export as Excel',
-                        },
-                        {
-                            extend: 'pdf',
-                            text: 'Export as PDF',
-                        },
-                        {
-                            extend: 'copy',
-                            text: 'Copy to clipboard',
-                        },
-                        {
-                            extend: 'collection',
-                            text: 'Show/hide columns',
-                            buttons: [ 'columnsVisibility' ],
-                            visibility: false
-                        }
-                    ]
-                });
-                table.searchPanes.container().prependTo(table.table().container());
-                table.searchPanes.resizePanes();
-                table.buttons().container().prependTo(table.table().container());
-            });
-            </script>
-
+            
             <script src="navbar.js"></script>
+
+            <script src="searchPanes.js"></script>
         </head>
     <body>
 
@@ -98,7 +70,7 @@ page_template = """<!DOCTYPE html>
             <ul class="nav nav-pills">
                 <li class="nav-item">
                     <button type="button" class="btn btn-light mx-2">
-                        <a href="index.html" class="nav-link" id="home-nav-a" onclick="addClassToActivePage()">
+                        <a href="scheduled.html" class="nav-link" id="home-nav-a" onclick="addClassToActivePage()">
                             Scheduled Plans
                         </a>
                     </button>
@@ -118,6 +90,13 @@ page_template = """<!DOCTYPE html>
                         </a>
                     </button>
                 </li>
+                <li class="nav-item">
+                    <button type="button" class="btn btn-light mx-2">
+                        <a href="inventory.html" class="nav-link" id="inventory-nav-a" onclick="addClassToActivePage()">
+                            ABAT Inventory
+                        </a>
+                    </button>
+                </li>
             </ul>
         </header>
     </div>
@@ -126,7 +105,7 @@ page_template = """<!DOCTYPE html>
         <div class="container-fluid py-2">
             <h1 class="display-5 fw-bold"> %(pageTitle)s </h1>
             <p class="col-md-8 fs-4">If description or documentation available show here.</p>
-            <button class="btn btn-primary btn-lg" type="button">Example button</button>
+            <button class="btn btn-primary btn-lg" type="button">Confluence page</button>
         </div>
     </div>
 
@@ -138,14 +117,27 @@ page_template = """<!DOCTYPE html>
     </html>
     """
 
+# pageTemplateDict = {'pageTitle' : 'Please add', 'bodyContent': 'Please add', 'searchPanes' : "// not added"}
+
 def create_table_template(sqlPath, outHTMLPath):
     df = sql_to_dataframe(sqlPath)
 
     # Inserted into page_template 
     tableHTML = df_to_HTMLTable(df)
 
+    title = outHTMLPath.split('\\')[-1].split('.')[0]
+    
+    # Initialize variables for the page template
+    if title == 'scheduled':
+        pageTitle = 'Scheduled Plans'
+    elif title == 'imports':
+        pageTitle = 'SCD Imports'
+    elif title == 'exports':
+        pageTitle = 'SCD Exports'
+    elif title == 'inventory':
+        pageTitle = 'ActiveBatch Inventory'
     bodyContent = tableHTML
-    pageTitle = 'Page Title' 
+    # searchPanes = [0]
 
     with open(outHTMLPath, 'w') as f:
         f.write(page_template % vars())
@@ -171,6 +163,7 @@ def create_plan_pages(sqlPath, SCDConfigSQLPath):
         planConfigDF = configDF.loc[configDF['Batch Job Group'] == name]
         bjgTableHTML = df_to_HTMLTable(planConfigDF)
 
+        # Initialize variables for the page template
         bodyContent = plan_template % vars()
         pageTitle = name
         
@@ -178,9 +171,10 @@ def create_plan_pages(sqlPath, SCDConfigSQLPath):
             f.write(page_template % vars())
 
 if __name__ == '__main__':
-    # create_table_template('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql', 'DataTables_Website\webpages\index.html')
-    # create_table_template('DataTables_Website\SQL_queries\IMPORTS.sql', 'DataTables_Website\webpages\imports.html')
-    # create_table_template('DataTables_Website\SQL_queries\EXPORTS.sql', 'DataTables_Website\webpages\exports.html')
-    # create_plan_pages('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql')
+    create_table_template('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql', 'DataTables_Website\webpages\scheduled.html')
+    create_table_template('DataTables_Website\SQL_queries\IMPORTS.sql', 'DataTables_Website\webpages\imports.html')
+    create_table_template('DataTables_Website\SQL_queries\EXPORTS.sql', 'DataTables_Website\webpages\exports.html')
+    create_table_template('DataTables_Website\SQL_queries\ABAT_INVENTORY.sql', 'DataTables_Website\webpages\inventory.html')
+
     # create_plan_pages('DataTables_Website\SQL_queries\IMPORTS.sql')
-    create_plan_pages('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql', 'DataTables_Website\SQL_queries\SCD_CONFIG.sql')
+    # create_plan_pages('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql', 'DataTables_Website\SQL_queries\SCD_CONFIG.sql')
