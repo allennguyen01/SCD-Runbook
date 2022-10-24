@@ -63,36 +63,36 @@ page_template = """<!DOCTYPE html>
     <div class="container-fluid">
         <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
             <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-                <img class="me-4" src="\images\BCI-logo-250x129.png" alt="BCI" height="32px">
+                <img class="me-4" src="%(planPagePrefix)simages\BCI-logo-250x129.png" alt="BCI" height="32px">
                 <span class="fs-4">SCD Runbook</span>
             </a>
     
             <ul class="nav nav-pills">
                 <li class="nav-item">
                     <button type="button" class="btn btn-light mx-2">
-                        <a href="scheduled.html" class="nav-link" id="home-nav-a" onclick="addClassToActivePage()">
-                            Scheduled Plans
+                        <a href="%(planPagePrefix)sabat_plans.html" class="nav-link" id="home-nav-a" onclick="addClassToActivePage()">
+                            ActiveBatch Plans
                         </a>
                     </button>
                     
                 </li>
                 <li class="nav-item">
                     <button type="button" class="btn btn-light mx-2">
-                        <a href="imports.html" class="nav-link" id="imports-nav-a" onclick="addClassToActivePage()">
+                        <a href="%(planPagePrefix)simports.html" class="nav-link" id="imports-nav-a" onclick="addClassToActivePage()">
                             SCD Imports
                         </a>
                     </button>
                 </li>
                 <li class="nav-item">
                     <button type="button" class="btn btn-light mx-2">
-                        <a href="exports.html" class="nav-link" id="exports-nav-a" onclick="addClassToActivePage()">
+                        <a href="%(planPagePrefix)sexports.html" class="nav-link" id="exports-nav-a" onclick="addClassToActivePage()">
                             SCD Exports
                         </a>
                     </button>
                 </li>
                 <li class="nav-item">
                     <button type="button" class="btn btn-light mx-2">
-                        <a href="inventory.html" class="nav-link" id="inventory-nav-a" onclick="addClassToActivePage()">
+                        <a href="%(planPagePrefix)sinventory.html" class="nav-link" id="inventory-nav-a" onclick="addClassToActivePage()">
                             ABAT Inventory
                         </a>
                     </button>
@@ -103,8 +103,8 @@ page_template = """<!DOCTYPE html>
 
     <div class="p-4 mb-4 bg-light rounded-3">
         <div class="container-fluid py-2">
-            <h1 class="display-5 fw-bold"> %(pageTitle)s </h1>
-            <p class="col-md-8 fs-4">If description or documentation available show here.</p>
+            <h1 class="display-5 fw-bold">%(pageTitle)s</h1>
+            <p class="col-md-8 fs-4">%(description)s</p>
             <button class="btn btn-primary btn-lg" type="button">Confluence page</button>
         </div>
     </div>
@@ -117,28 +117,36 @@ page_template = """<!DOCTYPE html>
     </html>
     """
 
-# pageTemplateDict = {'pageTitle' : 'Please add', 'bodyContent': 'Please add', 'searchPanes' : "// not added"}
-
 def create_table_template(sqlPath, outHTMLPath):
     df = sql_to_dataframe(sqlPath)
 
-    # Inserted into page_template 
+    # To be inserted into the page_template 
     tableHTML = df_to_HTMLTable(df)
 
+    # Extract the title of the page from the output file path name
     title = outHTMLPath.split('\\')[-1].split('.')[0]
     
     # Initialize variables for the page template
-    if title == 'scheduled':
-        pageTitle = 'Scheduled Plans'
+    bodyContent = tableHTML
+    planPagePrefix = ''
+    if title == 'abat_plans':
+        pageTitle = 'ActiveBatch Plans'
+        description = 'This page includes two datatables: ActiveBatch Scheduled Plans and Triggered Plans <br> \
+        Scheduled Plans: these jobs all have a scheduler that start its execution <br> \
+        Triggered Plans: these all have a file trigger which start the execution of the job'
     elif title == 'imports':
         pageTitle = 'SCD Imports'
+        description = 'Import files to SimCorp Dimension.'
     elif title == 'exports':
         pageTitle = 'SCD Exports'
+        description = 'Export files from SimCorp Dimension.'
     elif title == 'inventory':
         pageTitle = 'ActiveBatch Inventory'
-    bodyContent = tableHTML
+        description = 'Inventory of all jobs that are scheduled or triggered by a file.'
+    
     # searchPanes = [0]
 
+    # Create and write to a new HTML file
     with open(outHTMLPath, 'w') as f:
         f.write(page_template % vars())
 
@@ -146,13 +154,8 @@ def create_plan_pages(sqlPath, SCDConfigSQLPath):
     planDF = sql_to_dataframe(sqlPath)
 
     plan_template = """
-        <h1>%(name)s</h1>
-
-        <h2>Schedule</h2>
-
         <h2>SCD Batch Job Group Execution</h2>
         %(bjgTableHTML)s
-
     """
     configDF = sql_to_dataframe(SCDConfigSQLPath)
 
@@ -166,15 +169,18 @@ def create_plan_pages(sqlPath, SCDConfigSQLPath):
         # Initialize variables for the page template
         bodyContent = plan_template % vars()
         pageTitle = name
+        description = 'If description or documentation available show here.'
+        planPagePrefix = '..\\'
         
         with open(f"DataTables_Website\webpages\plan_pages\{name}.html", 'w') as f:
             f.write(page_template % vars())
 
 if __name__ == '__main__':
-    create_table_template('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql', 'DataTables_Website\webpages\scheduled.html')
-    create_table_template('DataTables_Website\SQL_queries\IMPORTS.sql', 'DataTables_Website\webpages\imports.html')
-    create_table_template('DataTables_Website\SQL_queries\EXPORTS.sql', 'DataTables_Website\webpages\exports.html')
+    # create_table_template('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql', 'DataTables_Website\webpages\\abat_plans.html')
+    # create_table_template('DataTables_Website\SQL_queries\IMPORTS.sql', 'DataTables_Website\webpages\imports.html')
+    # create_table_template('DataTables_Website\SQL_queries\EXPORTS.sql', 'DataTables_Website\webpages\exports.html')
     create_table_template('DataTables_Website\SQL_queries\ABAT_INVENTORY.sql', 'DataTables_Website\webpages\inventory.html')
 
     # create_plan_pages('DataTables_Website\SQL_queries\IMPORTS.sql')
     # create_plan_pages('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql', 'DataTables_Website\SQL_queries\SCD_CONFIG.sql')
+    create_plan_pages('DataTables_Website\SQL_queries\ABAT_INVENTORY.sql', 'DataTables_Website\SQL_queries\SCD_CONFIG.sql')
