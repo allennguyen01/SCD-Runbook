@@ -1,8 +1,9 @@
 from sql_to_dataframe import sql_to_dataframe
 
 # Convert a Dataframe to a HTML table and return the string
-def df_to_HTMLTable(df):
+def dataframe_to_htmltable(df):
     columnNames = df.columns.tolist()
+
     tabTab = f'\t\t'
 
     # Form the thead tag with column field names
@@ -20,7 +21,7 @@ def df_to_HTMLTable(df):
         name = firstColArr[0]
 
         # Add hyperlink to name field
-        if len(firstColArr) == 1:
+        if len(firstColArr) == 1 and columnNames[0] != 'Sort':
             data[0] = f"<a href=\"plan_pages\{name}.html\">{name}</a>"
         elif len(firstColArr) == 2:
             data[0] = f"<a href=\"plan_pages\{name}.html\">{name}</a> | {firstColArr[1]}"
@@ -35,7 +36,7 @@ def df_to_HTMLTable(df):
 
 def main():
     schPlansDF = sql_to_dataframe('DataTables_Website\SCHEDULED_PLANS_FIXED.sql')
-    print(df_to_HTMLTable(schPlansDF))
+    print(dataframe_to_htmltable(schPlansDF))
 
 if __name__ == "__main__":
     main()
