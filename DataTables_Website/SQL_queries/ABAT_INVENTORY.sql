@@ -1,0 +1,7 @@
+SELECT [NAME]
+      ,[PATH_NAME]
+      ,[STATE]
+      ,[DESCRIPTION]
+      ,SCHEDULE_OR_TRIGGER
+  FROM [SCDRunbook].[dbo].[ABAT_INVENTORY_LIST]
+  ORDER BY NAME
