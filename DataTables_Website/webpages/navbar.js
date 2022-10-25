@@ -1,26 +1,21 @@
-function addClassToActivePage() {
-    current_page = window.location.href
-
-    if (current_page.includes('index')) {
-        var elem = document.getElementById("home-nav-a")
-        elem.classList.add('active')
-    } else if (current_page.includes('imports')) {
-        var elem = document.getElementById("imports-nav-a")
-        elem.classList.add('active')
-    } else if (current_page.includes('exports')) {
-        var elem = document.getElementById("exports-nav-a")
-        elem.classList.add('active')
+function addClassToActivePage(elem) {
+    hrefArr = window.location.href.split('/');
+    currentPage = hrefArr[hrefArr.length - 1].split('.')[0];
+    switch (currentPage) {
+        case 'scheduled': 
+            var elem = document.getElementById("home-nav-a");
+            break;
+        case 'imports':
+            var elem = document.getElementById("imports-nav-a");
+            break;
+        case 'exports':
+            var elem = document.getElementById("exports-nav-a");
+            break;
+        case 'inventory':
+            var elem = document.getElementById("inventory-nav-a");
+            break;
     }
-
-    // switch (page) {
-    //     case 'home': 
-    //         var elem = document.getElementById("home-nav-a")
-    //         elem.classList.add('active')
-    //     case 'imports':
-    //         var elem = document.getElementById("imports-nav-a")
-    //         elem.classList.add('active')
-    //     case 'exports':
-    //         var elem = document.getElementById("exports-nav-a")
-    //         elem.classList.add('active')
-    // }
+    elem.classList.add('active');
 }
+
+addClassToActivePage();

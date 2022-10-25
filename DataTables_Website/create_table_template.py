@@ -53,68 +53,65 @@ page_template = """<!DOCTYPE html>
             <!-- Bootstrap CSS -->
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
 
-            
-            <script src="navbar.js"></script>
-
             <script src="searchPanes.js"></script>
         </head>
     <body>
-
-    <div class="container-fluid">
-        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-            <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-                <img class="me-4" src="%(planPagePrefix)simages\BCI-logo-250x129.png" alt="BCI" height="32px">
-                <span class="fs-4">SCD Runbook</span>
-            </a>
-    
-            <ul class="nav nav-pills">
-                <li class="nav-item">
-                    <button type="button" class="btn btn-light mx-2">
-                        <a href="%(planPagePrefix)sscheduled.html" class="nav-link" id="home-nav-a" onclick="addClassToActivePage()">
-                            Scheduled Plans
-                        </a>
-                    </button>
-                    
-                </li>
-                <li class="nav-item">
-                    <button type="button" class="btn btn-light mx-2">
-                        <a href="%(planPagePrefix)simports.html" class="nav-link" id="imports-nav-a" onclick="addClassToActivePage()">
-                            SCD Imports
-                        </a>
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button type="button" class="btn btn-light mx-2">
-                        <a href="%(planPagePrefix)sexports.html" class="nav-link" id="exports-nav-a" onclick="addClassToActivePage()">
-                            SCD Exports
-                        </a>
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button type="button" class="btn btn-light mx-2">
-                        <a href="%(planPagePrefix)sinventory.html" class="nav-link" id="inventory-nav-a" onclick="addClassToActivePage()">
-                            ActiveBatch Inventory
-                        </a>
-                    </button>
-                </li>
-            </ul>
-        </header>
-    </div>
-
-    <div class="p-4 mb-4 bg-light rounded-3">
-        <div class="container-fluid py-2">
-            <h1 class="display-5 fw-bold">%(pageTitle)s</h1>
-            <p class="col-md-8 fs-4">%(description)s</p>
-            <button class="btn btn-primary btn-lg" type="button">Confluence page</button>
+        <div class="container-fluid">
+            <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+                <a href="%(planPagePrefix)sscheduled.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                    <img class="me-4" src="%(planPagePrefix)simages\BCI-logo-250x129.png" alt="BCI" height="32px">
+                    <h2 class="fw-bold mt-1">SCD Runbook</h2>
+                </a>
+        
+                <ul class="nav nav-pills align-items-center">
+                    <li class="nav-item">
+                        
+                            <a href="%(planPagePrefix)sscheduled.html" class="nav-link" id="home-nav-a" onclick="addClassToActivePage()">
+                                Scheduled Plans
+                            </a>
+                       
+                        
+                    </li>
+                    <li class="nav-item">
+                        
+                            <a href="%(planPagePrefix)simports.html" class="nav-link" id="imports-nav-a" onclick="addClassToActivePage()">
+                                SCD Imports
+                            </a>
+                        
+                    </li>
+                    <li class="nav-item">
+                        
+                            <a href="%(planPagePrefix)sexports.html" class="nav-link" id="exports-nav-a" onclick="addClassToActivePage()">
+                                SCD Exports
+                            </a>
+                        
+                    </li>
+                    <li class="nav-item">
+                        
+                            <a href="%(planPagePrefix)sinventory.html" class="nav-link" id="inventory-nav-a" onclick="addClassToActivePage()">
+                                ActiveBatch Inventory
+                            </a>
+                       
+                    </li>
+                </ul>
+            </header>
         </div>
-    </div>
+
+        <div class="p-4 mb-4 bg-light rounded-3">
+            <div class="container-fluid py-2">
+                <h1 class="display-5 fw-bold">%(pageTitle)s</h1>
+                <p class="col-md-8 fs-4">%(description)s</p>
+                <button class="btn btn-primary btn-lg" type="button">Confluence page</button>
+            </div>
+        </div>
 
         <div class="container-fluid">
             %(bodyContent)s
         </div>
 
+        <script src="navbar.js"></script>
     </body>
-    </html>
+</html>
     """
 
 def create_table_template(sqlPath, outHTMLPath):
