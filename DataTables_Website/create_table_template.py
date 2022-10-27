@@ -100,8 +100,21 @@ page_template = """<!DOCTYPE html>
         <div class="p-4 mb-4 bg-light rounded-3">
             <div class="container-fluid py-2">
                 <h1 class="display-5 fw-bold">%(pageTitle)s</h1>
-                <p class="col-md-8 fs-4">%(description)s</p>
-                <button class="btn btn-primary btn-lg" type="button">Confluence page</button>
+                <p class="col-md-12 fs-4">%(description)s</p>
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Table legend
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                %(legend)s
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -126,6 +139,7 @@ def create_table_template(sqlPath, outHTMLPath):
     # Initialize variables for the page template
     bodyContent = tableHTML
     planPagePrefix = ''
+    legend = ''
     if title == 'scheduled':
         pageTitle = 'Scheduled Plans'
         description = 'This page includes two datatables: ActiveBatch Scheduled Plans and Triggered Plans'
@@ -134,14 +148,29 @@ def create_table_template(sqlPath, outHTMLPath):
         description = 'Import files to SimCorp Dimension.'
     elif title == 'exports':
         pageTitle = 'SCD Exports'
-        description = 'Export files from SimCorp Dimension.'
+        description = 'This page lists all the SCD Configuration objects that have a Batch Task of "Extracts Exporter Definitions - Execute", "Extraction Setups - Execute".'
+        legend = '<strong>Batch Job Group | Batch Job:</strong> Identification field of Batch Job Group along with the Batch Job Name. <br> \
+        <strong>Batch Job Name:</strong> Descriptive name of Batch Job.<br> \
+        <strong>Reference File Export:</strong> Name of the reference file to write to.<br> \
+        <strong>Entire Reference File String:</strong> Full Path of Reference File Export.<br> \
+        <strong>LAN Output:</strong> If applicable, the output from the Batch Job to the LAN.<br> \
+        <strong>Extraction Setup:</strong> If applicable, the ID of the Data extraction setup.<br> \
+        <strong>Data Format Setup:</strong> If applicable (Destination Type = Message Queue), the ID of the Data Format Setup.<br> \
+        <strong>Extract Table:</strong> If applicable (Destination Type = Extract table), the ID of the Data Format Setup.<br> \
+        <strong>ActiveBatch Path:</strong> If applicable the Active Batch Plan that calls this Batch Job Group.'
     elif title == 'inventory':
         pageTitle = 'ActiveBatch Inventory'
-        description = 'Inventory of all jobs that are scheduled or triggered by a file. <br> \
-        Scheduled Plans: these jobs all have a scheduler that start its execution <br> \
-        Triggered Plans: these all have a file trigger which start the execution of the job'
-    
-    # searchPanes = [0]
+        description = 'This page lists all the Active Batch plans that are: <br>\n \
+        <ul class="fs-5">\n \
+            <li><strong>Scheduled</strong>: have a schedule to start the job</li>\n \
+            <li><strong>Triggered</strong>: arrival of a file</li>\n \
+            <li><strong>Adhoc</strong>: no schedule or trigger, just ran adhoc</li>\n \
+        </ul>\n'
+        legend = '<strong>Name:</strong> Identification field of Batch Job Group.<br>\n \
+                        <strong>Path Name:</strong> Complete path of Active Batch Plan.<br>\n \
+                        <strong>Description:</strong> Description of the Active Batch Plan.<br>\n \
+                        <strong>State:</strong> If plan is enabled/disabled.<br>\n \
+                        <strong>Schedule or Trigger:</strong> Describes the schedule or Trigger for the Active Batch Plan.'
 
     # Create and write to a new HTML file
     with open(outHTMLPath, 'w') as f:
@@ -180,3 +209,5 @@ if __name__ == '__main__':
 
     # create_plan_pages('DataTables_Website\SQL_queries\SCHEDULED_PLANS.sql', 'DataTables_Website\SQL_queries\SCD_CONFIG.sql')
     # create_plan_pages('DataTables_Website\SQL_queries\ABAT_INVENTORY.sql', 'DataTables_Website\SQL_queries\SCD_CONFIG.sql')
+    # create_plan_pages('DataTables_Website\SQL_queries\IMPORTS.sql', 'DataTables_Website\SQL_queries\SCD_CONFIG.sql')
+    # create_plan_pages('DataTables_Website\SQL_queries\EXPORTS.sql', 'DataTables_Website\SQL_queries\SCD_CONFIG.sql')

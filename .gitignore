@@ -2,7 +2,7 @@
 
 images/
 
-outputCSV/*.xlsx
+outputCSV
 
 extractLarge.py
 
@@ -12,4 +12,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-DataTables_Website/jquery-3.6.1.js
+jquery-3.6.1.js
+
+venv/
+
+DataTables_Website/webpages/*.html
+DataTables_Website/webpages/plan_pages/*.html
+
+HTML_Pages/
+outputCSV/
+XMLs/
