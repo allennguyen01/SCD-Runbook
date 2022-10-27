@@ -1,53 +1,60 @@
-#!/usr/bin/python
-
 import gviz_api
 from datetime import *
 from sql_to_dataframe import sql_to_dataframe
 
-page_template = """
-<html>
-  <script src="https://www.gstatic.com/charts/loader.js"></script>
-  <script>
-    google.charts.load('current', {'packages':['timeline']});
-    google.charts.setOnLoadCallback(drawChart);
+def generateTimeline(sqlPath):
+  page_template = """
+    <html>
+      <head>
 
-    function drawChart() {
-      %(jscode)s
+        <script src="https://www.gstatic.com/charts/loader.js"></script>
+        <script>
+          google.charts.load('current', {'packages':['timeline']});
+          google.charts.setOnLoadCallback(drawChart);
 
-      var options = {
-        height: 3000,
-        width: 1500,
-        timeline: {
-          groupByRowLabel: true
-        }
-      };
+          function drawChart() {
+            %(jscode)s
 
-      var jscode_timeline = new google.visualization.Timeline(document.getElementById('table_div_jscode'));
-      jscode_timeline.draw(jscode_data, options);
-    }
-  </script>
-  <body>
-    <H1>Weekday Scheduled Plans Timeline</H1>
-    <div id="table_div_jscode"></div>
-    
-  </body>
-</html>
-"""
+            var options = {
+              height: 3000,
+              width: 1800,
+              timeline: {
+                groupByRowLabel: true
+              },
+              avoidOverlappingGridLines: false,
+            };
 
-def main():
+            var jscode_timeline = new google.visualization.Timeline(document.getElementById('table_div_jscode'));
+            jscode_timeline.draw(jscode_data, options);
+          }
+        </script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+      </head>
+      
+      <body>
+        <H1>Weekday Scheduled Plans Timeline</H1>
+        <div id="table_div_jscode"></div>
+        
+      </body>
+    </html>
+    """
+
   # Define field names for the timeline
   description = [('name', 'string'), ('start_time', 'datetime'), ('end_time', 'datetime')]
 
-  # Fill data with scheduled plans and their start and end times
-  scheduled_plans = sql_to_dataframe('ActiveBatch_Runbook\SCHEDULED_PLANS.sql')
+  # Fill data array with scheduled plans and their start and end times
+  df = sql_to_dataframe(sqlPath)
   data = []
-  for i in range(len(scheduled_plans)):
-    plan = scheduled_plans.iloc[i]
+
+  # Loop through every row in the dataframe and extract times 
+  # and append it to data array
+  for i in range(len(df)):
+    plan = df.iloc[i]
     name = plan['NAME']
     if name == 'FLS_POS_HOLDINGS':
       continue
-    duration = timedelta(days=0, seconds=3600)
     startTime = plan['TIMES']
+    duration = timedelta(days=0, seconds=60)
     endTime = startTime + duration
     data.append([name, startTime, endTime])
 
@@ -65,4 +72,4 @@ def main():
     f.write(page_template % vars())
 
 if __name__ == '__main__':
-  main()
+  generateTimeline('ActiveBatch_Runbook\SCHEDULED_PLANS.sql')
