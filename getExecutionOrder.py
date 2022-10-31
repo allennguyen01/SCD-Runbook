@@ -1,68 +1,72 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
 
-def getExecutionOrder(inXML, inPathNameCSV, outExecutionOrderCSV):
-    tree = ET.parse(inXML)
+# TODO: Add the top level plan for execution order 
+def getExecutionOrder(xmlFile, pathnameCSVFile, outputCSVFile):
+    tree = ET.parse(xmlFile)
     root = tree.getroot()
-
     Events = root.iter('Event')
 
     eventsDict = {}
-    eventsList = []
-    pathNameDict = pd.read_csv(inPathNameCSV, index_col='ID')
+    eoList = []
+    pathNameDict = pd.read_csv(pathnameCSVFile, index_col='ID')
 
     triggerDictionary = {'2' : 'Alert Trigger: Job/Plan Completed', '4' : 'Failed Completion Trigger', '5' : 'Success Completion Trigger'}
 
+    # Iterate through every Event object with typeid 'Event'
     for event in Events:
         typeid = event.get('typeid')
         if typeid == 'Event':
-            ID = event.find('Actions').find('EventAction').find('CommandArgument').find('ID')
+            ID = event.find('./Actions/EventAction/CommandArgument/ID')
             ID = ID.text if ID is not None else ''
             if ID == '':
                 continue
-            name = pathNameDict.loc[int(ID)]['Name']
+            name = pathNameDict.loc[int(ID)]['NAME']
 
-            label = event.find('ID').find('Label').text
+            label = event.findtext('./ID/Label')
             if 'FileTrigger' in label:
                 continue
 
-            v4Tag = event.find('V4Tag').text
+            v4Tag = event.findtext('V4Tag')
             label = triggerDictionary[v4Tag] if v4Tag in triggerDictionary else None
-            parentID = event.find('PID').find('ID').text
-            parentName = event.find('PID').find('Name').text
+            parentID = event.findtext('./PID/ID')
+            parentName = event.findtext('./PID/Name')
             
-            eventsList.append([ID, name, parentName, parentID, label])
+            eoList.append([ID, name, parentName, parentID, label])
             eventsDict.update({ID : [name, parentName, parentID]})
 
+    # Get starting plan and top-level plan from ActiveBatch map view
     for id in eventsDict:
         currParentID = eventsDict[id][2]
         if currParentID not in eventsDict:
-            # Add first job that executes
+            # Add starting plan that executes first
             ID = currParentID
             try:
                 currObj = pathNameDict.loc[int(ID)]
-            except:
+            except KeyError:
+                print(f'{KeyError}, ID key ({ID}) not found')
                 continue
-            name = currObj['Name']
-            parentName = currObj['Parent Name']
-            parentID = currObj['Parent ID']
+            name = currObj['NAME']
+            parentName = currObj['PARENT_NAME']
+            parentID = currObj['PARENT_ID']
             label = 'Starting Plan'
-            eventsList.append([ID, name, parentName, parentID, label])
+            eoList.append([ID, name, parentName, parentID, label])
 
-            # Add top level plan
+            # Add top level plan that executes starting plan
             ID = parentID
             currObj = pathNameDict.loc[int(ID)]
-            name = currObj['Path Name']
-            parentName = currObj['Parent Name']
-            parentID = currObj['Parent ID']
+            name = currObj['PATH_NAME']
+            parentName = currObj['PARENT_NAME']
+            parentID = currObj['PARENT_ID']
             label = 'Top-Level Plan'
-            eventsList.append([ID, name, parentName, parentID, label])
+            eoList.append([ID, name, parentName, parentID, label])
 
-    eoDF = pd.DataFrame(eventsList, columns=['ID', 'Name', 'Parent Name', 'Parent ID', 'Label'])
+    # Output a CSV file with Pandas using eoList and drop any duplicate rows
+    eoColumns = ['ID', 'NAME', 'PARENT_NAME', 'PARENT_ID', 'LABEL']
+    eoDF = pd.DataFrame(eoList, columns=eoColumns)
     eoDF = eoDF.set_index('ID')
     eoDF = eoDF.drop_duplicates(keep='first')
-
-    eoDF.to_csv(outExecutionOrderCSV)
+    eoDF.to_csv(outputCSVFile)
 
 if __name__ == '__main__':
-    getExecutionOrder('XMLs\PROD_20221004.xml', 'outputCSV\PathNames_PROD.csv', 'outputCSV\ExecutionOrder_PROD.csv')
+    getExecutionOrder('XMLs\PROD_20221004.xml', 'outputCSV\PathNames_PROD.csv', 'outputCSV\ExecutionOrder_PROD_1.csv')
