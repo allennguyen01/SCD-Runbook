@@ -20,12 +20,16 @@ function showSearchPanes() {
         panesToHide = [0,1,3];
     } else {
         panesToShow = [];
+        panesToHide = [];
     }
 
     $(document).ready(function() {
         var table = $('#table_id').DataTable({
             dom: 'BPlfrtip',
             processing : true,
+            searchPanes: {
+                initCollapsed: true
+            },
             columnDefs: [
                 {
                     searchPanes: {

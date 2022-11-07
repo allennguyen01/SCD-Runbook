@@ -1,4 +1,4 @@
-function addClassToActivePage(elem) {
+function addClassToActivePage() {
     hrefArr = window.location.href.split('/');
     currentPage = hrefArr[hrefArr.length - 1].split('.')[0];
     switch (currentPage) {
@@ -13,6 +13,9 @@ function addClassToActivePage(elem) {
             break;
         case 'inventory':
             var elem = document.getElementById("inventory-nav-a");
+            break;
+        case 'timeline':
+            var elem = document.getElementById("timeline-nav-a");
             break;
     }
     elem.classList.add('active');

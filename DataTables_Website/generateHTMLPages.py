@@ -54,6 +54,8 @@ page_template = """<!DOCTYPE html>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
 
             <script src="searchPanes.js"></script>
+            <script src="https://www.gstatic.com/charts/loader.js"></script>
+            <script src="timeline.js"></script>
         </head>
     <body>
         <div class="container-fluid">
@@ -65,33 +67,29 @@ page_template = """<!DOCTYPE html>
         
                 <ul class="nav nav-pills align-items-center">
                     <li class="nav-item">
-                        
-                            <a href="%(planPagePrefix)sscheduled.html" class="nav-link" id="home-nav-a" onclick="addClassToActivePage()">
-                                Scheduled Plans
-                            </a>
-                       
-                        
+                        <a href="%(planPagePrefix)sscheduled.html" class="nav-link" id="home-nav-a" onclick="addClassToActivePage()">
+                            Scheduled Plans
+                        </a>
                     </li>
                     <li class="nav-item">
-                        
-                            <a href="%(planPagePrefix)simports.html" class="nav-link" id="imports-nav-a" onclick="addClassToActivePage()">
-                                SCD Imports
-                            </a>
-                        
+                        <a href="%(planPagePrefix)simports.html" class="nav-link" id="imports-nav-a" onclick="addClassToActivePage()">
+                            SCD Imports
+                        </a>
                     </li>
                     <li class="nav-item">
-                        
-                            <a href="%(planPagePrefix)sexports.html" class="nav-link" id="exports-nav-a" onclick="addClassToActivePage()">
-                                SCD Exports
-                            </a>
-                        
+                        <a href="%(planPagePrefix)sexports.html" class="nav-link" id="exports-nav-a" onclick="addClassToActivePage()">
+                            SCD Exports
+                        </a>
                     </li>
                     <li class="nav-item">
-                        
-                            <a href="%(planPagePrefix)sinventory.html" class="nav-link" id="inventory-nav-a" onclick="addClassToActivePage()">
-                                ActiveBatch Inventory
-                            </a>
-                       
+                        <a href="%(planPagePrefix)sinventory.html" class="nav-link" id="inventory-nav-a" onclick="addClassToActivePage()">
+                            ActiveBatch Inventory
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="%(planPagePrefix)stimeline.html" class="nav-link" id="timeline-nav-a" onclick="addClassToActivePage()">
+                            Timeline
+                        </a>
                     </li>
                 </ul>
             </header>
@@ -99,8 +97,8 @@ page_template = """<!DOCTYPE html>
 
         <div class="p-4 mb-4 bg-light rounded-3">
             <div class="container-fluid py-2">
-                <h1 class="display-5 fw-bold">%(pageTitle)s</h1>
-                <p class="col-md-12 fs-4">%(description)s</p>
+                <h1 class="display-6 fw-bold">%(pageTitle)s</h1>
+                <p class="col-md-12 fs-5">%(description)s</p>
                 <div class="accordion" id="accordionExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
@@ -167,10 +165,10 @@ def create_table_template(sqlPath, outHTMLPath):
             <li><strong>Adhoc</strong>: no schedule or trigger, just ran adhoc</li>\n \
         </ul>\n'
         legend = '<strong>Name:</strong> Identification field of Batch Job Group.<br>\n \
-                        <strong>Path Name:</strong> Complete path of Active Batch Plan.<br>\n \
-                        <strong>Description:</strong> Description of the Active Batch Plan.<br>\n \
-                        <strong>State:</strong> If plan is enabled/disabled.<br>\n \
-                        <strong>Schedule or Trigger:</strong> Describes the schedule or Trigger for the Active Batch Plan.'
+            <strong>Path Name:</strong> Complete path of Active Batch Plan.<br>\n \
+            <strong>Description:</strong> Description of the Active Batch Plan.<br>\n \
+            <strong>State:</strong> If plan is enabled/disabled.<br>\n \
+            <strong>Schedule or Trigger:</strong> Describes the schedule or Trigger for the Active Batch Plan.'
 
     # Create and write to a new HTML file
     with open(outHTMLPath, 'w') as f:
