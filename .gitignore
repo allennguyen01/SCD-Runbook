@@ -4,8 +4,6 @@ images/
 
 outputCSV
 
-extractLarge.py
-
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
