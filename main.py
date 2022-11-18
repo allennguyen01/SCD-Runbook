@@ -3,18 +3,18 @@ from getVariables import getVariables
 from getPathNames import getPathNames
 from getExecutionOrder import getExecutionOrder
 from getSchedules import getSchedules
+from getFileTriggers import getFileTriggers
+from getBatchJobGroups import getBatchJobGroups
 
 
 if __name__ == '__main__':
-    getSchedules('XMLs\PROD_20221004.xml', 'outputCSV\Schedules_PROD.csv')
+    xmlFile = input("What is the path of the XML file from ActiveBatch?")
+
+    getSchedules(xmlFile, 'csv\Schedules.csv')
+    getPathNames(xmlFile, 'csv\PathNames.csv')
+    getVariables(xmlFile, 'csv\Variables.csv')
+    getFileTriggers(xmlFile, 'csv\FileTriggers.csv')
+    getScheduledPlans(xmlFile, 'csv\Schedules.csv', 'csv\ScheduledJobs.csv')
+    getBatchJobGroups(xmlFile, 'csv\PathNames.csv', 'csv\BatchJobGroups.csv')
     
-    # depends on Schedules csv file
-    getScheduledPlans('XMLs\PROD_20221004.xml', 'outputCSV\Schedules_PROD.csv', 'outputCSV\JobPlans_PROD.csv')
-
-    getVariables('XMLs\PROD_20221004.xml', 'outputCSV\Variables_PROD.csv')
-
-    getPathNames('XMLs\PROD_20221004.xml', 'outputCSV\PathNames_PROD.csv')
-
-    # getExecutionOrder depends on PathNames csv file
-    getExecutionOrder('XMLs\PROD_20221004.xml', 'outputCSV\PathNames_PROD.csv', 'outputCSV\ExecutionOrder_PROD.csv')
-    
+    print("All csv file generated successfully!")
