@@ -1,9 +1,8 @@
+google.charts.load('current', {'packages':['timeline']});
+google.charts.setOnLoadCallback(drawChart);
 
-  google.charts.load('current', {'packages':['timeline']});
-  google.charts.setOnLoadCallback(drawChart);
-
-  function drawChart() {
-    var jscode_data = new google.visualization.DataTable();
+function drawChart() {
+	var jscode_data = new google.visualization.DataTable();
 jscode_data.addColumn("string", "name", "name");
 jscode_data.addColumn("datetime", "start_time", "start_time");
 jscode_data.addColumn("datetime", "end_time", "end_time");
@@ -163,16 +162,14 @@ jscode_data.setCell(50, 1, new Date(1899,11,30,23,45,0));
 jscode_data.setCell(50, 2, new Date(1899,11,30,23,46,0));
 
 
-    var options = {
-      height: 3000,
-      width: 1800,
-      timeline: {
-        groupByRowLabel: true
-      },
-      avoidOverlappingGridLines: false,
-    };
+	var options = {
+		timeline: {
+			groupByRowLabel: true
+		},
+		avoidOverlappingGridLines: false,
+	};
 
-    var jscode_timeline = new google.visualization.Timeline(document.getElementById('table_div_jscode'));
-    jscode_timeline.draw(jscode_data, options);
-  }
-  
+	var jscode_timeline = new google.visualization.Timeline(document.getElementById('table_div_jscode'));
+	jscode_timeline.draw(jscode_data, options);
+}
+	

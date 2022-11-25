@@ -1,10 +1,9 @@
 *.log
 
-images/
-
+# Outputted CSV files for testing 
 outputCSV
 
-timeline.js
+# timeline.js
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -14,11 +13,11 @@ __pycache__/
 
 jquery-3.6.1.js
 
-venv/
+# Generated HTML pages by Python script
+html_pages/webpages/*.html
+html_pages/webpages/plan_pages/*.html
 
-DataTables_Website/webpages/*.html
-DataTables_Website/webpages/plan_pages/*.html
-
-HTML_Pages/
 outputCSV/
 XMLs/
+venv/
+images/
