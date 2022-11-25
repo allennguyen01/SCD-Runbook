@@ -1,8 +1,7 @@
 import gviz_api
 from datetime import *
 from sql_to_dataframe import sql_to_dataframe
-import sys
-from generateHTMLPages import page_template
+from generate_html_pages import page_template
 
 def generate_timeline(sql_path):
 	timeline_js = \
@@ -24,11 +23,11 @@ function drawChart() {
 }
 	"""
 
-	pageTitle = 'Timeline'
-	planPagePrefix = ''
+	page_title = 'Timeline'
+	plan_page_path = ''
 	description = ''
 	legend = ''
-	bodyContent = '<div id="table_div_jscode" class="vh-100"></div>'
+	body_content = '<div id="table_div_jscode" class="vh-100"></div>'
 
 	# Define field names for the timeline
 	field_names = [('name', 'string'), ('start_time', 'datetime'), ('end_time', 'datetime')]
