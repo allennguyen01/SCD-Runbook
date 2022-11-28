@@ -23,7 +23,7 @@ def getVariables(xmlFile, outputCSVFile):
                 varList.append([ID, name, varName, varValue])
 
     # Output a CSV file with Pandas using varList
-    varColumns = ['ID', 'NAME', 'VARIABLE', 'VALUE']
+    varColumns = ['ID', 'NAME', 'VARIABLE_NAME', 'VARIABLE_VALUE']
     varDF = pd.DataFrame(varList, columns=varColumns)
     varDF = varDF.set_index("ID")
     varDF.to_csv(outputCSVFile, index_label="ID")

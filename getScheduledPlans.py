@@ -19,11 +19,11 @@ def getScheduledPlans(xmlFile, schedulesCSVFile, outputCSVFile):
             for schedules in obj.iter('Schedules'):
                 for sch in schedules.findall('ObjectID'):
                     schID = sch.findtext('ID')
-                    schName = scheduleDict.loc[int(schID)]['SCHEDULE_NAME']
+                    schName = scheduleDict.loc[int(schID)]['ScheduleName']
                     scheduledPlansList.append([ID, schName])
 
     # Output a CSV file from scheduledPlansList using Pandas
-    scheduledPlansColumns = ["ID", 'SCHEDULENAME']
+    scheduledPlansColumns = ["ID", 'SCHEDULE']
     scheduledPlansDF = pd.DataFrame(scheduledPlansList, columns=scheduledPlansColumns)
     scheduledPlansDF = scheduledPlansDF.set_index('ID')
     scheduledPlansDF.to_csv(outputCSVFile)

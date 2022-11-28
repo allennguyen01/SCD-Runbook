@@ -37,7 +37,7 @@ def getSchedules(xmlFile, outputCSVFile):
             scheduleList.append([ID, name, schTime])
 
     # Output a CSV file from schedulesList using Pandas
-    scheduleColumns = ['ID', 'SCHEDULE_NAME', 'TIME']
+    scheduleColumns = ['ID', 'ScheduleName', 'Times']
     scheduleDF = pd.DataFrame(scheduleList, columns=scheduleColumns)
     scheduleDF = scheduleDF.set_index('ID')
     scheduleDF.to_csv(outputCSVFile)

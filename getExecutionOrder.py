@@ -62,7 +62,7 @@ def getExecutionOrder(xmlFile, pathnameCSVFile, outputCSVFile):
             eoList.append([ID, name, parentName, parentID, label])
 
     # Output a CSV file with Pandas using eoList and drop any duplicate rows
-    eoColumns = ['ID', 'NAME', 'PARENT_NAME', 'PARENT_ID', 'LABEL']
+    eoColumns = ['ID', 'Name', 'Parent Name', 'Parent ID', 'Label']
     eoDF = pd.DataFrame(eoList, columns=eoColumns)
     eoDF = eoDF.set_index('ID')
     eoDF = eoDF.drop_duplicates(keep='first')
