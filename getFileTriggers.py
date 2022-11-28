@@ -30,7 +30,7 @@ def getFileTriggers(xmlFile, outputCSVFile):
             fileTriggerList.append([ID, label, enabledFlag, PIDName, description])
 
     # Output a CSV file with Pandas using fileTriggerList
-    fileTriggerColumns = ['EVENT_ID', 'TRIGGERED_LABEL', 'ENABLED?', 'TRIGGER_PLAN', 'FILE_DESCRIPTION']
+    fileTriggerColumns = ['ID', 'TriggerLabel', 'Enabled?', 'TriggeredPlan', 'Description']
     fileTriggerDF = pd.DataFrame(fileTriggerList, columns=fileTriggerColumns)
     fileTriggerDF = fileTriggerDF.set_index('EVENT_ID')
     fileTriggerDF.to_csv(outputCSVFile)

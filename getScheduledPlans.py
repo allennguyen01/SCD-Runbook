@@ -23,7 +23,7 @@ def getScheduledPlans(xmlFile, schedulesCSVFile, outputCSVFile):
                     scheduledPlansList.append([ID, schName])
 
     # Output a CSV file from scheduledPlansList using Pandas
-    scheduledPlansColumns = ["ID", 'SCHEDULENAME']
+    scheduledPlansColumns = ["ID", 'SCHEDULE']
     scheduledPlansDF = pd.DataFrame(scheduledPlansList, columns=scheduledPlansColumns)
     scheduledPlansDF = scheduledPlansDF.set_index('ID')
     scheduledPlansDF.to_csv(outputCSVFile)

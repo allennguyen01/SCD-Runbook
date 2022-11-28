@@ -25,7 +25,7 @@ def getBatchJobGroups(xmlFile, pathnameCSVFile, outputCSVFile):
             batchJobGroupList.append([ID, name, PID, PIDName])
 
     # Create CSV from batchJobGroupList
-    bjgColumns = ["ID", "BATCH_JOB_GROUP", "JOB_PLAN_ID", 'JOB_PLAN_NAME']
+    bjgColumns = ["Batch Job Group ID", "Batch Job Group Name", "Job Plan ID", 'Job Plan Name']
     bjgDF = pd.DataFrame(batchJobGroupList, columns=bjgColumns)
     bjgDF = bjgDF.set_index('ID')
     bjgDF.to_csv(outputCSVFile)
