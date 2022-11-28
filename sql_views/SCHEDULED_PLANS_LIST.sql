@@ -1,0 +1,48 @@
+USE [SCDRunbook]
+GO
+
+/****** Object:  View [dbo].[SCHEDULED_PLANS_LIST]    Script Date: 11/28/2022 11:03:57 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+CREATE VIEW [dbo].[SCHEDULED_PLANS_LIST] AS
+
+  SELECT 
+  [SCDRunbook].[dbo].[ABAT_PATHNAMES].NAME, 
+  [SCDRunbook].[dbo].[ABAT_PATHNAMES].PATH_NAME,
+  [SCDRunbook].[dbo].[ABAT_PATHNAMES].STATE,
+  [SCDRunbook].[dbo].[ABAT_PATHNAMES].DESCRIPTION,
+  [SCDRunbook].[dbo].[ABAT_PATHNAMES].ID,
+  SCD_SCHEDULE_TIMES.ENTIRE_SCHEDULES
+
+  FROM [SCDRunbook].[dbo].[ABAT_PATHNAMES] 
+
+  OUTER APPLY (
+    SELECT STRING_AGG(FORMAT(TIMES,'hh:mm tt'),'; ') WITHIN GROUP (ORDER BY TIMES) as SCHEDULE FROM [SCDRunbook].[dbo].[ABAT_SCHEDULED_PLANS]
+	INNER JOIN [SCDRunbook].[dbo].[ABAT_SCHEDULES] ON [SCDRunbook].[dbo].[ABAT_SCHEDULES].ScheduleName = [SCDRunbook].[dbo].[ABAT_SCHEDULED_PLANS].SCHEDULE
+	WHERE
+    [SCDRunbook].[dbo].[ABAT_SCHEDULED_PLANS].ID = [SCDRunbook].[dbo].[ABAT_PATHNAMES].ID 
+	
+) AS SCD_SCHEDULE_TIMES(ENTIRE_SCHEDULES)
+
+  WHERE 
+    
+  [SCDRunbook].[dbo].[ABAT_PATHNAMES].OBJECT_TYPE = 'JobPlan' AND 
+  (
+  [SCDRunbook].[dbo].[ABAT_PATHNAMES].PATH_NAME LIKE 'PROD/Scheduled_Plans/%' OR 
+  [SCDRunbook].[dbo].[ABAT_PATHNAMES].PATH_NAME LIKE 'PROD/Constraint_Triggered_Plans/%'
+  )
+  AND 
+  (
+  [SCDRunbook].[dbo].[ABAT_PATHNAMES].PATH_NAME NOT LIKE 'PROD/Scheduled_Plans/Admin/%' AND
+  [SCDRunbook].[dbo].[ABAT_PATHNAMES].PATH_NAME NOT LIKE 'PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_FILE_AGE/%' 
+  )
+
+GO
+
