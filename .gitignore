@@ -20,4 +20,9 @@ html_pages/webpages/plan_pages/*.html
 outputCSV/
 XMLs/
 venv/
-images/
+csv/
+.vscode/
+.idea/
+.vs/
+
+.prettierignore
