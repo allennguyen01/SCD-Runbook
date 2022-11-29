@@ -1,7 +1,9 @@
 # imports for SQL data part
 import pyodbc
-from datetime import datetime, timedelta
 import pandas as pd
+import warnings
+
+warnings.filterwarnings(action="ignore", category=UserWarning)
 
 def sql_to_dataframe(SQL_query):
     # Establish the Python SQL Server Connection
