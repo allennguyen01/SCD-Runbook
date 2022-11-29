@@ -170,6 +170,7 @@ def create_table_pages(sql_path, out_html_path):
     with open(out_html_path, 'w') as f:
         f.write(page_template % vars())
 
+#BUGFIX: Get first column instead of column labeled 'Name'
 def create_plan_pages(sql_path, scd_config_sql_path):
     plan_df = sql_to_dataframe(sql_path)
 

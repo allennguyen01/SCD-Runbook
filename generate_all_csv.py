@@ -19,24 +19,24 @@ if __name__ == '__main__':
     try:
         os.mkdir("csv")
     except FileExistsError:
-        print("csv folder already exists.")
+        print("'csv' folder already exists.")
 
     getSchedules(xmlFile, 'csv\Schedules.csv')
-    print("Schedules.csv generated sucessfully!")
+    print("Schedules.csv generated successfully!")
 
     getPathNames(xmlFile, 'csv\PathNames.csv')
-    print("PathNames.csv generated sucessfully!")
+    print("PathNames.csv generated successfully!")
 
     getVariables(xmlFile, 'csv\Variables.csv')
-    print("Variables.csv generated sucessfully!")
+    print("Variables.csv generated successfully!")
 
     getFileTriggers(xmlFile, 'csv\FileTriggers.csv')
-    print("FileTriggers.csv generated sucessfully!")
+    print("FileTriggers.csv generated successfully!")
 
     getScheduledPlans(xmlFile, 'csv\Schedules.csv', 'csv\ScheduledPlans.csv')
-    print("ScheduledPlans.csv generated sucessfully!")
+    print("ScheduledPlans.csv generated successfully!")
 
     getBatchJobGroups(xmlFile, 'csv\PathNames.csv', 'csv\BatchJobGroups.csv')
-    print("BatchJobGroups.csv generated sucessfully!")
+    print("BatchJobGroups.csv generated successfully!")
     
     print("All csv files generated successfully in csv folder.")
