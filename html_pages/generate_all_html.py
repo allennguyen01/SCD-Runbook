@@ -1,6 +1,7 @@
 from generate_html_pages import create_table_pages
 from generate_html_pages import create_plan_pages
 from generate_timeline import generate_timeline
+import os
 
 if __name__ == "__main__":
     print("Started generating html pages...")
@@ -11,6 +12,10 @@ if __name__ == "__main__":
     create_table_pages('html_pages\SQL_queries\ABAT_INVENTORY.sql', 'html_pages\webpages\inventory.html')
     print("Table pages generated successfully.")
 
+    try:
+        os.mkdir("html_pages\webpages\plan_pages")
+    except FileExistsError:
+        print("'plan_pages' folder already exists.")
     create_plan_pages('html_pages\SQL_queries\SCHEDULED_PLANS.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
     create_plan_pages('html_pages\SQL_queries\ABAT_INVENTORY.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
     # create_plan_pages('html_pages\SQL_queries\IMPORTS.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
