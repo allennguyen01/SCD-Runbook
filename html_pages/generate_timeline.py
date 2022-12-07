@@ -41,12 +41,12 @@ function drawChart() {
 	for i in range(len(df)):
 		plan = df.iloc[i]
 		name = plan['NAME']
-		if name == 'FLS_POS_HOLDINGS':
-			continue
-		start_time = plan['TIMES']
-		duration = timedelta(days=0, seconds=60)
-		end_time = start_time + duration
-		data.append([name, start_time, end_time])
+		times = plan['ENTIRE_SCHEDULES'].split('; ')
+		print(times)
+		for time in times:
+			start_time = datetime.strptime(time, '%I:%M %p')
+			end_time = start_time + timedelta(seconds=60)
+			data.append([name, start_time, end_time])
 
 	# Loading it into gviz_api.DataTable
 	data_table = gviz_api.DataTable(field_names)
