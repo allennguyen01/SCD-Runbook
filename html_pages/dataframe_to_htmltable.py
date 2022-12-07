@@ -1,4 +1,5 @@
 from sql_to_dataframe import sql_to_dataframe
+config_df = sql_to_dataframe('html_pages\SQL_queries\SCD_CONFIG.sql')
 
 # Convert a Dataframe to a HTML table and return the string
 def dataframe_to_htmltable(df):
@@ -18,13 +19,15 @@ def dataframe_to_htmltable(df):
 
         firstCol = data[0]
         firstColArr = firstCol.split(' | ')
-        name = firstColArr[0]
+        batch_job_group = firstColArr[0]
+        if (len(firstColArr) == 2): batch_job = firstColArr[1]
 
         # Add hyperlink to name field
-        if len(firstColArr) == 1 and columnNames[0] != 'Sort':
-            data[0] = f"<a href=\"plan_pages\{name}.html\">{name}</a>"
-        elif len(firstColArr) == 2:
-            data[0] = f"<a href=\"plan_pages\{name}.html\">{name}</a> | {firstColArr[1]}"
+        if (config_exists(batch_job_group) and columnNames[0] != 'Sort'):            
+            if len(firstColArr) == 1:
+                data[0] = f"<a href=\"plan_pages\{batch_job_group}.html\">{batch_job_group}</a>"
+            elif len(firstColArr) == 2:
+                data[0] = f"<a href=\"plan_pages\{batch_job_group}.html\">{batch_job_group}</a> | {firstColArr[1]}"
     
         tableBody += f"\t{tabTab}<tr>\n\t\t{tabTab}<td>{'</td><td>'.join(data)}</td>\n\t{tabTab}</tr>\n"
     tableBody += f"{tabTab}</tbody>\n"
@@ -33,6 +36,10 @@ def dataframe_to_htmltable(df):
     table = f"<table border=\"1\" class=\"table table-hover table-bordered table-striped\" id=\"table_id\">\n{tableHead}{tableBody}{tabTab}</table>"
     
     return table
+
+def config_exists(name):
+    plan_config_df = config_df.loc[config_df['Batch Job Group'] == name]
+    return not plan_config_df.empty
 
 def main():
     schPlansDF = sql_to_dataframe('DataTables_Website\SCHEDULED_PLANS_FIXED.sql')

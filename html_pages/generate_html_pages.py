@@ -123,9 +123,10 @@ page_template = """<!DOCTYPE html>
 
 def create_table_pages(sql_path, out_html_path):
     df = sql_to_dataframe(sql_path)
+    
 
     # To be inserted into the page_template 
-    table_html = dataframe_to_htmltable(df)
+    table_html = dataframe_to_htmltable(df) 
 
     # Extract the title of the page from the output file path name
     title = out_html_path.split('\\')[-1].split('.')[0]
@@ -165,12 +166,15 @@ def create_table_pages(sql_path, out_html_path):
             <strong>Description:</strong> Description of the Active Batch Plan.<br>\n \
             <strong>State:</strong> If plan is enabled/disabled.<br>\n \
             <strong>Schedule or Trigger:</strong> Describes the schedule or Trigger for the Active Batch Plan.'
+    else: 
+        page_title = title
+        description = ''
+        legend = ''
 
     # Create and write to a new HTML file
     with open(out_html_path, 'w') as f:
         f.write(page_template % vars())
 
-#BUGFIX: Get first column instead of column labeled 'Name'
 def create_plan_pages(sql_path, scd_config_sql_path):
     plan_df = sql_to_dataframe(sql_path)
 
@@ -182,9 +186,14 @@ def create_plan_pages(sql_path, scd_config_sql_path):
 
     for i in range(len(plan_df)):
         row = plan_df.iloc[i]
-        name = row['Name']
+        name = row[0]
+        if '|' in name:
+            name = name.split(' | ')[0]
+        print(name)
 
         plan_config_df = config_df.loc[config_df['Batch Job Group'] == name]
+        if (plan_config_df.empty): 
+            continue
         batchjobgroup_html_table = dataframe_to_htmltable(plan_config_df)
 
         # Initialize variables for the page template
@@ -198,12 +207,12 @@ def create_plan_pages(sql_path, scd_config_sql_path):
             f.write(page_template % vars())
 
 if __name__ == '__main__':
-    create_table_pages('html_pages\SQL_queries\SCHEDULED_PLANS.sql', 'html_pages\webpages\scheduled.html')
+    # create_table_pages('html_pages\SQL_queries\SCHEDULED_PLANS.sql', 'html_pages\webpages\scheduled.html')
     # create_table_pages('html_pages\SQL_queries\IMPORTS.sql', 'html_pages\webpages\imports.html')
     # create_table_pages('html_pages\SQL_queries\EXPORTS.sql', 'html_pages\webpages\exports.html')
     # create_table_pages('html_pages\SQL_queries\ABAT_INVENTORY.sql', 'html_pages\webpages\inventory.html')
 
-    create_plan_pages('html_pages\SQL_queries\SCHEDULED_PLANS.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
+    # create_plan_pages('html_pages\SQL_queries\SCHEDULED_PLANS.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
     # create_plan_pages('html_pages\SQL_queries\ABAT_INVENTORY.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
-    # create_plan_pages('html_pages\SQL_queries\IMPORTS.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
+    create_plan_pages('html_pages\SQL_queries\IMPORTS.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
     # create_plan_pages('html_pages\SQL_queries\EXPORTS.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
