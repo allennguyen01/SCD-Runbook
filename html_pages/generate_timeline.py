@@ -42,7 +42,6 @@ function drawChart() {
 		plan = df.iloc[i]
 		name = plan['NAME']
 		times = plan['ENTIRE_SCHEDULES'].split('; ')
-		print(times)
 		for time in times:
 			start_time = datetime.strptime(time, '%I:%M %p')
 			end_time = start_time + timedelta(seconds=60)

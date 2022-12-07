@@ -189,7 +189,6 @@ def create_plan_pages(sql_path, scd_config_sql_path):
         name = row[0]
         if '|' in name:
             name = name.split(' | ')[0]
-        print(name)
 
         plan_config_df = config_df.loc[config_df['Batch Job Group'] == name]
         if (plan_config_df.empty): 
