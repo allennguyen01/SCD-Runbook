@@ -124,7 +124,6 @@ page_template = """<!DOCTYPE html>
 def create_table_pages(sql_path, out_html_path):
     df = sql_to_dataframe(sql_path)
     
-
     # To be inserted into the page_template 
     table_html = dataframe_to_htmltable(df) 
 
@@ -177,6 +176,6 @@ def create_table_pages(sql_path, out_html_path):
 
 if __name__ == '__main__':
     create_table_pages('html_pages\SQL_queries\SCHEDULED_PLANS.sql', 'html_pages\webpages\scheduled.html')
-    # create_table_pages('html_pages\SQL_queries\IMPORTS.sql', 'html_pages\webpages\imports.html')
-    # create_table_pages('html_pages\SQL_queries\EXPORTS.sql', 'html_pages\webpages\exports.html')
-    # create_table_pages('html_pages\SQL_queries\ABAT_INVENTORY.sql', 'html_pages\webpages\inventory.html')
+    create_table_pages('html_pages\SQL_queries\IMPORTS.sql', 'html_pages\webpages\imports.html')
+    create_table_pages('html_pages\SQL_queries\EXPORTS.sql', 'html_pages\webpages\exports.html')
+    create_table_pages('html_pages\SQL_queries\ABAT_INVENTORY.sql', 'html_pages\webpages\inventory.html')
