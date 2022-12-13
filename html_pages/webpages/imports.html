@@ -1,0 +1,1460 @@
+
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <title>SCD Imports</title>
+            <meta name="description" content="">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+
+            <link rel="stylesheet" href="styles.css">
+
+            <!-- Add jQuery and DataTables library and Bootstrap 5 integration -->
+            <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+            <!-- <script src="..\html_pages\webpages\jquery-3.6.1.js"></script> -->
+            <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css"> -->
+
+            <!-- CSS library files needed for searchPane filter extension -->
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/searchpanes/2.0.2/css/searchPanes.bootstrap5.min.css">
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.bootstrap5.min.css">
+
+            <!-- JavaScript files needed for searchPane filter extension -->
+            <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.0.2/js/dataTables.searchPanes.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.0.2/js/searchPanes.bootstrap5.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+
+            <!-- CSS library files needed for export buttons feature -->
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css"/>
+
+            <!-- JavaScript files needed for buttons feature -->
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap5.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+                <!-- For Excel export button  -->
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+                <!-- For PDF export button -->
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+                <!-- For column visibility -->
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
+
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+            		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+			crossorigin="anonymous"></script>
+
+            <script src="https://www.gstatic.com/charts/loader.js"></script>
+            <script src="addDataTablesFeatures.js"></script>
+            <script src="timeline.js"></script>
+        </head>
+    <body>
+        <div class="container-fluid">
+            <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+                <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                    <img class="me-4" src="images\BCI-logo-250x129.png" alt="BCI" height="32px">
+                    <h2 class="fw-bold mt-1">SCD Runbook</h2>
+                </a>
+        
+                <ul class="nav nav-pills align-items-center">
+                    <li class="nav-item">
+                        <a href="scheduled.html" class="nav-link" id="scheduled-nav">
+                            Scheduled Plans
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="imports.html" class="nav-link" id="imports-nav">
+                            SCD Imports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="exports.html" class="nav-link" id="exports-nav">
+                            SCD Exports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="inventory.html" class="nav-link" id="inventory-nav">
+                            ActiveBatch Inventory
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="timeline.html" class="nav-link" id="timeline-nav">
+                            Timeline
+                        </a>
+                    </li>
+                </ul>
+            </header>
+        </div>
+
+        <div class="px-4 py-3 mb-4 bg-light rounded-3 fs-6">
+            <div class="container-fluid">
+                <div class="h3 fw-bold">SCD Imports</div>
+                <div id="last-update" class="fw-semibold">Last Sync: 12/13/2022 @ 13:53:27</div>
+                <div class="col-md-12">Import files to SimCorp Dimension.</div>
+                
+                <div class="accordion" id="accordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Table legend
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordion">
+                            <div class="accordion-body">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <table border="1" class="table table-hover table-bordered table-striped" id="table_id">
+		<thead>
+			<tr style="text-align: right;"><th>Batch Job Group | Batch Job</th><th>Batch Job Name</th><th>Reference File Import</th><th>Entire Reference File String</th><th>Data Format Setup</th><th>ActiveBatch Path</th></tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><a href="plan_pages\ADHOC_PERF_DEX_UPD.html">ADHOC_PERF_DEX_UPD</a> | SIPPUPD_TE5040ADHOC</td><td>ADHOC P_SAAM_PERF_SIPP_UPDATE_Teachers adhoc</td><td>SIPP_TE5040</td><td>tmp\PERF_TEACHERS_TE5040_*.csv</td><td>PERF_SIPPUPD</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\ADHOC_PERF_TFA_BM_UP.html">ADHOC_PERF_TFA_BM_UP</a> | PERF_TFA_BIC4_IL+LQ</td><td>Total Fund Attribution BIC4 Illiquid & Liquid</td><td>PERF_TFA_BIC4</td><td>ActiveData\Interfaces\In\Direct\ReferenceData\SIPPGROSS_NET*.csv</td><td>PERF_TFA_BIC4_IL+LQ</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\ADHOC_PERF_TFA_BM_UP.html">ADHOC_PERF_TFA_BM_UP</a> | PERF_TFA_BIC5_IL+LQ</td><td>Total Fund Attribution BIC5 Illiquid & Liquid</td><td>PERF_TFA_BIC5</td><td>ActiveData\Interfaces\In\Direct\ReferenceData\SIPPGROSS_NET*.csv</td><td>PERF_TFA_BIC5_IL+LQ</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\ADHOC_PERF_TFA_BM_UP.html">ADHOC_PERF_TFA_BM_UP</a> | PERF_TFA_BM_IL+LIQ</td><td>Total Fund Attribution BM Defs - Illiquid & Liquid</td><td>PERF_TFA_BM</td><td>ActiveData\Interfaces\In\Direct\ReferenceData\SIPPGROSS_NET*.csv</td><td>PERF_TFA_BM_IL+LIQ</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\ADHOC_PERF_TFA_BM_UP.html">ADHOC_PERF_TFA_BM_UP</a> | PERF_TFA_COMP_P_ILLQ</td><td>Total Fund Attribution Index Components Ptf Illiquid</td><td>PERF_TFA_ILLQ</td><td>ActiveData\Interfaces\In\Direct\ReferenceData\SIPPGROSS_NET*.csv</td><td>PERF_TFA_COMP_P_ILLQ</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\ADHOC_PERF_TFA_BM_UP.html">ADHOC_PERF_TFA_BM_UP</a> | PERF_TFA_COMP_P_LIQ</td><td>Total Fund Attribution Index Components Ptf Liquid</td><td>PERF_TFA_LIQD</td><td>ActiveData\Interfaces\In\Direct\ReferenceData\SIPPGROSS_NET*.csv</td><td>PERF_TFA_COMP_P_LIQ</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\ADHOC_PERF_TFA_BM_UP.html">ADHOC_PERF_TFA_BM_UP</a> | PERF_TFA_IX_IL+LIQ</td><td>Total Fund Attribution Ix Secs - Illiquid & Liquid</td><td>PERF_TFA_IX</td><td>ActiveData\Interfaces\In\Direct\ReferenceData\SIPPGROSS_NET*.csv</td><td>PERF_TFA_IX_IL+LIQ</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\CLIENT_DIST_ADHOC.html">CLIENT_DIST_ADHOC</a> | IMP_CLIENT_DIST</td><td>Import - Client Distributions - Ad Hoc</td><td>CLIENT_DIST_ADHC</td><td>Interfaces\In\Manual\Client_Dist_*.csv</td><td>CLIENT_DIST_ADHOC</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\CR_ACC_INT.html">CR_ACC_INT</a> | CR_ACC_INT_N</td><td>Import Cash Transaction Accrued Interest Active</td><td>DFS_TRN_CR_AC_N</td><td>Interfaces\In\Direct\CASH\TRN_CR_AC_INT*</td><td>TRN_CR_AC_INT_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\CR_ACC_INT.html">CR_ACC_INT</a> | CR_ACC_INT_NT</td><td>Import Cash Transaction Accrued Interest Trans Code</td><td>DFS_TRN_CR_AC_NT</td><td>Interfaces\In\Direct\CASH\TRN_CR_AC_INT*</td><td>TRN_CR_AC_INT_NTC</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\CR_ACC_INT.html">CR_ACC_INT</a> | CR_ACC_INT_U</td><td>Import Cash Transaction Accrued Interest Cancelled</td><td>DFS_TRN_CR_AC_U</td><td>Interfaces\In\Direct\CASH\TRN_CR_AC_INT*</td><td>TRN_CR_AC_INT_U</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\CR_ACC_INT_MANUAL.html">CR_ACC_INT_MANUAL</a> | CR_ACC_INT_MN</td><td>Import Cash Transaction Accrued Interest Active - Manual</td><td>DFS_TRN_CR_AC_MN</td><td>Interfaces\In\Manual\TRN_CR_AC_INT*</td><td>TRN_CR_AC_INT_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\CR_ACC_INT_MANUAL.html">CR_ACC_INT_MANUAL</a> | CR_ACC_INT_MU</td><td>Import Cash Transaction Accrued Interest Cancelled - Manual</td><td>DFS_TRN_CR_AC_MU</td><td>Interfaces\In\Manual\TRN_CR_AC_INT*</td><td>TRN_CR_AC_INT_U</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_ALT_INV_MV.html">DM_ALT_INV_MV</a> | DM_DFS_ALT_INV_MV</td><td>Data - Alternative Investments Market Value and Quotes</td><td>DFS_ALT_INV_MV</td><td>Interfaces\In\Direct\Market\MKT_MV_QUOTES_*.csv</td><td>MKT_ALT_INV_MV</td><td>PROD/Triggered_Plans/Alternative_Investments/DM_ALT_INV_MV_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_BANK_HOLIDAYS.html">DM_REF_BANK_HOLIDAYS</a> | DM_DFS_BANK_HOLIDAYS</td><td>Data - Bank Holiday Import</td><td>DFS_REF_BANK_HOL</td><td>ReferenceData\REF_BANKHOLIDAYS*.csv</td><td>REF_BANK_HOLIDAYS</td><td>PROD/Triggered_Plans/DM_REF_BANK_HOLIDAYS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_BONDS.html">DM_REF_BONDS</a> | REF_B_SCHED_MULT_PC</td><td>Update Multiple interest and put/call bonds</td><td>DFS_SCHED_MLT_PC</td><td>SCHEDULES__*.csv</td><td>SCHED_BOND_MULTI_PC</td><td>PROD/Triggered_Plans/DM_REF_BONDS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_BONDS.html">DM_REF_BONDS</a> | REF_BONDS_EDM</td><td>Import of Fixed Income Instruments - No Multiple</td><td>DFS_SMF_BONDS_ED</td><td>SMF_BONDS*.csv</td><td>SMF_BONDS_EDM</td><td>PROD/Triggered_Plans/DM_REF_BONDS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_BONDS.html">DM_REF_BONDS</a> | REF_BONDS_FACTOR</td><td>Update Pool Factor Bonds</td><td>DFS_SCHED_BO_FCT</td><td>SCHEDULES__*.csv</td><td>SCHED_BONDS_FACTOR</td><td>PROD/Triggered_Plans/DM_REF_BONDS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_FC_BOUNCE.html">DM_REF_FC_BOUNCE</a> | DM_REF_FC_BOUNCE</td><td>Bounce Fund Certs through FC96</td><td>DM_REF_FC_BOUNCE</td><td></td><td>DM_REF_FC_BOUNCE</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_FCDIV_MAN.html">DM_REF_FCDIV_MAN</a> | DM_REF_FCDIV_MAN</td><td>Fund Cert Dividend and Capital Event Manual BackFill</td><td>DFS_FCDIV_MAN</td><td>All_DividendSMF.csv</td><td>REF_FCDIV_MAN</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_FORMULA_VALUE.html">DM_REF_FORMULA_VALUE</a> | DM_DIST_FV</td><td>Distribution Formula Value - Import</td><td>DFS_DIST_FV</td><td>Interfaces\In\Direct\ReferenceData\REF_DIST_FORMULA_VALUES*.csv</td><td>MANUAL_FORMULA_VALUE</td><td>PROD/Triggered_Plans/DM_REF_FORMULA_VALUE</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_FORMULA_VALUE.html">DM_REF_FORMULA_VALUE</a> | DM_DIST_FV</td><td>Distribution Formula Value - Import</td><td>DFS_DIST_FV</td><td>Interfaces\In\Direct\ReferenceData\REF_DIST_FORMULA_VALUES*.csv</td><td>MANUAL_FORMULA_VALUE</td><td>PROD/Triggered_Plans/DM_REF_FORMULA_VALUE</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_FORMULA_VALUE.html">DM_REF_FORMULA_VALUE</a> | DM_FEE_TOL_FV</td><td>Fee Tolderance Formula Vaue - Import</td><td>DM_FEE_TOL_FV</td><td>Interfaces\In\Direct\ReferenceData\REF_FEE_TOLERANCE_FV*.csv</td><td>MANUAL_FORMULA_VALUE</td><td>PROD/Triggered_Plans/DM_REF_FORMULA_VALUE</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_FORMULA_VALUE.html">DM_REF_FORMULA_VALUE</a> | DM_FEE_TOL_FV</td><td>Fee Tolderance Formula Vaue - Import</td><td>DM_FEE_TOL_FV</td><td>Interfaces\In\Direct\ReferenceData\REF_FEE_TOLERANCE_FV*.csv</td><td>MANUAL_FORMULA_VALUE</td><td>PROD/Triggered_Plans/DM_REF_FORMULA_VALUE</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_FUNDDEFN_DATA.html">DM_REF_FUNDDEFN_DATA</a> | DM_DFS_FUNDDEFN</td><td>Data - Fund Definition Import</td><td>DFS_REF_FD_DATA</td><td>In\Direct\ReferenceData\REF_FUND_DEFN.csv</td><td>REF_FUND_DEF</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_FUNDDEFN_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_MKTDATA.html">DM_REF_MKTDATA</a> | DM_DFS_MKT_FX_RATES</td><td>Data - Import of FX rates</td><td>DFS_MKT_FX_RATES</td><td>In\Direct\Market\MKT_FX_RATE*.csv</td><td>MKT_FX_RATES</td><td>PROD/Triggered_Plans/DM_REF_MKTDATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_MKTDATA.html">DM_REF_MKTDATA</a> | DM_DFS_MKT_FX_TICS</td><td>Data - Import of Forward FX tics</td><td>DFS_MKT_FX_TICS</td><td>In\Direct\Market\MKT_FX_RATE*.csv</td><td>MKT_FX_TICS</td><td>PROD/Triggered_Plans/DM_REF_MKTDATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_MKTDATA.html">DM_REF_MKTDATA</a> | DM_DFS_MKT_PRICES</td><td>Data - Import of Prices</td><td>DFS_MKT_PRICES</td><td>In\Direct\Market\MKT_PRICES*.csv</td><td></td><td>PROD/Triggered_Plans/DM_REF_MKTDATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_MKTDATA.html">DM_REF_MKTDATA</a> | DM_DFS_MKT_REF_RATE</td><td>Data - Import of Reference rates</td><td>DFS_MKT_REFRATES</td><td>In\Direct\Market\MKT_REFERENCE_RATES_*.csv</td><td>MKT_REF_RATES</td><td>PROD/Triggered_Plans/DM_REF_MKTDATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_MKTDATA.html">DM_REF_MKTDATA</a> | DM_DFS_MKT_STD_CTQT</td><td>Data - Import of Standard Contract Quotes</td><td>DFS_MKT_STCTQT</td><td>In\Direct\Market\MKT_STANDARD_CONTRACT_QUOTES_*.csv</td><td>MKT_STD_CTRT_QT</td><td>PROD/Triggered_Plans/DM_REF_MKTDATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_MKTDATA.html">DM_REF_MKTDATA</a> | DM_DFS_RPI_RATES</td><td>Data - Import of Retail Price Indices</td><td>DFS_MKT_RPI_RATE</td><td>In\Direct\Market\MKT_RPI_RATES_*.csv</td><td>MKT_RPI_RATES</td><td>PROD/Triggered_Plans/DM_REF_MKTDATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_MKTDATA.html">DM_REF_MKTDATA</a> | DM_DFS_SD_PRICES</td><td>Data - Import of Super D Prices</td><td>DM_DFS_SD_PRICES</td><td>In\Direct\SuperD\SUPERD_PRICES*.csv</td><td></td><td>PROD/Triggered_Plans/DM_REF_MKTDATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_MP.html">DM_REF_MP</a> | DM_DFS_REF_MP</td><td>Data - Model Portfolio Import</td><td>DFS_REF_MP</td><td>In\Direct\ReferenceData\REF_MODEL_PORTFOLIOS.csv</td><td>REF_MODEL_PORTFOLIOS</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_MP_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_MP_EDM_IMPORT.html">DM_REF_MP_EDM_IMPORT</a> | DM_REF_EDM_MP_FX</td><td>Data Import - Load Model Portfolio logic for FX table</td><td>DFS_REF_EDM_FX</td><td>In\Direct\ReferenceData\EDM_STRAT_TAG_FX*.csv</td><td>REF_STRAT_TAG_FX</td><td>PROD/Triggered_Plans/DM_REF_MP_EDM_IMPORT_2</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_MP_EDM_IMPORT.html">DM_REF_MP_EDM_IMPORT</a> | DM_REF_EDM_MP_POOL</td><td>Data Import - Load Model Portfolio logic for POOL table</td><td>DFS_REF_EDM_POOL</td><td>In\Direct\ReferenceData\EDM_STRAT_TAG_POOL*.csv</td><td>REF_STRAT_TAG_POOL</td><td>PROD/Triggered_Plans/DM_REF_MP_EDM_IMPORT_2</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_MP_EDM_IMPORT.html">DM_REF_MP_EDM_IMPORT</a> | DM_REF_EDM_MP_SEG</td><td>Data Import - Load Model Portfolio logic for SEG table</td><td>DFS_REF_EDM_SEG</td><td>In\Direct\ReferenceData\EDM_STRAT_TAG_SEG*.csv</td><td>REF_STRAT_TAG_SEG</td><td>PROD/Triggered_Plans/DM_REF_MP_EDM_IMPORT_2</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_MP_EDM_IMPORT.html">DM_REF_MP_EDM_IMPORT</a> | DM_REF_EDM_MP_ZERO</td><td>Data Import - Clear Model Portfolio logic from Formula Value object</td><td>DFS_REF_EDM_ZERO</td><td>In\Direct\ReferenceData\EDM_STRAT_TAG_SEG*.csv</td><td>REF_STRAT_TAG_ZERO</td><td>PROD/Triggered_Plans/DM_REF_MP_EDM_IMPORT_2</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_MP_FC_BULK.html">DM_REF_MP_FC_BULK</a> | DM_REF_MP_FC_BULK</td><td>Data - Model Portfolio Freecode Bulk Import</td><td>DFS_MPFC_BULK</td><td></td><td>REF_MP_FC_BULK</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PARTIES.html">DM_REF_PARTIES</a> | DM_DFS_PARTIES</td><td>Data - Parties Import</td><td>DFS_REF_PARTIESP</td><td>IN\Direct\ReferenceData\REF_PARTIES*.csv</td><td>REF_PARTIES</td><td>PROD/Triggered_Plans/DM_REF_PARTIES_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PARTIES.html">DM_REF_PARTIES</a> | DM_DFS_PARTY_GROUPS</td><td>Data - Party Groups Import</td><td>DFS_REF_PARTIESG</td><td>IN\Direct\ReferenceData\REF_PARTIES*.csv</td><td>REF_PARTY_GROUP</td><td>PROD/Triggered_Plans/DM_REF_PARTIES_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PCL_UPDATE.html">DM_REF_PCL_UPDATE</a> | DM_DFS_PCL_UPDATE</td><td>Data - Update of the Period Closure Date</td><td>DFS_REF_PCL_UPD</td><td>ReferenceData\REF_PCL_UPDATE.csv</td><td>REF_PCL_UPDATE</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | CB_CBAS_2_CB</td><td>CB_CBAS_2_CB</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_CBAS_2_CB</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | CB_CBAS_2_CB_LIAB</td><td>CB_CBAS_2_CB_LIAB</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_CBAS_2_CB_LIAB</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | CB_CBAS_2_CB_MAR</td><td>CB_CBAS_2_CB_MAR</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_CBAS_2_CB_MAR</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | CB_CBAS_2_CI_CLIENT</td><td>CB_CBAS_2_CI_CLIENT</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_CBAS_2_CI_CLIENT</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | CB_CBAS_2_CI_FUND</td><td>CB_CBAS_2_CI_FUND</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_CBAS_2_CI_FUND</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | CB_CBAS_2_CI_MAR</td><td>CB_CBAS_2_CI_MAR</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_CBAS_2_CI_MAR</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | DM_DFS_BANK_ACCOUNT</td><td>Data - Bank Accounts Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_BANK_ACC</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | DM_DFS_CUSTODIES</td><td>Data - Custodies Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_CUSTODIES</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | DM_DFS_DEFAULT_MARG</td><td>Data - Our Defaults Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_OUR_DEFAULTS_MAR</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | DM_DFS_DEFAULTS_LIAB</td><td>Data - Our Defaults Import for Liability Portfolios</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_OUR_DEFAULTS_L</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | DM_DFS_MARGIN_ACT</td><td>Data - Margin Accounts Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_MARGIN_ACC</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | DM_DFS_OUR_DEFAULTS</td><td>Data - Our Defaults Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_OUR_DEFAULTS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | DM_DFS_REAL_BNK_ACT</td><td>Data - Real Bank Accounts Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_REAL_BNK_AC</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | DM_DFS_REALMARGIN_AC</td><td>Data - Real Margin Accounts Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_REAL_MARGIN_AC</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | DM_REF_MPPORT</td><td>Data - Model Portfolio To Portfolio Link</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_MPPORT</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | PERF_CB_FUND_LOAD</td><td>Perf - Cash Bucket (Normal) Load - Funds</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_SETUP_FUND</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | PERF_CB_LOAD_CLIENT</td><td>Perf - Cash Bucket (Normal) Load - Client</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_SETUP_CLIENT</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | PERF_CB_LOAD_FUND_MA</td><td>Perf - Cash Bucket (Normal) Load - Fund Margin</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_SETUP_FUND_MAR</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | PERF_CI_LOAD_CLIENT</td><td>Perf - Cash Bucket (Interim) Load - Client</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CI_SETUP_CLIENT</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a> | PERF_CI_LOAD_FUND</td><td>Perf - Cash Bucket (Interim) Load - Fund</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CI_SETUP_FUND</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | CB_CBAS_2_CB</td><td>CB_CBAS_2_CB</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_CBAS_2_CB</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | CB_CBAS_2_CB_LIAB</td><td>CB_CBAS_2_CB_LIAB</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_CBAS_2_CB_LIAB</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | CB_CBAS_2_CB_MAR</td><td>CB_CBAS_2_CB_MAR</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_CBAS_2_CB_MAR</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | CB_CBAS_2_CI_CLIENT</td><td>CB_CBAS_2_CI_CLIENT</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_CBAS_2_CI_CLIENT</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | CB_CBAS_2_CI_FUND</td><td>CB_CBAS_2_CI_FUND</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_CBAS_2_CI_FUND</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | CB_CBAS_2_CI_MAR</td><td>CB_CBAS_2_CI_MAR</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_CBAS_2_CI_MAR</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | DM_DFS_BANK_ACCOUNT</td><td>Data - Bank Accounts Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_BANK_ACC</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | DM_DFS_CUSTODIES</td><td>Data - Custodies Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_CUSTODIES</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | DM_DFS_DEFAULT_MARG</td><td>Data - Our Defaults Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_OUR_DEFAULTS_MAR</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | DM_DFS_DEFAULTS_LIAB</td><td>Data - Our Defaults Import for Liability Portfolios</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_OUR_DEFAULTS_L</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | DM_DFS_MARGIN_ACT</td><td>Data - Margin Accounts Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_MARGIN_ACC</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | DM_DFS_OUR_DEFAULTS</td><td>Data - Our Defaults Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_OUR_DEFAULTS</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | DM_DFS_PCL_DEFS</td><td>Data - Period Closure Definitions</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_PCL_DEFS</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | DM_DFS_PF_HIST_RTN</td><td>Data - Portfolio Historical Return Term Import</td><td>DFS_REF_PF_HISTR</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_PERF_DATES.csv</td><td>REF_PF_HIST_RTN</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | DM_DFS_PFG_HIST_RTN</td><td>Data - Portfolio Group Historical Return Term Import</td><td>DFS_REF_PF_HISTR</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_PERF_DATES.csv</td><td>REF_PFG_HIST_RTN</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | DM_DFS_PORT_GROUPS</td><td>Data - Portfolios Groups Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_PORTFOLIO_GROUPS</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | DM_DFS_PORTFOLIOS</td><td>Data - Portfolios Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_PORTFOLIOS</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | DM_DFS_REAL_BNK_ACT</td><td>Data - Real Bank Accounts Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_REAL_BNK_AC</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | DM_DFS_REALMARGIN_AC</td><td>Data - Real Margin Accounts Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_REAL_MARGIN_AC</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | DM_REF_MPPORT</td><td>Data - Model Portfolio To Portfolio Link</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_MPPORT</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | PERF_CB_FUND_LOAD</td><td>Perf - Cash Bucket (Normal) Load - Funds</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_SETUP_FUND</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | PERF_CB_LOAD_CLIENT</td><td>Perf - Cash Bucket (Normal) Load - Client</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_SETUP_CLIENT</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | PERF_CB_LOAD_FUND_MA</td><td>Perf - Cash Bucket (Normal) Load - Fund Margin</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CB_SETUP_FUND_MAR</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | PERF_CI_LOAD_CLIENT</td><td>Perf - Cash Bucket (Interim) Load - Client</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CI_SETUP_CLIENT</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a> | PERF_CI_LOAD_FUND</td><td>Perf - Cash Bucket (Interim) Load - Fund</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>CI_SETUP_FUND</td><td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_SMF.html">DM_REF_SMF</a> | DM_DFS_SMF_ALM</td><td>Data - Import of ALMs SMF</td><td>DFS_SMF_ALM</td><td>Interfaces\In\Direct\SMF\SMF_ALM_*</td><td>SMF_ALM</td><td>PROD/Triggered_Plans/DM_REF_SMF_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_SMF.html">DM_REF_SMF</a> | DM_DFS_SMF_EQUITIESN</td><td>Data - Import of Equities SMF</td><td>DFS_SMF_EQUITI_N</td><td>In\Direct\SMF\SMF_EQUITIES_*.csv</td><td>SMF_EQUITIES_N</td><td>PROD/Triggered_Plans/DM_REF_SMF_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_SMF.html">DM_REF_SMF</a> | DM_DFS_SMF_EQUITIESU</td><td>Data - Import of Equities SMF</td><td>DFS_SMF_EQUITI_U</td><td>In\Direct\SMF\SMF_EQUITIES_*.csv</td><td>SMF_EQUITIES_U</td><td>PROD/Triggered_Plans/DM_REF_SMF_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_SMF.html">DM_REF_SMF</a> | DM_DFS_SMF_FUND_CRTN</td><td>Data - Import of Fund Certificates SMF</td><td>DFS_SMF_FUND_C_N</td><td>In\Direct\SMF\SMF_FUND_CERTS*.csv</td><td>SMF_FUND_CERTS_N</td><td>PROD/Triggered_Plans/DM_REF_SMF_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_SMF.html">DM_REF_SMF</a> | DM_DFS_SMF_FUND_CRTU</td><td>Data - Import of Fund Certificates SMF</td><td>DFS_SMF_FUND_C_U</td><td>In\Direct\SMF\SMF_FUND_CERTS*.csv</td><td>SMF_FUND_CERTS_U</td><td>PROD/Triggered_Plans/DM_REF_SMF_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_SMF.html">DM_REF_SMF</a> | DM_DFS_SMF_FXFWD</td><td>Data - Update of FX</td><td>DFS_SMF_FXFWD</td><td>In\Direct\SMF\SMF_FXFWD_*.csv</td><td>SMF_FXFWD</td><td>PROD/Triggered_Plans/DM_REF_SMF_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_SMF.html">DM_REF_SMF</a> | DM_DFS_SMF_GDR_ADR_N</td><td>Data - Import of GDR\ADRs SMF</td><td>DFS_SMF_GDR_ADRN</td><td>In\Direct\SMF\SMF_GDR_ADR*.csv</td><td>SMF_GDR_ADR_N</td><td>PROD/Triggered_Plans/DM_REF_SMF_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_SMF.html">DM_REF_SMF</a> | DM_DFS_SMF_GDR_ADR_U</td><td>Data - Import of GDR\ADRs SMF</td><td>DFS_SMF_GDR_ADRU</td><td>In\Direct\SMF\SMF_GDR_ADR*.csv</td><td>SMF_GDR_ADR_U</td><td>PROD/Triggered_Plans/DM_REF_SMF_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_SMF.html">DM_REF_SMF</a> | DM_DFS_SMF_INDXSEC_N</td><td>Data - Import of Index Securities</td><td>DFS_SMF_INDXSECN</td><td>In\Direct\SMF\SMF_IND_SEC*.csv</td><td>SMF_IND_SEC_N</td><td>PROD/Triggered_Plans/DM_REF_SMF_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_SMF.html">DM_REF_SMF</a> | DM_DFS_SMF_INDXSEC_U</td><td>Data - Import of Index Securities</td><td>DFS_SMF_INDXSECU</td><td>In\Direct\SMF\SMF_IND_SEC*.csv</td><td>SMF_IND_SEC_U</td><td>PROD/Triggered_Plans/DM_REF_SMF_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_SMF.html">DM_REF_SMF</a> | DM_DFS_SMF_WARRANTSN</td><td>Data - Import of Warrants SMF</td><td>DFS_SMF_WARR_N</td><td>In\Direct\SMF\SMF_WARRANTS*.csv</td><td>SMF_WARRANTS_N</td><td>PROD/Triggered_Plans/DM_REF_SMF_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_SMF.html">DM_REF_SMF</a> | DM_DFS_SMF_WARRANTSU</td><td>Data - Import of Warrants SMF</td><td>DFS_SMF_WARR_U</td><td>In\Direct\SMF\SMF_WARRANTS*.csv</td><td>SMF_WARRANTS_U</td><td>PROD/Triggered_Plans/DM_REF_SMF_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_USERS.html">DM_REF_USERS</a> | DM_DFS_REF_USER_PRF</td><td>Data - Map Profiles to Users</td><td>DFS_REF_USERS</td><td>ReferenceData\REF_USERS.csv</td><td>REF_USER_PROFILES</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_USERS.html">DM_REF_USERS</a> | DM_DFS_REF_USERS</td><td>Data - Import Users</td><td>DFS_REF_USERS</td><td>ReferenceData\REF_USERS.csv</td><td>REF_USERS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\EOY_GL_PC_QC_ISS.html">EOY_GL_PC_QC_ISS</a> | EOY_DFS1</td><td>EOY_DFS1</td><td>EOY_GL_PC-QC_DFS</td><td>EOY_GL_PC-QC_ISSUES.txt</td><td>EOY_GL_PC_QC_ISS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\EOY_GL_PC_QC_ISS.html">EOY_GL_PC_QC_ISS</a> | EOY_DFS2</td><td>EOY_DFS2</td><td>EOY_GL_PC-QC2DFS</td><td>EOY_GL_PC-QC_ISSUES2.txt</td><td>EOY_GL_PC_QC_ISS2</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\EOY_GL_PC_QC_ISS.html">EOY_GL_PC_QC_ISS</a> | EOY_DFS3</td><td>EOY_DFS3</td><td>EOY_GL_PC-QC_DFS</td><td>EOY_GL_PC-QC_ISSUES.txt</td><td>EOY_GL_PC_QC_ISS3</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\EOY_GP_ALLOC.html">EOY_GP_ALLOC</a> | EOY_GP_ALLOC_GC_UNIT</td><td>EOY - GP Allocation #5 - General Cost - Unit Holder</td><td>EOY_GP_ALLC_DFS3</td><td>Interfaces\In\Manual\EOY\EOY_GP_ALLOC*</td><td>TRN_GC_GP_ALLOC_UNIT</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\EOY_GP_ALLOC.html">EOY_GP_ALLOC</a> | EOY_GP_ALLOC_GL_FUND</td><td>EOY - GP Allocation #3 - GL Fund</td><td>EOY_GP_ALLC_DFS1</td><td>Interfaces\In\Manual\EOY\EOY_GP_ALLOC*</td><td>TRN_GL_GP_ALLOC_FUND</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\EOY_GP_ALLOC.html">EOY_GP_ALLOC</a> | EOY_GP_ALLOC_GL_UNIT</td><td>EOY - GP Allocation #4 - GL Unit Holder</td><td>EOY_GP_ALLC_DFS2</td><td>Interfaces\In\Manual\EOY\EOY_GP_ALLOC*</td><td>TRN_GL_GP_ALLOC_UNIT</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\EOY_GP_ALLOC.html">EOY_GP_ALLOC</a> | EOY_GP_ALLOC_IE_FUND</td><td>EOY - GP Allocation #6 - Income Equalization - Fund</td><td>EOY_GP_ALLC_DFS4</td><td>Interfaces\In\Manual\EOY\EOY_GP_ALLOC*</td><td>TRN_IE_GP_ALLOC_FUND</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\EOY_UPDT_REF_DATA.html">EOY_UPDT_REF_DATA</a> | EOY_UPDT_FUND_DEF_FC</td><td>EOY - Fund Definitions - Update Free Codes</td><td></td><td></td><td>EOY_FUND_DEF_FREECOD</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\EOY_UPDT_REF_DATA.html">EOY_UPDT_REF_DATA</a> | EOY_UPDT_PF_FC</td><td>EOY - Portfolio - Update Free Codes</td><td></td><td></td><td>EOY_PF_UPT_FC</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\GL_CONTRIBUTION.html">GL_CONTRIBUTION</a> | GL_CONTR_IFRS_STEP4</td><td>General ledger contributions aggregation - IFRS</td><td>GL_CONTR_IFRS_R</td><td>Interfaces\In\Manual\GL_CONTRIBUTIONS_IFRS.csv</td><td>TRN_GL_CONTR_IFRS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\GL_CONTRIBUTION.html">GL_CONTRIBUTION</a> | GL_CONTR_TRXGL_STEP4</td><td>General ledger contributions aggregation - TRXGL</td><td>GL_CONTR_TRXGL_R</td><td>Interfaces\In\Manual\GL_CONTRIBUTIONS_TRXGL.csv</td><td>TRN_GL_CONTR_TRXGL</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\GL_INCOME_ALLOC.html">GL_INCOME_ALLOC</a> | GL_INCOMEALLOC_STEP4</td><td>General ledger income allocation rebooking</td><td>GL_INCOMEALLOC_R</td><td>Interfaces\In\Manual\GL_INCOME_ALLOCATION.csv</td><td>TRN_GL_INCOME_ALLOC</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\HIST_RETURN.html">HIST_RETURN</a> | HIST_RETURN</td><td>Import historical returns as a cost for Performanc</td><td>HIST_RETURN</td><td>QR_COST_TRANSACTIONS.txt</td><td>HIST_RET_IMP_PCL</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\LE_NAME_UPD.html">LE_NAME_UPD</a> | LE_FUND_CERTS</td><td>Legal entity name change for Fund Certificates</td><td>LE_FUND_CERTS</td><td>LE_FUND_CERTS.csv</td><td>LE_NAME_FUND_CERT</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\LE_NAME_UPD.html">LE_NAME_UPD</a> | LE_FUND_DEFS</td><td>Legal entity name change for Fund Definitions</td><td>LE_FUND_DEFS</td><td>LE_FUND_DEFS.csv</td><td>LE_FUND_DEFS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\LE_NAME_UPD.html">LE_NAME_UPD</a> | LE_MODEL_PORT</td><td>Legal entity name change for Model Portfolios</td><td>LE_MODEL_PORTF</td><td>LE_MODEL_PORTFOLIO.csv</td><td>LE_MODEL_PORTFOLIOS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\LE_NAME_UPD.html">LE_NAME_UPD</a> | LE_PORT_GROUPS</td><td>Legal entity name change for Portfolio Groups</td><td>LE_PORT_GROUPS</td><td>LE_PORT_GROUPS.csv</td><td>LE_PORT_GROUPS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\LE_NAME_UPD.html">LE_NAME_UPD</a> | LE_PORTFOLIOS</td><td>Legal entity name change for Portfolios</td><td>LE_PORTFOLIOS</td><td>LE_PORTFOLIOS.csv</td><td>LE_PORTFOLIOS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_ALT_INV_INC_EXP.html">MAN_ALT_INV_INC_EXP</a> | MAN_ALT_INV_INC_EXP</td><td>Administration->Alternative Investments -> Income and Expenses</td><td>DFSMANALTINV_INC</td><td>Interfaces\In\Manual\MAN_TRN_INCEXP_*.csv</td><td>TRN_ALT_IN_INC_EXP</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_BOOK_CORR.html">MAN_BOOK_CORR</a> | MAN_BOOK_CORR</td><td>Manual Import of Book Value Corrections</td><td>MAN_TRN_BOOK_COR</td><td>In\Manual\Transactions\MAN_BOOK_CORR*.csv</td><td>TRN_BOOK_CORR</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_CAPEV_PCL.html">MAN_CAPEV_PCL</a> | MAN_CAPEV_PCL</td><td>Transactions - Capital Events Manual Import PCL</td><td>MAN_CAPEV_PCL</td><td>In\Manual\Manual_capital_event_*.csv</td><td>MAN_CAPEV_PCL</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_EXT_CL_TRD.html">MAN_EXT_CL_TRD</a> | MAN_EXT_CL_CTRD</td><td>Manual External Client Trades - Cancelled Trades</td><td>DFS_MAN_EXT_CTRD</td><td>In\Manual\Transactions\MAN_TRN*.csv</td><td>TRN_EXT_CL_CTRD</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_EXT_CL_TRD.html">MAN_EXT_CL_TRD</a> | MAN_EXT_CL_TRD</td><td>Manual External Client Trades - Active Trades</td><td>DFS_MAN_EXT_TRD</td><td>In\Manual\Transactions\MAN_TRN*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_FNDSVC_PCL.html">MAN_FNDSVC_PCL</a> | MAN_FNDSVC_PCL</td><td>Transactions - Fund Servce Cost Manual Import PCL</td><td>MAN_FNDSVC_PCL</td><td>In\Manual\Fund_service_cost_*.csv</td><td>MAN_FNDSVC_PCL</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_FORMULA_VALUE.html">MAN_FORMULA_VALUE</a> | MAN_DIST_FV</td><td>Manual: Distribution Formula value - Import</td><td>MAN_DIST_FV</td><td>Interfaces\In\Manual\MANUAL_DIST_FV.csv</td><td>MANUAL_FORMULA_VALUE</td><td>PROD/Triggered_Plans/MAN_FORMULA_VALUE</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_FORMULA_VALUE.html">MAN_FORMULA_VALUE</a> | MAN_DIST_FV</td><td>Manual: Distribution Formula value - Import</td><td>MAN_DIST_FV</td><td>Interfaces\In\Manual\MANUAL_DIST_FV.csv</td><td>MANUAL_FORMULA_VALUE</td><td>PROD/Triggered_Plans/MAN_FORMULA_VALUE</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_FORMULA_VALUE.html">MAN_FORMULA_VALUE</a> | MAN_DIST_FV</td><td>Manual: Distribution Formula value - Import</td><td>MAN_DIST_FV</td><td>Interfaces\In\Manual\MANUAL_DIST_FV.csv</td><td>MANUAL_FORMULA_VALUE</td><td>PROD/Triggered_Plans/MAN_FORMULA_VALUE</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_FORMULA_VALUE.html">MAN_FORMULA_VALUE</a> | MAN_FEE_TOL_FV</td><td>Manual: Fee Tolerance Formula value - Import</td><td>MAN_FEE_TOL_FV</td><td>Interfaces\In\Manual\MANUAL_FEE_TOLERANCE_FV.csv</td><td>MANUAL_FORMULA_VALUE</td><td>PROD/Triggered_Plans/MAN_FORMULA_VALUE</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_FORMULA_VALUE.html">MAN_FORMULA_VALUE</a> | MAN_FEE_TOL_FV</td><td>Manual: Fee Tolerance Formula value - Import</td><td>MAN_FEE_TOL_FV</td><td>Interfaces\In\Manual\MANUAL_FEE_TOLERANCE_FV.csv</td><td>MANUAL_FORMULA_VALUE</td><td>PROD/Triggered_Plans/MAN_FORMULA_VALUE</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_FORMULA_VALUE.html">MAN_FORMULA_VALUE</a> | MAN_FEE_TOL_FV</td><td>Manual: Fee Tolerance Formula value - Import</td><td>MAN_FEE_TOL_FV</td><td>Interfaces\In\Manual\MANUAL_FEE_TOLERANCE_FV.csv</td><td>MANUAL_FORMULA_VALUE</td><td>PROD/Triggered_Plans/MAN_FORMULA_VALUE</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_ILLIQUID_PRICE.html">MAN_ILLIQUID_PRICE</a> | MAN_DFS_ALT_INV_MV</td><td>Data - Alternative Investments Market Value and Quotes</td><td>MAN_ALT_INV_MV</td><td>\bcidevnas01tr1\BCID1\ActiveData\Interfaces\InManualMAN_MKT_MV_QUOTES_*.csv</td><td>MKT_ALT_INV_MV</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_ILLIQUID_PRICE.html">MAN_ILLIQUID_PRICE</a> | MAN_DFS_PD_PRICE</td><td>Data - Import of PD Prices</td><td>MAN_DFS_PD_PRICE</td><td>\bcidevnas01tr1\BCID1\ActiveData\Interfaces\InManualMAN_DFS_PD_PRICE_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_LF_EVENTS.html">MAN_LF_EVENTS</a> | MAN_LF_CONTRACTS_IMP</td><td>Loan Facilities - Contracts - Import - Manual</td><td>MAN_LF_CONTRACTS</td><td>In\Manual\TRN_LF_CONTRACTS*.csv</td><td>TRN_LF_CONTRACTS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_LF_EVENTS.html">MAN_LF_EVENTS</a> | MAN_LF_EVENTS_IMP</td><td>Loan Facilities - Events - Import - Manual</td><td>MAN_LF_EVENTS</td><td>In\Manual\TRN_LF_EVENTS*.csv</td><td>TRN_LF_EVENTS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_LF_PAYDOWNS.html">MAN_LF_PAYDOWNS</a> | MAN_LF_CONTRACTS_IMP</td><td>Loan Facilities - Contracts - Import - Manual</td><td>MAN_LF_CONTRACTS</td><td>In\Manual\TRN_LF_CONTRACTS*.csv</td><td>TRN_LF_CONTRACTS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_LF_PAYDOWNS.html">MAN_LF_PAYDOWNS</a> | MAN_LF_PAYDOWNS_IMP</td><td>Loan Facilities - Paydowns - Import - Manual</td><td>MAN_LF_PAYDOWNS</td><td>In\Manual\TRN_LF_PAYDOWNS*.csv</td><td>TRN_LF_PAYDOWNS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_LF_TRADES.html">MAN_LF_TRADES</a> | MAN_LF_SETTLE_IMP</td><td>Loan Facilities - Settle Loan Facilities - Import - Manual</td><td>MAN_LF_SETTLE</td><td>In\Manual\TRN_LF_TRADES*.csv</td><td>TRN_LF_SETTLE</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_LF_TRADES.html">MAN_LF_TRADES</a> | MAN_LF_TRADES_C_IMP</td><td>Loan Facilities - Trade Manager Trades - Cancel - Manual</td><td>TRN_LF_TRADES_C</td><td>In\SFTP\Transactions\TRN_LF_TRADES*.csv</td><td>TRN_LF_TRADES_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_LF_TRADES.html">MAN_LF_TRADES</a> | MAN_LF_TRADES_IMP</td><td>Loan Facilities - Trade Manager Trades - Import - Manual</td><td>TRN_LF_TRADES</td><td>In\SFTP\Transactions\TRN_LF_TRADES*.csv</td><td>TRN_LF_TRADES</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_QUADREAL.html">MAN_QUADREAL</a> | MAN_QUADREAL_IMP</td><td>Manual: QuadReal - Import</td><td>MANUAL_QUADREAL</td><td>In\Manual\QUADREAL*.csv</td><td>TRN_GL_QUADREAL</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_SBB_O.html">MAN_SBB_O</a> | MAN_SBB_O</td><td>TM Sell Buy Back import</td><td>DFS_TRN_SBB_O</td><td>In\Direct\Transactions\TRN_SBBACK*.csv</td><td>TRN_SBB_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CAP_EVENTS.html">MAN_TRN_CAP_EVENTS</a> | MAN_TRN_CAP_EVENTS</td><td>Transactions - Capital Events Manual Import</td><td>MAN_TRN_CAP_EV</td><td>Interfaces\In\Manual\Manual_capital_event*.csv</td><td>MAN_TRN_CAP_EVENTS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CAP_PAY.html">MAN_TRN_CAP_PAY</a> | MAN_TRN_CAP_PAY</td><td>IO Import of External Data Alt. Invest. Capital Payments</td><td>DFS_MTRN_CAP_MF</td><td>In\Manual\TRN_CAPPAY*.csv</td><td>TRN_CAP_PAY</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CCA.html">MAN_TRN_CCA</a> | DM_DFS_TRN_CCA_MN</td><td>Charge/Credit ALM - Active - manual</td><td>DFS_CASH_CCA_MN</td><td>Interfaces\In\Manual\TRN_ALM_CCA_*</td><td>TRN_CH_CR_ALM_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CCA.html">MAN_TRN_CCA</a> | DM_DFS_TRN_CCA_MU</td><td>Charge/Credit ALM - Cancel - Manual</td><td>DFS_CASH_CCA_MU</td><td>Interfaces\In\Manual\TRN_ALM_CCA_*</td><td>TRN_CH_CR_ALM_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CDS_IDX.html">MAN_TRN_CDS_IDX</a> | DM_CDS_IDX_DEF_M</td><td>SMF - CDS Index Definition - Manual</td><td>SMF_CDS_IDX_DEFM</td><td>In\Manual\Transactions\TRN_CDX_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CDS_IDX.html">MAN_TRN_CDS_IDX</a> | DM_CDS_IDX_M</td><td>SMF - Credit Default Swap Index - Manual</td><td>SMF_CDS_IDX_M</td><td>In\Manual\Transactions\TRN_CDX_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CDS_IDX.html">MAN_TRN_CDS_IDX</a> | DM_CDS_IDX_REF_M</td><td>SMF - CDS Index Reference Entities - Manual</td><td>SMF_CDS_IDX_REFM</td><td>In\Manual\Transactions\TRN_CDX_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CDS_IDX.html">MAN_TRN_CDS_IDX</a> | DM_CDS_IDX_TRM_M</td><td>SMF - CDS Index Standard Terms - Manual</td><td>SMF_CDS_IDX_TRMM</td><td>In\Manual\Transactions\TRN_CDX_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CDS_IDX.html">MAN_TRN_CDS_IDX</a> | MKT_CDS_IDX_PRC_M</td><td>MKT - CDS Index Save Traded Price - Manual</td><td>MKT_CDS_IDX_PRCM</td><td>In\Manual\Transactions\TRN_CDX_*.csv</td><td>CDS_TRD_PRICE</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CDS_IDX.html">MAN_TRN_CDS_IDX</a> | TRN_CDS_IDX_O_M</td><td>Import of CDS Index to APL - Open - Manual</td><td>TRN_CDS_IDX_O_M</td><td>In\Manual\Transactions\TRN_CDX_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CDS_OPT.html">MAN_TRN_CDS_OPT</a> | DM_CDS_IDX_OPT_M</td><td>SMF - Credit Default Index Swaption - Manual</td><td>SMF_CDS_IX_OPT_M</td><td>In\Manual\Transactions\TRN_CDXOPT_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CDS_OPT.html">MAN_TRN_CDS_OPT</a> | DM_CDSO_IDX_DEF_M</td><td>SMF - CDS Option Index Definition - Manual</td><td>SMF_CDSO_IX_DEFM</td><td>In\Manual\Transactions\TRN_CDXOPT_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CDS_OPT.html">MAN_TRN_CDS_OPT</a> | DM_CDSO_IDX_M</td><td>SMF - Credit Default Swaption Index Swap - Manual</td><td>SMF_CDSO_IDX_M</td><td>In\Manual\Transactions\TRN_CDXOPT_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CDS_OPT.html">MAN_TRN_CDS_OPT</a> | DM_CDSO_IDX_REF_M</td><td>SMF - CDS Option Index Reference Entities - Manual</td><td>SMF_CDSO_IX_REFM</td><td>In\Manual\Transactions\TRN_CDXOPT_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CDS_OPT.html">MAN_TRN_CDS_OPT</a> | DM_CDSO_IDX_TRM_M</td><td>SMF - CDS Option Index Standard Terms - Manual</td><td>SMF_CDSO_IX_TRMM</td><td>In\Manual\Transactions\TRN_CDXOPT_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_CDS_OPT.html">MAN_TRN_CDS_OPT</a> | TRN_CDS_IDX_OPT_O_M</td><td>Import of Credit Default Index Swaption to APL - Open - Manual</td><td>TRN_CDS_IX_OPT_M</td><td>In\Manual\Transactions\TRN_CDXOPT_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_DIV_SWAP.html">MAN_TRN_DIV_SWAP</a> | TRN_DIVSWAP_O_M</td><td>Manual Import of OTC Dividend Swap-Open</td><td>TRN_DIVSWAP_O_M</td><td>In\Manual\Transactions\TRN_DIVIDENDSWAP_*.csv</td><td>TRN_DIV_SWAP_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_DIV_SWAP.html">MAN_TRN_DIV_SWAP</a> | TRN_DIVSWP_FIX_M</td><td>Manual Import of Fixing Date StdContract Quote</td><td>TRN_DIVSWP_FIX_M</td><td>In\Manual\Transactions\TRN_DIVIDENDSWAP_*.csv</td><td>TRN_DIV_SWAP_FIX</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_DIVIDENDS.html">MAN_TRN_DIVIDENDS</a> | DM_MAN_TRN_DIV_CANC</td><td>Dividend Transaction Cancelled</td><td>DFS_TRN_DIV_CAN</td><td>Interfaces\In\Manual\Transactions\TRN_DIVIDENDS_*</td><td>TRN_DIVIDENDS_CAN</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_DIVIDENDS.html">MAN_TRN_DIVIDENDS</a> | MAN_TRN_DIVIDEND</td><td>Import dividend transactions - Manual</td><td>DFS_TRN_DIV_MN</td><td>Interfaces\In\Manual\Transactions\TRN_DIVIDENDS_*</td><td>TRN_DIVIDENDS_MN</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_FUT.html">MAN_TRN_FUT</a> | MAN_SMF_FUT</td><td>Import of Security Master Futures to APL</td><td>DFS_MAN_SMF_FUT</td><td>In\Manual\SMF_FUTURES_*.csv</td><td>SMF_FUT</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_FUT.html">MAN_TRN_FUT</a> | MAN_TRN_FUT</td><td>Import of Futures to APL</td><td>DFS_MAN_TRN_FUT</td><td>In\Manual\TRN_FUT_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_IRS_BASIS.html">MAN_TRN_IRS_BASIS</a> | MAN_TRN_IRS_BASIS_C</td><td>Manual Import of IRS Basis to TM - Close</td><td>MAN_IRS_BASIS_C</td><td>In\Manual\Transactions\TRN_IRSBASIS_*.csv</td><td>TRN_IRS_BASIS_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_IRS_BASIS.html">MAN_TRN_IRS_BASIS</a> | MAN_TRN_IRS_BASIS_O</td><td>Manual Import of IRS Basis to TM - Open</td><td>MAN_IRS_BASIS_O</td><td>In\Manual\Transactions\TRN_IRSBASIS_*.csv</td><td>TRN_IRS_BASIS_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_IRS_BASIS.html">MAN_TRN_IRS_BASIS</a> | MAN_TRN_TRS_BASIS_N</td><td>Manual Import of IRS Basis to TM - Novation</td><td>MAN_IRS_BASIS_N</td><td>In\Manual\Transactions\TRN_IRSBASIS_*.csv</td><td>TRN_IRS_BASIS_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_IRS_FI_FL.html">MAN_TRN_IRS_FI_FL</a> | MAN_TRN_IRS_FI_FL_C</td><td>Manual Import of IRS Fix/Float to TM - Close</td><td>MAN_IRS_FI_FL_C</td><td>In\Manual\Transactions\TRN_IRSFIXFLOAT_*.csv</td><td>TRN_IRS_FI_FL_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_IRS_FI_FL.html">MAN_TRN_IRS_FI_FL</a> | MAN_TRN_IRS_FI_FL_N</td><td>Manual Import of IRS Fix/Float to TM - Novation</td><td>MAN_IRS_FI_FL_N</td><td>In\Manual\Transactions\TRN_IRSFIXFLOAT_*.csv</td><td>TRN_IRS_FI_FL_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_IRS_FI_FL.html">MAN_TRN_IRS_FI_FL</a> | MAN_TRN_IRS_FI_FL_O</td><td>Manual Import of IRS Fix/Float to TM - Open</td><td>MAN_IRS_FI_FL_O</td><td>In\Manual\Transactions\TRN_IRSFIXFLOAT_*.csv</td><td>TRN_IRS_FI_FL_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_IRS_OIS_FI.html">MAN_TRN_IRS_OIS_FI</a> | MAN_TRN_IRS_OIS_FI_C</td><td>Manual Import of IRS OIS-Fixed to TM - Close</td><td>MAN_IRS_OIS_FI_C</td><td>In\Manual\Transactions\TRN_IRSOISFIX_*.csv</td><td>TRN_IRS_OIS_FI_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_IRS_OIS_FI.html">MAN_TRN_IRS_OIS_FI</a> | MAN_TRN_IRS_OIS_FI_N</td><td>Manual Import of IRS OIS-Fixed to TM - Novation</td><td>MAN_IRS_OIS_FI_N</td><td>In\Manual\Transactions\TRN_IRSOISFIX_*.csv</td><td>TRN_IRS_OIS_FI_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_IRS_OIS_FI.html">MAN_TRN_IRS_OIS_FI</a> | MAN_TRN_IRS_OIS_FI_O</td><td>Manual Import of IRS OIS-Fixed to TM - Open</td><td>MAN_IRS_OIS_FI_O</td><td>In\Manual\Transactions\TRN_IRSOISFIX_*.csv</td><td>TRN_IRS_OIS_FI_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_IRS_OIS_FL.html">MAN_TRN_IRS_OIS_FL</a> | MAN_TRN_IRS_OIS_FL_C</td><td>Manual Import of IRS OIS-Float to TM - Close</td><td>MAN_IRS_OIS_FL_C</td><td>In\Manual\Transactions\TRN_IRSOISFLOAT_*.csv</td><td>TRN_IRS_OIS_FL_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_IRS_OIS_FL.html">MAN_TRN_IRS_OIS_FL</a> | MAN_TRN_IRS_OIS_FL_N</td><td>Manual Import of IRS OIS-Float to TM - Novation</td><td>MAN_IRS_OIS_FL_N</td><td>In\Manual\Transactions\TRN_IRSOISFLOAT_*.csv</td><td>TRN_IRS_OIS_FL_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_IRS_OIS_FL.html">MAN_TRN_IRS_OIS_FL</a> | MAN_TRN_IRS_OIS_FL_O</td><td>Manual Import of IRS OIS-Float to TM - Open</td><td>MAN_IRS_OIS_FL_O</td><td>In\Manual\Transactions\TRN_IRSOISFLOAT_*.csv</td><td>TRN_IRS_OIS_FL_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_MM_FINTRANS.html">MAN_TRN_MM_FINTRANS</a> | MAN_TRN_MM_FINTRANS</td><td>TRN: General ledger Multi Manual FINTRANS</td><td>TRN_GL_MFINTRANS</td><td>TRN_GL_MM_FINTRANS*.csv</td><td>MAN_TRN_MM_FINTRANS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_OTC_OPT.html">MAN_TRN_OTC_OPT</a> | MAN_SMF_OTC_OPT</td><td>Manual Import of Security Master OTC Option to APL</td><td>MAN_SMF_OTC_OPT</td><td>In\Manual\SMF\SMF_OTC_OPTIONS_*.csv</td><td>SMF_OTC_OPT</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_OTC_OPT.html">MAN_TRN_OTC_OPT</a> | MAN_TRN_OTC_OPT</td><td>Manual Import of OTC Option to APL</td><td>MAN_TRN_OTC_OPT</td><td>In\Manual\Transactions\TRN_OTC_OPTION_*.csv</td><td>TRN_OTC_OPT</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_P_OVERLAY.html">MAN_TRN_P_OVERLAY</a> | MAN_TRN_OVERLAY_EXCL</td><td>Manual Transactions - External Clients Trades - Performance Overlay</td><td>MAN_TRN_OL_EXCL</td><td>In\Manual\Transactions\MAN_PH_OVERLAY_EXT_CL_TRD_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_P_OVERLAY.html">MAN_TRN_P_OVERLAY</a> | MAN_TRN_OVERLAY_GECO</td><td>Manual Transactions - GenCost - Performance Overlay</td><td>MAN_TRN_OL_GENCO</td><td>In\Manual\Transactions\MAN_PH_OVERLAY_GEN_COST_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_REPO.html">MAN_TRN_REPO</a> | MAN_REPO_ALL_C</td><td>TM repos import (all repo_rate types) Close</td><td>TRN_REPO_ALL_C</td><td>In\Direct\Transactions\TRN_FLSREPO_*.csv</td><td>TRN_REPO_ALL_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_REPO.html">MAN_TRN_REPO</a> | MAN_REPO_FIX_O</td><td>TM repos import (repo_rate = fixed) Open</td><td>TRN_REPO_FIX_O</td><td>In\Direct\Transactions\TRN_FLSREPO_*.csv</td><td>TRN_REPO_FIX_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_REPO.html">MAN_TRN_REPO</a> | MAN_REPO_FL_O</td><td>TM repos import (repo_rate = floating) Open</td><td>TRN_REPO_FL_O</td><td>In\Direct\Transactions\TRN_FLSREPO_*.csv</td><td>TRN_REPO_FL_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_REPO.html">MAN_TRN_REPO</a> | MAN_REPO_VAR_O</td><td>TM repos import (repo_rate = variable) Open</td><td>TRN_REPO_VAR_O</td><td>In\Direct\Transactions\TRN_FLSREPO_*.csv</td><td>TRN_REPO_VAR_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_SECID_UPD.html">MAN_TRN_SECID_UPD</a> | MAN_TRN_DEP_SEC_UPD</td><td>Trade Manager Deposits - Update trade Alt Sec ID - Manual</td><td>MAN_DEP_SEC_UPD</td><td>In\Manual\UPD_TRN_DEP*.csv</td><td>TRN_DEP_SECID_UPD</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_SECID_UPD.html">MAN_TRN_SECID_UPD</a> | MAN_TRN_REPO_SEC_UPD</td><td>Trade Manager Repo - Update trade Alt Sec ID - Manual</td><td>TRN_REPO_SEC_UPD</td><td>In\Direct\Transactions\UPD_TRN_REPO*.csv</td><td>TRN_REPO_SECID_UPD</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_SECID_UPD.html">MAN_TRN_SECID_UPD</a> | MAN_TRN_SBB_SEC_UPD</td><td>Trade Manager SBB - Update trade Alt Sec ID - Manual</td><td>TRN_SBB_SEC_UPD</td><td>In\Direct\Transactions\UPD_TRN_SBBACK*.csv</td><td>TRN_SBB_SECID_UPD</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_SETTD.html">MAN_TRN_SETTD</a> | DM_DFS_TRN_SETTD_MN</td><td>Settle Debt/Receivables - Active - manual</td><td>DFS_CASH_SETT_MN</td><td>Interfaces\In\Manual\TRN_ALM_SETTD_*</td><td>TRN_SET_DEBT_RECV_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_SETTD.html">MAN_TRN_SETTD</a> | DM_DFS_TRN_SETTD_MU</td><td>Settle Debt/Receivables - Cancel - Manual</td><td>DFS_CASH_SETT_MU</td><td>Interfaces\In\Manual\TRN_ALM_SETTD_*</td><td>TRN_SET_DEBT_RECV_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_SWAPTION.html">MAN_TRN_SWAPTION</a> | TRN_SWAPTION_O_M</td><td>Import of OTC Vanilla Swaption to TM - Open - Manual</td><td>TRN_SWAPTION_O_M</td><td>In\Manual\Transactions\TRN_SWAPTION_*.csv</td><td>TRN_SWAPTION_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_TRS.html">MAN_TRN_TRS</a> | MAN_TRN_TRSE_C</td><td>Manual Import of TRS (Equity) to TM - Close</td><td>MAN_TRN_TRSE_C</td><td>In\Manual\Transactions\TRN_TRSWAP_*.csv</td><td>TRN_TRSE_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_TRS.html">MAN_TRN_TRS</a> | MAN_TRN_TRSE_N</td><td>Manual Import of TRS (Equity) to TM - Novation</td><td>MAN_TRN_TRSE_N</td><td>In\Manual\Transactions\TRN_TRSWAP_*.csv</td><td>TRN_TRSE_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_TRS.html">MAN_TRN_TRS</a> | MAN_TRN_TRSE_O</td><td>Manual Import of TRS (Equity) to TM - Open</td><td>MAN_TRN_TRSE_O</td><td>In\Manual\Transactions\TRN_TRSWAP_*.csv</td><td>TRN_TRSE_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_TRS.html">MAN_TRN_TRS</a> | MAN_TRN_TRSI_C</td><td>Manual Import of TRS (Index) to TM - Close</td><td>MAN_TRN_TRSI_C</td><td>In\Manual\Transactions\TRN_TRSWAP_*.csv</td><td>TRN_TRSI_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_TRS.html">MAN_TRN_TRS</a> | MAN_TRN_TRSI_N</td><td>Manual Import of TRS (Index) to TM - Novation</td><td>MAN_TRN_TRSI_N</td><td>In\Manual\Transactions\TRN_TRSWAP_*.csv</td><td>TRN_TRSI_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MAN_TRN_TRS.html">MAN_TRN_TRS</a> | MAN_TRN_TRSI_O</td><td>Manual Import of TRS (Index) to TM - Open</td><td>MAN_TRN_TRSI_O</td><td>In\Manual\Transactions\TRN_TRSWAP_*.csv</td><td>TRN_TRSI_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MANUAL_QUOTE.html">MANUAL_QUOTE</a> | DM_DFS_MKT_STD_C_MAN</td><td>Data - Manual Import of Standard Contract Quotes</td><td>MANUA_MKT_STCTQT</td><td>In\Manual\MANUAL_STD_CONTRACT_QUOTES.csv</td><td>MANUAL_STD_CTRT_QT</td><td>PROD/Triggered_Plans/MANUAL_QUOTE</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MANUAL_QUOTE.html">MANUAL_QUOTE</a> | DM_DFS_MKT_STD_C_MAN</td><td>Data - Manual Import of Standard Contract Quotes</td><td>MANUA_MKT_STCTQT</td><td>In\Manual\MANUAL_STD_CONTRACT_QUOTES.csv</td><td>MANUAL_STD_CTRT_QT</td><td>PROD/Triggered_Plans/MANUAL_QUOTE</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\MANUAL_QUOTE.html">MANUAL_QUOTE</a> | DM_DFS_MKT_STD_C_MAN</td><td>Data - Manual Import of Standard Contract Quotes</td><td>MANUA_MKT_STCTQT</td><td>In\Manual\MANUAL_STD_CONTRACT_QUOTES.csv</td><td>MANUAL_STD_CTRT_QT</td><td>PROD/Triggered_Plans/MANUAL_QUOTE</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\P_SAAM.html">P_SAAM</a> | P_SAAM</td><td>P_SAAM</td><td></td><td></td><td>P_SAAM_V2</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_BM_CL_SETUP.html">PERF_BM_CL_SETUP</a> | PERF_BM_CL_SETUP</td><td>Performance: Setup Constituent Level Benchmark Def</td><td>PE_BM_CL_IMP</td><td>Interfaces\In\Direct\IndexData\InitialSetup\</td><td>PERF_BM_CL_SETUP</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_CLASS_SETUP.html">PERF_CLASS_SETUP</a> | PERF_FTSE_DEX_BIC2</td><td>FTSE/DEX Classification Level 2</td><td></td><td></td><td>PERF_FTSE_DEX_BIC2</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_CLASS_SETUP.html">PERF_CLASS_SETUP</a> | PERF_FTSE_DEX_BIC3</td><td>FTSE/DEX Classification Level 3</td><td></td><td></td><td>PERF_FTSE_DEX_BIC3</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_CLASS_SETUP.html">PERF_CLASS_SETUP</a> | PERF_FTSE_DEX_BIC4</td><td>FTSE/DEX Classification Level 4</td><td></td><td></td><td>PERF_FTSE_DEX_BIC4</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_CLASS_SETUP.html">PERF_CLASS_SETUP</a> | PERF_FTSE_DEX_BIC5</td><td>FTSE/DEX Classification Level 5</td><td></td><td></td><td>PERF_FTSE_DEX_BIC5</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_CLASS_SETUP.html">PERF_CLASS_SETUP</a> | PERF_FTSE_DEX_CLASS</td><td>FTSE/DEX Classification Setup</td><td></td><td></td><td>PERF_FTSE_DEX_CLASS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_EXTRACT_UPD.html">PERF_EXTRACT_UPD</a> | PERF_SIPPUPD_MU5030</td><td>PERF_SIPPUPD_MU5030</td><td>SIPP_1</td><td>tmp\PERF_MUNICIPAL_01_*.csv</td><td>PERF_SIPPUPD</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_EXTRACT_UPD.html">PERF_EXTRACT_UPD</a> | PERF_SIPPUPD_TE5040</td><td>P_SAAM_PERF_SIPP_UPDATE_Teachers</td><td>SIPP_TE5040</td><td>tmp\PERF_TEACHERS_TE5040_*.csv</td><td>PERF_SIPPUPD</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_EXTRACT_UPD.html">PERF_EXTRACT_UPD</a> | PERF_SIPPUPD_WC5030</td><td>P_SAAM - PERF_SIPP_UPDATE_SAAM_WSAFE_2G_WC50RR</td><td>SIPP_2</td><td>tmp\PERF_WSAFE_02_*.csv</td><td>PERF_SIPPUPD</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_HIST_ATT_67.html">PERF_HIST_ATT_67</a> | PERF_HIST_ATTRIB_FC6</td><td>PERF_HIST_ATTRIB_FC6</td><td></td><td></td><td>PERF_HIST_ATTRIB_FC6</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_HIST_ATT_67.html">PERF_HIST_ATT_67</a> | PERF_HIST_ATTRIB_FC7</td><td>PERF_HIST_ATTRIB_FC7</td><td></td><td></td><td>PERF_HIST_ATTRIB_FC7</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_INDEX_UNIDATA.html">PERF_INDEX_UNIDATA</a> | PERF_INDEX_UNIDATA</td><td>Performance - Index Universe Data</td><td>DFS_MKT_IX_UNI</td><td>In\Direct\Market\IUNIDATA_LIST_*.csv</td><td>PERF_INDEX_UNIDATA</td><td>PROD/Triggered_Plans/PERF_INDEX_UNIDATA_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_FTSEDEX_CLA</td><td>Performance: FTSE/DEX Classification for Constituents</td><td>PE_IUD_FTSEDEX_C</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*DEX*</td><td>PERF_IUD_FTSEDEX_CLA</td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_FTSEDEX_CLA</td><td>Performance: FTSE/DEX Classification for Constituents</td><td>PE_IUD_FTSEDEX_C</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*DEX*</td><td>PERF_IUD_FTSEDEX_CLA</td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_FTSEDEX_CLA</td><td>Performance: FTSE/DEX Classification for Constituents</td><td>PE_IUD_FTSEDEX_C</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*DEX*</td><td>PERF_IUD_FTSEDEX_CLA</td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_FTSEDEX_IUD</td><td>Performance: Index Univere Data for FTSE/DEX</td><td>PE_IUD_FTSEDEX_I</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*DEX*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_FTSEDEX_IUD</td><td>Performance: Index Univere Data for FTSE/DEX</td><td>PE_IUD_FTSEDEX_I</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*DEX*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_FTSEDEX_IUD</td><td>Performance: Index Univere Data for FTSE/DEX</td><td>PE_IUD_FTSEDEX_I</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*DEX*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_FTSEDEX_KR</td><td>Performance: FTSE/DEX Key Ratios</td><td>PE_IUD_FTSEDEX_K</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*DEX*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_FTSEDEX_KR</td><td>Performance: FTSE/DEX Key Ratios</td><td>PE_IUD_FTSEDEX_K</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*DEX*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_FTSEDEX_KR</td><td>Performance: FTSE/DEX Key Ratios</td><td>PE_IUD_FTSEDEX_K</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*DEX*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_MSCI_ACWI</td><td>Performance: Index Univere Data for MSCI_ACWI_LOC</td><td>PE_IUD_MSCI_ACWI</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*MSCIACWI*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_MSCI_ACWI</td><td>Performance: Index Univere Data for MSCI_ACWI_LOC</td><td>PE_IUD_MSCI_ACWI</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*MSCIACWI*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_MSCI_ACWI</td><td>Performance: Index Univere Data for MSCI_ACWI_LOC</td><td>PE_IUD_MSCI_ACWI</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*MSCIACWI*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_MSCI_CHINA</td><td>Performance: Index Univere Data for MSCI_CHINA_A_L</td><td>PE_IUD_MSCI_CN</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*MSCICHINA*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_MSCI_CHINA</td><td>Performance: Index Univere Data for MSCI_CHINA_A_L</td><td>PE_IUD_MSCI_CN</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*MSCICHINA*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_MSCI_CHINA</td><td>Performance: Index Univere Data for MSCI_CHINA_A_L</td><td>PE_IUD_MSCI_CN</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*MSCICHINA*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_MSCI_FX_RAT</td><td>Performance: Index Univere Data for MSCI FX rate</td><td>PERF_IUD_MSCI_FX</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*FX_RATES_MSCI*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_MSCI_FX_RAT</td><td>Performance: Index Univere Data for MSCI FX rate</td><td>PERF_IUD_MSCI_FX</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*FX_RATES_MSCI*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_MSCI_FX_RAT</td><td>Performance: Index Univere Data for MSCI FX rate</td><td>PERF_IUD_MSCI_FX</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*FX_RATES_MSCI*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_RUSSEL2000</td><td>Performance: Index Univere Data for RUSSEL2000</td><td>PE_IUD_RUSSELL</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*RUSSELL*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_RUSSEL2000</td><td>Performance: Index Univere Data for RUSSEL2000</td><td>PE_IUD_RUSSELL</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*RUSSELL*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_RUSSEL2000</td><td>Performance: Index Univere Data for RUSSEL2000</td><td>PE_IUD_RUSSELL</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*RUSSELL*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_S&P</td><td>Performance: Index Univere Data for S&P</td><td>PE_IUD_S&P</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*SPTSX*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_S&P</td><td>Performance: Index Univere Data for S&P</td><td>PE_IUD_S&P</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*SPTSX*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a> | PERF_IUD_S&P</td><td>Performance: Index Univere Data for S&P</td><td>PE_IUD_S&P</td><td>Interfaces\In\Direct\IndexData\IndexUniverseData\*SPTSX*</td><td></td><td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_LIAB_MP.html">PERF_LIAB_MP</a> | PERF_LIAB_MP_CREATE</td><td>Perf create liab model portfolios to be excluded</td><td>PERF_LIAB_MP</td><td>ActiveData\Configuration\Transport\ToBeProcessed\2.7.0\Perf_Liab_Excl_MPs.csv</td><td>REF_MODEL_PORTFOLIOS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_LIAB_MP.html">PERF_LIAB_MP</a> | PERF_LIAB_PFC60</td><td>Perf update PFC60</td><td></td><td></td><td>PERF_LIAB_PFC60</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_LIAB_MP.html">PERF_LIAB_MP</a> | PERF_LIAB_POR_REP_IS</td><td>Perf Add BCI_FOF reporting IS to Portfolios</td><td></td><td></td><td>PERF_LIAB_POR_REP_IS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PERF_LIAB_MP.html">PERF_LIAB_MP</a> | PERF_LIAB_SAAM</td><td>Perf import SAAMs for liability portfolios</td><td>PERF_LIAB_SAAM</td><td>ActiveData\Configuration\Transport\ToBeProcessed\2.7.0\Perf_liab_SAAM.txt</td><td>P_SAAM</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\RTA_CONFIG.html">RTA_CONFIG</a> | RTA_DELETE_TRX</td><td>DFS to Delete Transactions</td><td>RTA_DELETE_TRX</td><td>RTA_DELETE_TRX.csv</td><td>RTA_DEL</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SECURITY_DEAL_ID.html">SECURITY_DEAL_ID</a> | SECURITY_DEAL_ID_DFS</td><td>Security Deal ID DFS</td><td>DEAL_ID</td><td>SecuityDealID_.csv</td><td>SECURITY_DEAL_ID</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_BANKHOLIDAY.html">SEED_REF_BANKHOLIDAY</a> | DM_DFS_BANK_HOLIDAYS</td><td>Data - Bank Holiday Import</td><td>DFS_REF_BANK_HOL</td><td>ReferenceData\REF_BANKHOLIDAYS*.csv</td><td>REF_BANK_HOLIDAYS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_BONDS.html">SEED_REF_BONDS</a> | REF_BONDS_EDM</td><td>Import of Fixed Income Instruments - No Multiple</td><td>DFS_SMF_BONDS_ED</td><td>SMF_BONDS*.csv</td><td>SMF_BONDS_EDM</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_BONDS_SCH.html">SEED_REF_BONDS_SCH</a> | REF_B_SCHED_MULT_PC</td><td>Update Multiple interest and put/call bonds</td><td>DFS_SCHED_MLT_PC</td><td>SCHEDULES__*.csv</td><td>SCHED_BOND_MULTI_PC</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_BONDS_SCH.html">SEED_REF_BONDS_SCH</a> | REF_BONDS_FACTOR</td><td>Update Pool Factor Bonds</td><td>DFS_SCHED_BO_FCT</td><td>SCHEDULES__*.csv</td><td>SCHED_BONDS_FACTOR</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_FUNDDEFN.html">SEED_REF_FUNDDEFN</a> | DM_DFS_FUNDDEFN</td><td>Data - Fund Definition Import</td><td>DFS_REF_FD_DATA</td><td>In\Direct\ReferenceData\REF_FUND_DEFN.csv</td><td>REF_FUND_DEF</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_MKTDATA.html">SEED_REF_MKTDATA</a> | DM_DFS_MKT_FX_RATES</td><td>Data - Import of FX rates</td><td>DFS_MKT_FX_RATES</td><td>In\Direct\Market\MKT_FX_RATE*.csv</td><td>MKT_FX_RATES</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_MKTDATA.html">SEED_REF_MKTDATA</a> | DM_DFS_MKT_FX_TICS</td><td>Data - Import of Forward FX tics</td><td>DFS_MKT_FX_TICS</td><td>In\Direct\Market\MKT_FX_RATE*.csv</td><td>MKT_FX_TICS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_MKTDATA.html">SEED_REF_MKTDATA</a> | DM_DFS_MKT_PRICES</td><td>Data - Import of Prices</td><td>DFS_MKT_PRICES</td><td>In\Direct\Market\MKT_PRICES*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_MKTDATA.html">SEED_REF_MKTDATA</a> | DM_DFS_MKT_REF_RATE</td><td>Data - Import of Reference rates</td><td>DFS_MKT_REFRATES</td><td>In\Direct\Market\MKT_REFERENCE_RATES_*.csv</td><td>MKT_REF_RATES</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_MKTDATA.html">SEED_REF_MKTDATA</a> | DM_DFS_MKT_STD_CTQT</td><td>Data - Import of Standard Contract Quotes</td><td>DFS_MKT_STCTQT</td><td>In\Direct\Market\MKT_STANDARD_CONTRACT_QUOTES_*.csv</td><td>MKT_STD_CTRT_QT</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_MKTDATA.html">SEED_REF_MKTDATA</a> | DM_DFS_RPI_RATES</td><td>Data - Import of Retail Price Indices</td><td>DFS_MKT_RPI_RATE</td><td>In\Direct\Market\MKT_RPI_RATES_*.csv</td><td>MKT_RPI_RATES</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_MP.html">SEED_REF_MP</a> | DM_DFS_REF_MP</td><td>Data - Model Portfolio Import</td><td>DFS_REF_MP</td><td>In\Direct\ReferenceData\REF_MODEL_PORTFOLIOS.csv</td><td>REF_MODEL_PORTFOLIOS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_PARTIES.html">SEED_REF_PARTIES</a> | DM_DFS_PARTIES</td><td>Data - Parties Import</td><td>DFS_REF_PARTIESP</td><td>IN\Direct\ReferenceData\REF_PARTIES*.csv</td><td>REF_PARTIES</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_PARTIES.html">SEED_REF_PARTIES</a> | DM_DFS_PARTY_GROUPS</td><td>Data - Party Groups Import</td><td>DFS_REF_PARTIESG</td><td>IN\Direct\ReferenceData\REF_PARTIES*.csv</td><td>REF_PARTY_GROUP</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_PORTF_DATA.html">SEED_REF_PORTF_DATA</a> | DM_DFS_BANK_ACCOUNT</td><td>Data - Bank Accounts Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_BANK_ACC</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_PORTF_DATA.html">SEED_REF_PORTF_DATA</a> | DM_DFS_CUSTODIES</td><td>Data - Custodies Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_CUSTODIES</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_PORTF_DATA.html">SEED_REF_PORTF_DATA</a> | DM_DFS_OUR_DEFAULTS</td><td>Data - Our Defaults Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_OUR_DEFAULTS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_PORTF_DATA.html">SEED_REF_PORTF_DATA</a> | DM_DFS_PCL_DEFS</td><td>Data - Period Closure Definitions</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_PCL_DEFS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_PORTF_DATA.html">SEED_REF_PORTF_DATA</a> | DM_DFS_PF_HIST_RTN</td><td>Data - Portfolio Historical Return Term Import</td><td>DFS_REF_PF_HISTR</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_PERF_DATES.csv</td><td>REF_PF_HIST_RTN</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_PORTF_DATA.html">SEED_REF_PORTF_DATA</a> | DM_DFS_PFG_HIST_RTN</td><td>Data - Portfolio Group Historical Return Term Import</td><td>DFS_REF_PF_HISTR</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_PERF_DATES.csv</td><td>REF_PFG_HIST_RTN</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_PORTF_DATA.html">SEED_REF_PORTF_DATA</a> | DM_DFS_PORT_GROUPS</td><td>Data - Portfolios Groups Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_PORTFOLIO_GROUPS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_PORTF_DATA.html">SEED_REF_PORTF_DATA</a> | DM_DFS_PORTFOLIOS</td><td>Data - Portfolios Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_PORTFOLIOS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_PORTF_DATA.html">SEED_REF_PORTF_DATA</a> | DM_DFS_REAL_BNK_ACT</td><td>Data - Real Bank Accounts Import</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_REAL_BNK_AC</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_PORTF_DATA.html">SEED_REF_PORTF_DATA</a> | DM_REF_MPPORT</td><td>Data - Model Portfolio To Portfolio Link</td><td>DFS_REF_PF_DATA</td><td>In\Direct\ReferenceData\REF_PORTFOLIO_DATA.csv</td><td>REF_MPPORT</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_SMF.html">SEED_REF_SMF</a> | DM_DFS_SMF_ALM</td><td>Data - Import of ALMs SMF</td><td>DFS_SMF_ALM</td><td>Interfaces\In\Direct\SMF\SMF_ALM_*</td><td>SMF_ALM</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_SMF.html">SEED_REF_SMF</a> | DM_DFS_SMF_EQUITIESN</td><td>Data - Import of Equities SMF</td><td>DFS_SMF_EQUITI_N</td><td>In\Direct\SMF\SMF_EQUITIES_*.csv</td><td>SMF_EQUITIES_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_SMF.html">SEED_REF_SMF</a> | DM_DFS_SMF_EQUITIESU</td><td>Data - Import of Equities SMF</td><td>DFS_SMF_EQUITI_U</td><td>In\Direct\SMF\SMF_EQUITIES_*.csv</td><td>SMF_EQUITIES_U</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_SMF.html">SEED_REF_SMF</a> | DM_DFS_SMF_FUND_CRTN</td><td>Data - Import of Fund Certificates SMF</td><td>DFS_SMF_FUND_C_N</td><td>In\Direct\SMF\SMF_FUND_CERTS*.csv</td><td>SMF_FUND_CERTS_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_SMF.html">SEED_REF_SMF</a> | DM_DFS_SMF_FUND_CRTU</td><td>Data - Import of Fund Certificates SMF</td><td>DFS_SMF_FUND_C_U</td><td>In\Direct\SMF\SMF_FUND_CERTS*.csv</td><td>SMF_FUND_CERTS_U</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_SMF.html">SEED_REF_SMF</a> | DM_DFS_SMF_FXFWD</td><td>Data - Update of FX</td><td>DFS_SMF_FXFWD</td><td>In\Direct\SMF\SMF_FXFWD_*.csv</td><td>SMF_FXFWD</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_SMF.html">SEED_REF_SMF</a> | DM_DFS_SMF_GDR_ADR_N</td><td>Data - Import of GDR\ADRs SMF</td><td>DFS_SMF_GDR_ADRN</td><td>In\Direct\SMF\SMF_GDR_ADR*.csv</td><td>SMF_GDR_ADR_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_SMF.html">SEED_REF_SMF</a> | DM_DFS_SMF_GDR_ADR_U</td><td>Data - Import of GDR\ADRs SMF</td><td>DFS_SMF_GDR_ADRU</td><td>In\Direct\SMF\SMF_GDR_ADR*.csv</td><td>SMF_GDR_ADR_U</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_SMF.html">SEED_REF_SMF</a> | DM_DFS_SMF_IL</td><td>Data - Import of Internal Loans SMF</td><td>DFS_SMF_IL</td><td>SMF\IL_SMF.csv</td><td>MIG_IL_SMF</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_SMF.html">SEED_REF_SMF</a> | DM_DFS_SMF_INDXSEC_N</td><td>Data - Import of Index Securities</td><td>DFS_SMF_INDXSECN</td><td>In\Direct\SMF\SMF_IND_SEC*.csv</td><td>SMF_IND_SEC_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_SMF.html">SEED_REF_SMF</a> | DM_DFS_SMF_INDXSEC_U</td><td>Data - Import of Index Securities</td><td>DFS_SMF_INDXSECU</td><td>In\Direct\SMF\SMF_IND_SEC*.csv</td><td>SMF_IND_SEC_U</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_SMF.html">SEED_REF_SMF</a> | DM_DFS_SMF_LF</td><td>Data - Import of Loan Facilities SMF</td><td>DFS_SMF_LF</td><td>SMF\LF_SMF*.csv</td><td>MIG_LF_SMF</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_SMF.html">SEED_REF_SMF</a> | DM_DFS_SMF_WARRANTSN</td><td>Data - Import of Warrants SMF</td><td>DFS_SMF_WARR_N</td><td>In\Direct\SMF\SMF_WARRANTS*.csv</td><td>SMF_WARRANTS_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SEED_REF_SMF.html">SEED_REF_SMF</a> | DM_DFS_SMF_WARRANTSU</td><td>Data - Import of Warrants SMF</td><td>DFS_SMF_WARR_U</td><td>In\Direct\SMF\SMF_WARRANTS*.csv</td><td>SMF_WARRANTS_U</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SMF_CDS_MANUAL.html">SMF_CDS_MANUAL</a> | DM_CDS_REF_ENT_M</td><td>CDS SMF - Reference Entity Import (Manual)</td><td>CDS_RF_REF_ENT_M</td><td>Interfaces\In\Manual\Transactions\TRN_CDS*.CSV</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SMF_CDS_MANUAL.html">SMF_CDS_MANUAL</a> | DM_CDS_REF_OBL_M</td><td>CDS SMF - Reference Obligation Import (Manual)</td><td>CDS_RF_REF_OBL_M</td><td>Interfaces\In\Manual\Transactions\TRN_CDS*.CSV</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SMF_CDS_MANUAL.html">SMF_CDS_MANUAL</a> | DM_CDS_REFDATA_N_M</td><td>CDS SMF - Reference Data New (Manual)</td><td>CDS_RF_SMF_N_M</td><td>Interfaces\In\Manual\Transactions\TRN_CDS*.CSV</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SMF_CDS_MANUAL.html">SMF_CDS_MANUAL</a> | DM_CDS_REFDATA_U_M</td><td>CDS SMF - Reference Data Update (Manual)</td><td>CDS_RF_SMF_U_M</td><td>Interfaces\In\Manual\Transactions\TRN_CDS*.CSV</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SO_USER_IMP.html">SO_USER_IMP</a> | SO_USER_DEACTIVATE</td><td>SO - User Admin - Deactivate normal users</td><td></td><td></td><td>SO_USER_DEACTIVATE</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SO_USER_IMP.html">SO_USER_IMP</a> | SO_USERPROF_IMP</td><td>SO - User Admin - Import of normal user profiles</td><td></td><td></td><td>SO_USER_MAPPROFILES</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SUSPENDED_LOSS.html">SUSPENDED_LOSS</a> | DFS - SUSPENDED LOSS</td><td>Suspended Losses</td><td>DFS_SUSP_LOSS</td><td>Interfaces\In\Manual\SL.csv</td><td>EOY_SUSPENDED_LOSS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TM_DEPO_REPO.html">TM_DEPO_REPO</a> | TM_DEPO</td><td>Import Deposits to Trade Manager</td><td>TM_DEPO</td><td>Interfaces\In\Direct\Transactions\TRN_DEPO_*.csv</td><td>TM_DEPO</td><td>PROD/Triggered_Plans/TM_DEPO_REPO_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TM_DEPO_REPO.html">TM_DEPO_REPO</a> | TM_DEPO_CXL</td><td>Import Cancel Deposits to Trade Manager</td><td>TM_DEPO_CXL</td><td>Interfaces\In\Direct\Transactions\TRN_DEPO_*.csv</td><td>TM_DEPO_CXL</td><td>PROD/Triggered_Plans/TM_DEPO_REPO_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TM_DEPO_REPO.html">TM_DEPO_REPO</a> | TM_DEPO_UPD_CXL</td><td>Import Deposits - Update Bloomberg Ref # for Close</td><td>TM_DEPO_UPD_CXL</td><td>Interfaces\In\Direct\Transactions\TRN_DEPO_*.csv</td><td>TM_DEPO_UPD_CXL</td><td>PROD/Triggered_Plans/TM_DEPO_REPO_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TM_DEPO_REPO.html">TM_DEPO_REPO</a> | TM_REPO</td><td>Import Repos to Trade Manager</td><td>TM_REPO</td><td>Interfaces\In\Direct\Transactions\TRN_REPO_*.csv</td><td>TM_REPO</td><td>PROD/Triggered_Plans/TM_DEPO_REPO_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TM_DEPO_REPO.html">TM_DEPO_REPO</a> | TRN_REPO_CXL</td><td>Import Cancel Repos to Trade Manager</td><td>TM_REPO_CXL</td><td>Interfaces\In\Direct\Transactions\TRN_FLSREPO_*.csv</td><td>TM_REPO_CXL</td><td>PROD/Triggered_Plans/TM_DEPO_REPO_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TM_DEPO_REPO_MAN.html">TM_DEPO_REPO_MAN</a> | TM_DEPO_CXL_MAN</td><td>Manual Import Cancel Deposits to Trade Manager</td><td>TM_DEPO_CXL</td><td>Interfaces\In\Direct\Transactions\TRN_DEPO_*.csv</td><td>TM_DEPO_CXL</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TM_DEPO_REPO_MAN.html">TM_DEPO_REPO_MAN</a> | TM_DEPO_MAN</td><td>Manual Import Deposits to Trade Manager</td><td>TM_DEPO</td><td>Interfaces\In\Direct\Transactions\TRN_DEPO_*.csv</td><td>TM_DEPO</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TM_DEPO_REPO_MAN.html">TM_DEPO_REPO_MAN</a> | TM_REPO_CXL_MAN</td><td>Manual Import Cancel Repos to Trade Manager</td><td>TM_REPO_CXL</td><td>Interfaces\In\Direct\Transactions\TRN_FLSREPO_*.csv</td><td>TM_REPO_CXL</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TM_DEPO_REPO_MAN.html">TM_DEPO_REPO_MAN</a> | TM_REPO_MAN</td><td>Manual Import Repos to Trade Manager</td><td>TM_REPO</td><td>Interfaces\In\Direct\Transactions\TRN_REPO_*.csv</td><td>TM_REPO</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRD_CDS_MANUAL.html">TRD_CDS_MANUAL</a> | TRD_CDS_O_CAN_M</td><td>Trade - CDS Open - Cancels (Manual)</td><td>CDS_RF_TRD_C_M</td><td>Interfaces\In\Manual\Transactions\TRN_CDS*.CSV</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRD_CDS_MANUAL.html">TRD_CDS_MANUAL</a> | TRD_CDS_O_M</td><td>Trade - CDS Open (Manual)</td><td>CDS_RF_TRD_A_M</td><td>Interfaces\In\Manual\Transactions\TRN_CDS*.CSV</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_AI_COMMIT.html">TRN_AI_COMMIT</a> | TRN_AI_COMMIT</td><td>Alternative Investments - Open/Close Commitment</td><td>DFS_AI_COMMIT</td><td>Interfaces\In\Manual\Transactions\TRN_AI_COMMIT_*.csv</td><td>TRN_AI_COMMIT</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_ALT_INV_INC_EXP.html">TRN_ALT_INV_INC_EXP</a> | TRN_ALT_INV_INC_EXP</td><td>Administration->Alternative Investments -> Income and Expenses</td><td>DFS_ALT_INV_INC</td><td>Interfaces\In\Direct\Transactions\TRN_INCEXP_*.csv</td><td>TRN_ALT_IN_INC_EXP</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_ALT_INV_INC_EXP_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_BANK_ACC_OPN_BAL.html">TRN_BANK_ACC_OPN_BAL</a> | TRN_BANK_ACC_OPN_BAL</td><td>Bank Account Opening Balance Import</td><td>DFS_BNK_OPN_BAK</td><td>In\Direct\Transactions\TRN_BANK_ACC_OPEN_BAL_*.csv</td><td></td><td>PROD/Triggered_Plans/TRN_BANK_ACC_OPN_BAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_BANK_ACC_OPN_BAL.html">TRN_BANK_ACC_OPN_BAL</a> | TRN_BANK_ACC_OPN_BAL</td><td>Bank Account Opening Balance Import</td><td>DFS_BNK_OPN_BAK</td><td>In\Direct\Transactions\TRN_BANK_ACC_OPEN_BAL_*.csv</td><td></td><td>PROD/Triggered_Plans/TRN_BANK_ACC_OPN_BAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_BANK_ACC_OPN_BAL.html">TRN_BANK_ACC_OPN_BAL</a> | TRN_BANK_ACC_OPN_BAL</td><td>Bank Account Opening Balance Import</td><td>DFS_BNK_OPN_BAK</td><td>In\Direct\Transactions\TRN_BANK_ACC_OPEN_BAL_*.csv</td><td></td><td>PROD/Triggered_Plans/TRN_BANK_ACC_OPN_BAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_BOOK_CORR.html">TRN_BOOK_CORR</a> | TRN_BOOK_CORR</td><td>Import of Book Value Corrections</td><td>DFS_TRN_BOOK_COR</td><td>In\Direct\Transactions\TRN_BOOK_CORR*.csv</td><td>TRN_BOOK_CORR</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_BOOK_CORR_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CAP_EVENTS.html">TRN_CAP_EVENTS</a> | TRN_CAP_EVENTS</td><td>Transactions - Capital Events</td><td>TRN_CAP_EVENTS</td><td>Interfaces\In\Manual\Capital_event*.csv</td><td>TRN_CAPITAL_EVENTS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CAP_PAY.html">TRN_CAP_PAY</a> | TRN_CAP_PAY</td><td>Import of External Data Alt. Invest. Capital Payments</td><td>DFS_TRN_CAP_PAY</td><td>In\Direct\Transactions\TRN_CAPPAY*.csv</td><td>TRN_CAP_PAY</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_CAP_PAY_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CAPEVENT_PCL.html">TRN_CAPEVENT_PCL</a> | DM_TRN_CAPEVENT_PCL</td><td>Update Capital Events - PCL Backdate Active</td><td>TRN_CAPEVENT_PCL</td><td>Interfaces\In\Manual\MANUAL_CAPITAL_EVENT_PCL*.csv</td><td>TRN_CAPEVENT_PCL</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH.html">TRN_CASH</a> | CR_ACC_INT_N</td><td>Import Cash Transaction Accrued Interest Active</td><td>DFS_TRN_CR_AC_N</td><td>Interfaces\In\Direct\CASH\TRN_CR_AC_INT*</td><td>TRN_CR_AC_INT_N</td><td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH.html">TRN_CASH</a> | CR_ACC_INT_U</td><td>Import Cash Transaction Accrued Interest Cancelled</td><td>DFS_TRN_CR_AC_U</td><td>Interfaces\In\Direct\CASH\TRN_CR_AC_INT*</td><td>TRN_CR_AC_INT_U</td><td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH.html">TRN_CASH</a> | DM_DFS_CASH_TR_N</td><td>Data - Cash transfer Active</td><td>DFS_CASH_TR_N</td><td>Interfaces\In\Direct\CASH\TRN_CASHTRANS*</td><td>TRN_CASH_TRANSFER_N</td><td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH.html">TRN_CASH</a> | DM_DFS_CASH_TR_U</td><td>Data - Cash transfer Cancelled</td><td>DFS_CASH_TR_U</td><td>Interfaces\In\Direct\CASH\TRN_CASHTRANS*</td><td>TRN_CASH_TRANSFER_U</td><td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH.html">TRN_CASH</a> | DM_DFS_TRN_CCA_C</td><td>Charge/Credit ALM - Cancel</td><td>DFS_CASH_CCA_C</td><td>Interfaces\In\Direct\CASH\TRN_ALM_CCA_*</td><td>TRN_CH_CR_ALM_C</td><td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH.html">TRN_CASH</a> | DM_DFS_TRN_CCA_N</td><td>Charge/Credit ALM - Active</td><td>DFS_CASH_CCA_N</td><td>Interfaces\In\Direct\CASH\TRN_ALM_CCA_*</td><td>TRN_CH_CR_ALM_N</td><td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH.html">TRN_CASH</a> | DM_DFS_TRN_CCC_N</td><td>Charge/Credit Cash - Active</td><td>DFS_CASH_CCC_N</td><td>Interfaces\In\Direct\CASH\TRN_ALM_CCC_*</td><td>TRN_CH_CR_CASH_N</td><td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH.html">TRN_CASH</a> | DM_DFS_TRN_CCC_U</td><td>Charge/Credit Cash - Cancel</td><td>DFS_CASH_CCC_U</td><td>Interfaces\In\Direct\CASH\TRN_ALM_CCC_*</td><td>TRN_CH_CR_CASH_U</td><td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH.html">TRN_CASH</a> | DM_DFS_TRN_FUND_PO_N</td><td>Data - Import of Fund/Pool Investment transaction- Active</td><td>DFS_CASH_FUND_N</td><td>Interfaces\In\Direct\Cash\TRN_FUNDPOOLINV_*</td><td>TRN_FUND_PO_INV_N</td><td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH.html">TRN_CASH</a> | DM_DFS_TRN_FUND_PO_U</td><td>Data - Import of Fund/Pool Investment transaction- Cancel</td><td>DFS_CASH_FUND_U</td><td>Interfaces\In\Direct\Cash\TRN_FUNDPOOLINV_*</td><td>TRN_FUND_PO_INV_U</td><td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH.html">TRN_CASH</a> | DM_DFS_TRN_PAY_N</td><td>Data - Import of Cash Transactions (Payments) - Active</td><td>DFS_CASH_PAY_N</td><td>Interfaces\In\Direct\CASH\TRN_PAYMENT_*</td><td>TRN_PAY_N</td><td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH.html">TRN_CASH</a> | DM_DFS_TRN_PAY_U</td><td>Data - Import of Cash Transactions (Payments) - Cancel</td><td>DFS_CASH_PAY_U</td><td>Interfaces\In\Direct\CASH\TRN_PAYMENT_*</td><td>TRN_PAY_U</td><td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH.html">TRN_CASH</a> | DM_DFS_TRN_SETTD_C</td><td>Settle Debt/Receivables - Cancel</td><td>DFS_CASH_SETTD_C</td><td>Interfaces\In\Direct\CASH\TRN_SETTDEBT_*</td><td>TRN_SET_DEBT_RECV_C</td><td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH.html">TRN_CASH</a> | DM_DFS_TRN_SETTD_N</td><td>Settle Debt/Receivables - Active</td><td>DFS_CASH_SETTD_N</td><td>Interfaces\In\Direct\CASH\TRN_SETTDEBT_*</td><td>TRN_SET_DEBT_RECV_N</td><td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH_MANUAL.html">TRN_CASH_MANUAL</a> | DM_DFS_TRN_FUND_M_N</td><td>Data - Import of Fund/Pool Investment transaction- Active - Manual</td><td>DFS_CASH_FU_M_N</td><td>Interfaces\In\Manual\TRN_FUNDPOOLINV_*</td><td>TRN_FUND_PO_INV_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASH_MANUAL.html">TRN_CASH_MANUAL</a> | DM_DFS_TRN_FUND_M_U</td><td>Data - Import of Fund/Pool Investment transaction- Cancel - Manual</td><td>DFS_CASH_FU_M_U</td><td>Interfaces\In\Manual\TRN_FUNDPOOLINV_*</td><td>TRN_FUND_PO_INV_U</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASHTRANS_MANUAL.html">TRN_CASHTRANS_MANUAL</a> | DM_DFS_CASH_TR_MN</td><td>Data - Cash transfer Active - Manual</td><td>DFS_CASH_TR_MN</td><td>Interfaces\In\Manual\TRN_CASHTRANS*</td><td>TRN_CASH_TRANSFER_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CASHTRANS_MANUAL.html">TRN_CASHTRANS_MANUAL</a> | DM_DFS_CASH_TR_MU</td><td>Data - Cash transfer Cancelled</td><td>DFS_CASH_TR_U_MU</td><td>Interfaces\In\Manual\TRN_CASHTRANS*</td><td>TRN_CASH_TRANSFER_U</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CCC_MANUAL.html">TRN_CCC_MANUAL</a> | DM_DFS_TRN_CCC_MN</td><td>Charge/Credit Cash - Active - manual</td><td>DFS_CASH_CCC_MN</td><td>Interfaces\In\Manual\TRN_ALM_CCC_*</td><td>TRN_CH_CR_CASH_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CCC_MANUAL.html">TRN_CCC_MANUAL</a> | DM_DFS_TRN_CCC_MU</td><td>Charge/Credit Cash - Cancel - Manual</td><td>DFS_CASH_CCC_MU</td><td>Interfaces\In\Manual\TRN_ALM_CCC_*</td><td>TRN_CH_CR_CASH_U</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CCS_BASIS.html">TRN_CCS_BASIS</a> | TRN_CCS_BASIS_C</td><td>Import of CCS Basis to TM - Close</td><td>TRN_CCS_BASIS_C</td><td>In\Direct\Transactions\TRN_CCSWAP_BASIS_*.csv</td><td>TRN_CCS_BASIS_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CCS_BASIS.html">TRN_CCS_BASIS</a> | TRN_CCS_BASIS_N</td><td>Import of CCS Basis to TM - Novation</td><td>TRN_CCS_BASIS_N</td><td>In\Direct\Transactions\TRN_CCSWAP_BASIS_*.csv</td><td>TRN_CCS_BASIS_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CCS_BASIS.html">TRN_CCS_BASIS</a> | TRN_CCS_BASIS_O</td><td>Import of CCS Basis to TM - Open</td><td>TRN_CCS_BASIS_O</td><td>In\Direct\Transactions\TRN_CCSWAP_BASIS_*.csv</td><td>TRN_CCS_BASIS_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CCS_FI_FI.html">TRN_CCS_FI_FI</a> | TRN_CCS_FI_FI_C</td><td>Import of CCS Fix/Fix to TM - Close</td><td>TRN_CCS_FI_FI_C</td><td>In\Direct\Transactions\TRN_CCSWAP_FIX_FIX_*.csv</td><td>TRN_CCS_FI_FI_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CCS_FI_FI.html">TRN_CCS_FI_FI</a> | TRN_CCS_FI_FI_N</td><td>Import of CCS Fix/Fix to TM - Novation</td><td>TRN_CCS_FI_FI_N</td><td>In\Direct\Transactions\TRN_CCSWAP_FIX_FIX_*.csv</td><td>TRN_CCS_FI_FI_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CCS_FI_FI.html">TRN_CCS_FI_FI</a> | TRN_CCS_FI_FI_O</td><td>Import of CCS Fix/Fix to TM - Open</td><td>TRN_CCS_FI_FI_O</td><td>In\Direct\Transactions\TRN_CCSWAP_FIX_FIX_*.csv</td><td>TRN_CCS_FI_FI_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CCS_FI_FL.html">TRN_CCS_FI_FL</a> | TRN_CCS_FI_FL_C</td><td>Import of CCS Fix/Float to TM - Close</td><td>TRN_CCS_FI_FL_C</td><td>In\Direct\Transactions\TRN_CCSWAP_FIX_FLT_*.csv</td><td>TRN_CCS_FI_FL_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CCS_FI_FL.html">TRN_CCS_FI_FL</a> | TRN_CCS_FI_FL_N</td><td>Import of CCS Fix/Float to TM - Novation</td><td>TRN_CCS_FI_FL_N</td><td>In\Direct\Transactions\TRN_CCSWAP_FIX_FLT_*.csv</td><td>TRN_CCS_FI_FL_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CCS_FI_FL.html">TRN_CCS_FI_FL</a> | TRN_CCS_FI_FL_O</td><td>Import of CCS Fix/Float to TM - Open</td><td>TRN_CCS_FI_FL_O</td><td>In\Direct\Transactions\TRN_CCSWAP_FIX_FLT_*.csv</td><td>TRN_CCS_FI_FL_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS.html">TRN_CDS</a> | CDS_TRD_PRICE</td><td>Populate a price for traded CDS</td><td>CDS_RF_TRD_P</td><td>Interfaces\In\Direct\Transactions\TRN_CDS*.CSV</td><td>CDS_TRD_PRICE</td><td>PROD/Triggered_Plans/TRN_CDS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS.html">TRN_CDS</a> | DM_CDS_REF_ENT</td><td>CDS SMF - Reference Entity Import</td><td>CDS_RF_REF_ENT</td><td>Interfaces\In\Direct\Transactions\TRN_CDS*.CSV</td><td></td><td>PROD/Triggered_Plans/TRN_CDS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS.html">TRN_CDS</a> | DM_CDS_REF_OBL</td><td>CDS SMF - Reference Obligation Import</td><td>CDS_RF_REF_OBL</td><td>Interfaces\In\Direct\Transactions\TRN_CDS*.CSV</td><td></td><td>PROD/Triggered_Plans/TRN_CDS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS.html">TRN_CDS</a> | DM_CDS_REFDATA_N</td><td>CDS SMF - Reference Data New</td><td>CDS_RF_SMF_N</td><td>Interfaces\In\Direct\Transactions\TRN_CDS*.CSV</td><td></td><td>PROD/Triggered_Plans/TRN_CDS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS.html">TRN_CDS</a> | DM_CDS_REFDATA_U</td><td>CDS SMF - Reference Data Update</td><td>CDS_RF_SMF_U</td><td>Interfaces\In\Direct\Transactions\TRN_CDS*.CSV</td><td></td><td>PROD/Triggered_Plans/TRN_CDS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS.html">TRN_CDS</a> | TRD_CDS_O</td><td>Trade - CDS Open</td><td>CDS_RF_TRD_A</td><td>Interfaces\In\Direct\Transactions\TRN_CDS*.CSV</td><td></td><td>PROD/Triggered_Plans/TRN_CDS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS.html">TRN_CDS</a> | TRD_CDS_O_CAN</td><td>Trade - CDS Open - Cancels</td><td>CDS_RF_TRD_C</td><td>Interfaces\In\Direct\Transactions\TRN_CDS*.CSV</td><td></td><td>PROD/Triggered_Plans/TRN_CDS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_IDX.html">TRN_CDS_IDX</a> | DM_CDS_IDX</td><td>SMF - Credit Default Index Swap</td><td>SMF_CDS_IDX</td><td>In\Direct\Transactions\TRN_CDX_*.csv</td><td></td><td>PROD/Triggered_Plans/TRN_CDS_IDX_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_IDX.html">TRN_CDS_IDX</a> | DM_CDS_IDX_DEF</td><td>SMF - Credit Default Swap Index Definition</td><td>SMF_CDS_IDX_DEF</td><td>In\Direct\Transactions\TRN_CDX_*.csv</td><td></td><td>PROD/Triggered_Plans/TRN_CDS_IDX_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_IDX.html">TRN_CDS_IDX</a> | DM_CDS_IDX_REF</td><td>SMF - Credit Default Swap Index Reference Entities</td><td>SMF_CDS_IDX_REF</td><td>In\Direct\Transactions\TRN_CDX_*.csv</td><td></td><td>PROD/Triggered_Plans/TRN_CDS_IDX_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_IDX.html">TRN_CDS_IDX</a> | DM_CDS_IDX_TRM</td><td>SMF - Credit Default Swap Index Standard Terms</td><td>SMF_CDS_IDX_TRM</td><td>In\Direct\Transactions\TRN_CDX_*.csv</td><td></td><td>PROD/Triggered_Plans/TRN_CDS_IDX_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_IDX.html">TRN_CDS_IDX</a> | MKT_CDS_IDX_PRC</td><td>MKT - Credit Defaults Swap Index Save Traded Price</td><td>MKT_CDS_IDX_PRC</td><td>In\Direct\Transactions\TRN_CDX_*.csv</td><td>CDS_TRD_PRICE</td><td>PROD/Triggered_Plans/TRN_CDS_IDX_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_IDX.html">TRN_CDS_IDX</a> | TRN_CDS_IDX_O</td><td>Import of Credit Default Index Swap to APL - Open</td><td>TRN_CDS_IDX_O</td><td>In\Direct\Transactions\TRN_CDX_*.csv</td><td></td><td>PROD/Triggered_Plans/TRN_CDS_IDX_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_MANUAL.html">TRN_CDS_MANUAL</a> | CDS_TRD_PRICE_M</td><td>Populate a price for traded CDS (Manual)</td><td>CDS_RF_TRD_P_M</td><td>Interfaces\In\Manual\Transactions\TRN_CDS*.CSV</td><td>CDS_TRD_PRICE</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_MANUAL.html">TRN_CDS_MANUAL</a> | DM_CDS_REF_ENT_M</td><td>CDS SMF - Reference Entity Import (Manual)</td><td>CDS_RF_REF_ENT_M</td><td>Interfaces\In\Manual\Transactions\TRN_CDS*.CSV</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_MANUAL.html">TRN_CDS_MANUAL</a> | DM_CDS_REF_OBL_M</td><td>CDS SMF - Reference Obligation Import (Manual)</td><td>CDS_RF_REF_OBL_M</td><td>Interfaces\In\Manual\Transactions\TRN_CDS*.CSV</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_MANUAL.html">TRN_CDS_MANUAL</a> | DM_CDS_REFDATA_N_M</td><td>CDS SMF - Reference Data New (Manual)</td><td>CDS_RF_SMF_N_M</td><td>Interfaces\In\Manual\Transactions\TRN_CDS*.CSV</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_MANUAL.html">TRN_CDS_MANUAL</a> | DM_CDS_REFDATA_U_M</td><td>CDS SMF - Reference Data Update (Manual)</td><td>CDS_RF_SMF_U_M</td><td>Interfaces\In\Manual\Transactions\TRN_CDS*.CSV</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_MANUAL.html">TRN_CDS_MANUAL</a> | TRD_CDS_O_CAN_M</td><td>Trade - CDS Open - Cancels (Manual)</td><td>CDS_RF_TRD_C_M</td><td>Interfaces\In\Manual\Transactions\TRN_CDS*.CSV</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_MANUAL.html">TRN_CDS_MANUAL</a> | TRD_CDS_O_M</td><td>Trade - CDS Open (Manual)</td><td>CDS_RF_TRD_A_M</td><td>Interfaces\In\Manual\Transactions\TRN_CDS*.CSV</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_OPT.html">TRN_CDS_OPT</a> | DM_CDS_IDX_OPT</td><td>SMF - Credit Default Index Swaption</td><td>SMF_CDS_IDX_OPT</td><td>In\Direct\Transactions\TRN_CDXOPT_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_OPT.html">TRN_CDS_OPT</a> | DM_CDSO_IDX</td><td>SMF - Credit Default Swaption Index Swap</td><td>SMF_CDSO_IDX</td><td>In\Direct\Transactions\TRN_CDXOPT_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_OPT.html">TRN_CDS_OPT</a> | DM_CDSO_IDX_DEF</td><td>SMF - Credit Default Swaption Index Definition</td><td>SMF_CDSO_IDX_DEF</td><td>In\Direct\Transactions\TRN_CDXOPT_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_OPT.html">TRN_CDS_OPT</a> | DM_CDSO_IDX_REF</td><td>SMF - Credit Default Swaption Index Ref Entities</td><td>SMF_CDSO_IDX_REF</td><td>In\Direct\Transactions\TRN_CDXOPT_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_OPT.html">TRN_CDS_OPT</a> | DM_CDSO_IDX_TRM</td><td>SMF - Credit Default Swaption Index Standard Terms</td><td>SMF_CDSO_IDX_TRM</td><td>In\Direct\Transactions\TRN_CDXOPT_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CDS_OPT.html">TRN_CDS_OPT</a> | TRN_CDS_IDX_OPT_O</td><td>Import of Credit Default Index Swaption to APL - Open</td><td>TRN_CDS_IDX_OPT</td><td>In\Direct\Transactions\TRN_CDXOPT_*.csv</td><td></td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_CLIENT_DIST_PCL.html">TRN_CLIENT_DIST_PCL</a> | DM_CLIENT_DIST_PCL</td><td>Update Client Dist - PCL Backdate Active</td><td>TRN_CLDIST_PCL</td><td>Interfaces\In\Manual\CLIENT_DIST_PCL*.csv</td><td>TRN_CLIENT_DIST_PCL</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_DIV_CAP_EVENT.html">TRN_DIV_CAP_EVENT</a> | DFS_TRN_CAPITAL_EVEN</td><td>DFS - Transaction "Capital Events" import</td><td>DFS_TRN_CAP_EVEN</td><td>Interfaces\In\Direct\Transactions\TRN_CAPITAL_EVENT*</td><td>TRN_CAPITAL_EVENTS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_DIV_CAP_EVENT.html">TRN_DIV_CAP_EVENT</a> | DFS_TRN_DIVIDENDS</td><td>DFS - Transaction "Dividends" import</td><td>DFS_TRN_DIVIDEND</td><td>Interfaces\In\Direct\Transactions\TRN_DIVIDENDS_*</td><td>TRN_DIVIDENDS</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_DIV_SWAP.html">TRN_DIV_SWAP</a> | TRN_DIV_SWAP_FIX</td><td>Import of Fixing Date StdContract Quote</td><td>TRN_DIV_SWAP_FIX</td><td>In\Direct\Transactions\TRN_DIVIDENDSWAP_*.csv</td><td>TRN_DIV_SWAP_FIX</td><td>PROD/Triggered_Plans/TRN_DIV_SWAP_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_DIV_SWAP.html">TRN_DIV_SWAP</a> | TRN_DIV_SWAP_O</td><td>Import of OTC Dividend Swap to TM - Open</td><td>TRN_DIV_SWAP_O</td><td>In\Direct\Transactions\TRN_DIVIDENDSWAP_*.csv</td><td>TRN_DIV_SWAP_O</td><td>PROD/Triggered_Plans/TRN_DIV_SWAP_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_EXT_CL_TRD.html">TRN_EXT_CL_TRD</a> | TRN_EXT_CL_CTRD</td><td>External Client Trades - Cancelled Trades</td><td>DFS_TRN_EXT_CTRD</td><td>In\Direct\Transactions\TRN_EXT*.csv</td><td>TRN_EXT_CL_CTRD</td><td>PROD/Triggered_Plans/TRN_EXT_CL_TRD_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_EXT_CL_TRD.html">TRN_EXT_CL_TRD</a> | TRN_EXT_CL_TRD</td><td>External Client Trades - Active Trades</td><td>DFS_TRN_EXT_TRD</td><td>In\Direct\Transactions\TRN_EXT*.csv</td><td></td><td>PROD/Triggered_Plans/TRN_EXT_CL_TRD_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_EXT_CL_TRD.html">TRN_EXT_CL_TRD</a> | TRN_EXT_CL_UTRD</td><td>Update Trade for Cancel - Upd Bloomberg Ref#</td><td>DFS_TRN_EXT_UTRD</td><td>In\Direct\Transactions\TRN_EXT*.csv</td><td>TRN_EXT_CL_UTRD</td><td>PROD/Triggered_Plans/TRN_EXT_CL_TRD_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_EXT_CL_TRD.html">TRN_EXT_CL_TRD</a> | TRN_FX_CTRD</td><td>FX Trades - Cancelled Trades</td><td>DFS_TRN_FX_CTRD</td><td>In\Direct\Transactions\FX_TRN*.csv</td><td>TRN_FX_CTRD</td><td>PROD/Triggered_Plans/TRN_EXT_CL_TRD_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_EXT_CL_TRD.html">TRN_EXT_CL_TRD</a> | TRN_FX_TRD</td><td>FX Trades - Active Trades</td><td>DFS_TRN_FX_TRD</td><td>In\Direct\Transactions\FX_TRN*.csv</td><td>TRN_FX_TRD</td><td>PROD/Triggered_Plans/TRN_EXT_CL_TRD_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_EXT_CL_TRD.html">TRN_EXT_CL_TRD</a> | TRN_FX_UTRD</td><td>Update Trade for Cancel - Upd Bloomberg Ref#</td><td>DFS_TRN_FX_UTRD</td><td>In\Direct\Transactions\FX_TRN*.csv</td><td>TRN_FX_UTRD</td><td>PROD/Triggered_Plans/TRN_EXT_CL_TRD_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FUND_PO_MANUAL.html">TRN_FUND_PO_MANUAL</a> | DM_DFS_TRN_FUND_MN</td><td>Data - Import of Fund/Pool Investment transaction- Active - Manual</td><td>DFS_FUND_PO_MN</td><td>Interfaces\In\Manual\TRN_FUNDPOOLINV_*</td><td>TRN_FUND_PO_INV_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FUND_PO_MANUAL.html">TRN_FUND_PO_MANUAL</a> | DM_DFS_TRN_FUND_MU</td><td>Data - Import of Fund/Pool Investment transaction- Cancel - Manual</td><td>DFS_FUND_PO_MU</td><td>Interfaces\In\Manual\TRN_FUNDPOOLINV_*</td><td>TRN_FUND_PO_INV_U</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FUND_PO_MNFX.html">TRN_FUND_PO_MNFX</a> | DM_DFS_TRN_FUND_MNFX</td><td>Data - Import of Fund/Pool Inv transaction- Active - Manual FX Fixed</td><td>DFS_FUND_PO_MNFX</td><td>Interfaces\In\Manual\TRN_FUNDPOOLINVFX_*</td><td>TRN_FUND_PO_INV_N_FX</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FUND_PO_PCLBACK.html">TRN_FUND_PO_PCLBACK</a> | DM_DFS_TRN_FUND_MNPC</td><td>Data - Update of Fund/Pool Investments PCL Backdate - Active - Manual</td><td>DFS_FUND_PO_MNPC</td><td>Interfaces\In\Manual\TRN_FUNDPOOLPCL*.csv</td><td>TRN_FUND_PO_A_PCL</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FUT.html">TRN_FUT</a> | SMF_FUT</td><td>Import of Security Master Futures to APL</td><td>SMF_FUT</td><td>In\Direct\SMF\SMF_FUTURES_*.csv</td><td>SMF_FUT</td><td>PROD/Triggered_Plans/TRN_FUT_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FUT.html">TRN_FUT</a> | SMF_IRF</td><td>Import SMF - IRFs</td><td>SMF_IRF</td><td>In\Direct\SMF\SMF_FUTURES_*.csv</td><td>SMF_IRF</td><td>PROD/Triggered_Plans/TRN_FUT_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FUT.html">TRN_FUT</a> | TRN_FUT</td><td>Import of Futures to APL</td><td>TRN_FUT</td><td>In\Direct\Transactions\TRN_FUT_*.csv</td><td></td><td>PROD/Triggered_Plans/TRN_FUT_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FUT.html">TRN_FUT</a> | TRN_IRF_A</td><td>Import IRF Trades - Active</td><td>TRN_IRF_A</td><td>In\Direct\Transactions\TRN_FUT_*.csv</td><td></td><td>PROD/Triggered_Plans/TRN_FUT_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FUT.html">TRN_FUT</a> | TRN_IRF_C</td><td>Import IRF Trades - Cancellations</td><td>TRN_IRF_C</td><td>In\Direct\Transactions\TRN_FUT_*.csv</td><td></td><td>PROD/Triggered_Plans/TRN_FUT_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FUT.html">TRN_FUT</a> | TRN_IRF_UPD_C</td><td>Import IRF Trades - Cancellations - BBAIM Update Bloomberg Ref #</td><td>TRN_IRF_UPD_C</td><td>In\Direct\Transactions\TRN_FUT_*.csv</td><td></td><td>PROD/Triggered_Plans/TRN_FUT_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FX_OPT.html">TRN_FX_OPT</a> | TRN_FX_OPT_C</td><td>Import of FX Options to TM - Close</td><td>TRN_FX_OPT_C</td><td>In\Direct\Transactions\TRN_OTC_OPT*.csv</td><td>TRN_FX_OPT_C</td><td>PROD/Triggered_Plans/TRN_FX_OPT_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FX_OPT.html">TRN_FX_OPT</a> | TRN_FX_OPT_N</td><td>Import of FX Options to TM - Novation</td><td>TRN_FX_OPT_N</td><td>In\Direct\Transactions\TRN_OTC_OPT*.csv</td><td>TRN_FX_OPT_N</td><td>PROD/Triggered_Plans/TRN_FX_OPT_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FX_OPT.html">TRN_FX_OPT</a> | TRN_FX_OPT_O</td><td>Import of FX Options to TM - Open</td><td>TRN_FX_OPT_O</td><td>In\Direct\Transactions\TRN_OTC_OPT*.csv</td><td>TRN_FX_OPT_O</td><td>PROD/Triggered_Plans/TRN_FX_OPT_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FXTRADES_MANUAL.html">TRN_FXTRADES_MANUAL</a> | TRN_FX_CTRD_MU</td><td>FX Trades - Cancelled Trades - Manual</td><td>DFS_TRN_FX_CT_MU</td><td>Interfaces\In\Manual\FX_TRN*</td><td>TRN_FX_CTRD</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_FXTRADES_MANUAL.html">TRN_FXTRADES_MANUAL</a> | TRN_FX_TRD_MN</td><td>FX Trades - Active Trades - Manual</td><td>DFS_TRN_FX_MN</td><td>Interfaces\In\Manual\FX_TRN_*</td><td>TRN_FX_TRD</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_GEN_COST.html">TRN_GEN_COST</a> | TRN_EOY_GEN_COST</td><td>Transaction - End-of-Year - General Cost</td><td>DFS_EOY_GEN_COST</td><td>In\Manual\EOY_GEN_COST_*.csv</td><td>EOY_GEN_COST</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_IRS_BASIS.html">TRN_IRS_BASIS</a> | TRN_IRS_BASIS_C</td><td>Import of IRS Basis to TM - Close</td><td>TRN_IRS_BASIS_C</td><td>In\Direct\Transactions\TRN_IRSBASIS_*.csv</td><td>TRN_IRS_BASIS_C</td><td>PROD/Triggered_Plans/TRN_IRS_BASIS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_IRS_BASIS.html">TRN_IRS_BASIS</a> | TRN_IRS_BASIS_N</td><td>Import of IRS Basis to TM - Novation</td><td>TRN_IRS_BASIS_N</td><td>In\Direct\Transactions\TRN_IRSBASIS_*.csv</td><td>TRN_IRS_BASIS_N</td><td>PROD/Triggered_Plans/TRN_IRS_BASIS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_IRS_BASIS.html">TRN_IRS_BASIS</a> | TRN_IRS_BASIS_O</td><td>Import of IRS Basis to TM - Open</td><td>TRN_IRS_BASIS_O</td><td>In\Direct\Transactions\TRN_IRSBASIS_*.csv</td><td>TRN_IRS_BASIS_O</td><td>PROD/Triggered_Plans/TRN_IRS_BASIS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_IRS_FI_FL.html">TRN_IRS_FI_FL</a> | TRN_IRS_FI_FL_C</td><td>Import of IRS Fix/Float to TM - Close</td><td>TRN_IRS_FI_FL_C</td><td>In\Direct\Transactions\TRN_IRSFIXFLOAT_*.csv</td><td>TRN_IRS_FI_FL_C</td><td>PROD/Triggered_Plans/TRN_IRS_FI_FL_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_IRS_FI_FL.html">TRN_IRS_FI_FL</a> | TRN_IRS_FI_FL_N</td><td>Import of IRS Fix/Float to TM - Novation</td><td>TRN_IRS_FI_FL_N</td><td>In\Direct\Transactions\TRN_IRSFIXFLOAT_*.csv</td><td>TRN_IRS_FI_FL_N</td><td>PROD/Triggered_Plans/TRN_IRS_FI_FL_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_IRS_FI_FL.html">TRN_IRS_FI_FL</a> | TRN_IRS_FI_FL_O</td><td>Import of IRS Fix/Float to TM - Open</td><td>TRN_IRS_FI_FL_O</td><td>In\Direct\Transactions\TRN_IRSFIXFLOAT_*.csv</td><td>TRN_IRS_FI_FL_O</td><td>PROD/Triggered_Plans/TRN_IRS_FI_FL_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_IRS_OIS_FI.html">TRN_IRS_OIS_FI</a> | TRN_IRS_OIS_FI_C</td><td>Import of IRS OIS-Fixed to TM - Close</td><td>TRN_IRS_OIS_FI_C</td><td>In\Direct\Transactions\TRN_IRSOISFIX_*.csv</td><td>TRN_IRS_OIS_FI_C</td><td>PROD/Triggered_Plans/TRN_IRS_OIS_FI_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_IRS_OIS_FI.html">TRN_IRS_OIS_FI</a> | TRN_IRS_OIS_FI_N</td><td>Import of IRS OIS-Fixed to TM - Novation</td><td>TRN_IRS_OIS_FI_N</td><td>In\Direct\Transactions\TRN_IRSOISFIX_*.csv</td><td>TRN_IRS_OIS_FI_N</td><td>PROD/Triggered_Plans/TRN_IRS_OIS_FI_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_IRS_OIS_FI.html">TRN_IRS_OIS_FI</a> | TRN_IRS_OIS_FI_O</td><td>Import of IRS OIS-Fixed to TM - Open</td><td>TRN_IRS_OIS_FI_O</td><td>In\Direct\Transactions\TRN_IRSOISFIX_*.csv</td><td>TRN_IRS_OIS_FI_O</td><td>PROD/Triggered_Plans/TRN_IRS_OIS_FI_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_IRS_OIS_FL.html">TRN_IRS_OIS_FL</a> | TRN_IRS_OIS_FL_C</td><td>Import of IRS OIS-Float to TM - Close</td><td>TRN_IRS_OIS_FL_C</td><td>In\Direct\Transactions\TRN_IRSOISFLOAT_*.csv</td><td>TRN_IRS_OIS_FL_C</td><td>PROD/Triggered_Plans/TRN_IRS_OIS_FL_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_IRS_OIS_FL.html">TRN_IRS_OIS_FL</a> | TRN_IRS_OIS_FL_N</td><td>Import of IRS OIS-Float to TM - Novation</td><td>TRN_IRS_OIS_FL_N</td><td>In\Direct\Transactions\TRN_IRSOISFLOAT_*.csv</td><td>TRN_IRS_OIS_FL_N</td><td>PROD/Triggered_Plans/TRN_IRS_OIS_FL_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_IRS_OIS_FL.html">TRN_IRS_OIS_FL</a> | TRN_IRS_OIS_FL_O</td><td>Import of IRS OIS-Float to TM - Open</td><td>TRN_IRS_OIS_FL_O</td><td>In\Direct\Transactions\TRN_IRSOISFLOAT_*.csv</td><td>TRN_IRS_OIS_FL_O</td><td>PROD/Triggered_Plans/TRN_IRS_OIS_FL_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_LF_EVENTS.html">TRN_LF_EVENTS</a> | TRN_LF_CONTRACTS_IMP</td><td>Loan Facilities - Contracts - Import</td><td>TRN_LF_CONTRACTS</td><td>In\Direct\Transactions\TRN_LF_CONTRACTS*.csv</td><td>TRN_LF_CONTRACTS</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_LF_EVENTS</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_LF_EVENTS.html">TRN_LF_EVENTS</a> | TRN_LF_CONTRACTS_IMP</td><td>Loan Facilities - Contracts - Import</td><td>TRN_LF_CONTRACTS</td><td>In\Direct\Transactions\TRN_LF_CONTRACTS*.csv</td><td>TRN_LF_CONTRACTS</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_LF_EVENTS</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_LF_EVENTS.html">TRN_LF_EVENTS</a> | TRN_LF_CONTRACTS_IMP</td><td>Loan Facilities - Contracts - Import</td><td>TRN_LF_CONTRACTS</td><td>In\Direct\Transactions\TRN_LF_CONTRACTS*.csv</td><td>TRN_LF_CONTRACTS</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_LF_EVENTS</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_LF_EVENTS.html">TRN_LF_EVENTS</a> | TRN_LF_EVENTS_IMP</td><td>Loan Facilities - Events - Import</td><td>TRN_LF_EVENTS</td><td>In\Direct\Transactions\TRN_LF_EVENTS*.csv</td><td>TRN_LF_EVENTS</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_LF_EVENTS</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_LF_EVENTS.html">TRN_LF_EVENTS</a> | TRN_LF_EVENTS_IMP</td><td>Loan Facilities - Events - Import</td><td>TRN_LF_EVENTS</td><td>In\Direct\Transactions\TRN_LF_EVENTS*.csv</td><td>TRN_LF_EVENTS</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_LF_EVENTS</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_LF_EVENTS.html">TRN_LF_EVENTS</a> | TRN_LF_EVENTS_IMP</td><td>Loan Facilities - Events - Import</td><td>TRN_LF_EVENTS</td><td>In\Direct\Transactions\TRN_LF_EVENTS*.csv</td><td>TRN_LF_EVENTS</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_LF_EVENTS</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_LF_PAYDOWNS.html">TRN_LF_PAYDOWNS</a> | TRN_LF_CONTRACTS_IMP</td><td>Loan Facilities - Contracts - Import</td><td>TRN_LF_CONTRACTS</td><td>In\Direct\Transactions\TRN_LF_CONTRACTS*.csv</td><td>TRN_LF_CONTRACTS</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_LF_PAYDOWNS</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_LF_PAYDOWNS.html">TRN_LF_PAYDOWNS</a> | TRN_LF_CONTRACTS_IMP</td><td>Loan Facilities - Contracts - Import</td><td>TRN_LF_CONTRACTS</td><td>In\Direct\Transactions\TRN_LF_CONTRACTS*.csv</td><td>TRN_LF_CONTRACTS</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_LF_PAYDOWNS</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_LF_PAYDOWNS.html">TRN_LF_PAYDOWNS</a> | TRN_LF_CONTRACTS_IMP</td><td>Loan Facilities - Contracts - Import</td><td>TRN_LF_CONTRACTS</td><td>In\Direct\Transactions\TRN_LF_CONTRACTS*.csv</td><td>TRN_LF_CONTRACTS</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_LF_PAYDOWNS</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_LF_PAYDOWNS.html">TRN_LF_PAYDOWNS</a> | TRN_LF_PAYDOWNS_IMP</td><td>Loan Facilities - Paydowns - Import</td><td>TRN_LF_PAYDOWNS</td><td>In\Direct\Transactions\TRN_LF_PAYDOWN*.csv</td><td>TRN_LF_PAYDOWNS</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_LF_PAYDOWNS</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_LF_PAYDOWNS.html">TRN_LF_PAYDOWNS</a> | TRN_LF_PAYDOWNS_IMP</td><td>Loan Facilities - Paydowns - Import</td><td>TRN_LF_PAYDOWNS</td><td>In\Direct\Transactions\TRN_LF_PAYDOWN*.csv</td><td>TRN_LF_PAYDOWNS</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_LF_PAYDOWNS</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_LF_PAYDOWNS.html">TRN_LF_PAYDOWNS</a> | TRN_LF_PAYDOWNS_IMP</td><td>Loan Facilities - Paydowns - Import</td><td>TRN_LF_PAYDOWNS</td><td>In\Direct\Transactions\TRN_LF_PAYDOWN*.csv</td><td>TRN_LF_PAYDOWNS</td><td>PROD/Triggered_Plans/Alternative_Investments/TRN_LF_PAYDOWNS</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_LN_FAC_FEE.html">TRN_LN_FAC_FEE</a> | TRN_LN_FAC_FEE</td><td>Import of External Data Loan Facility Fees</td><td>DFS_TRN_LN_FC_FE</td><td>In\Direct\Transactions\TRN_LOANFEE*.csv</td><td>ZZ_TRN_LN_FC_FEE</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_OTC_OPT.html">TRN_OTC_OPT</a> | SMF_OTC_OPT</td><td>Import of Security Master OTC Option to APL</td><td>SMF_OTC_OPT</td><td>In\Direct\SMF\SMF_OTC_OPTIONS_*.csv</td><td>SMF_OTC_OPT</td><td>PROD/Triggered_Plans/TRN_OTC_OPT_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_OTC_OPT.html">TRN_OTC_OPT</a> | TRN_OTC_OPT</td><td>Import of OTC Option to APL</td><td>TRN_OTC_OPT</td><td>In\Direct\Transactions\TRN_OTC_OPTION_*.csv</td><td>TRN_OTC_OPT</td><td>PROD/Triggered_Plans/TRN_OTC_OPT_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_PAYMENTS_MANUAL.html">TRN_PAYMENTS_MANUAL</a> | DM_DFS_TRN_PAY_MN</td><td>Data - Import of Cash Transactions (Payments) - Active</td><td>DFS_CASH_PAY_MN</td><td>Interfaces\In\Manual\TRN_PAYMENT_*</td><td>TRN_PAY_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_PAYMENTS_MANUAL.html">TRN_PAYMENTS_MANUAL</a> | DM_DFS_TRN_PAY_MU</td><td>Data - Import of Cash Transactions (Payments) - Cancel</td><td>DFS_CASH_PAY_MU</td><td>Interfaces\In\Manual\TRN_PAYMENT_*</td><td>TRN_PAY_U</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_REPO.html">TRN_REPO</a> | TRN_REPO_ALL_C</td><td>TM repos import (all repo_rate types) Close</td><td>TRN_REPO_ALL_C</td><td>In\Direct\Transactions\TRN_FLSREPO_*.csv</td><td>TRN_REPO_ALL_C</td><td>PROD/Triggered_Plans/TRN_REPO_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_REPO.html">TRN_REPO</a> | TRN_REPO_CXL</td><td>Import Cancel Repos to Trade Manager</td><td>TM_REPO_CXL</td><td>Interfaces\In\Direct\Transactions\TRN_FLSREPO_*.csv</td><td>TM_REPO_CXL</td><td>PROD/Triggered_Plans/TRN_REPO_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_REPO.html">TRN_REPO</a> | TRN_REPO_FIX_O</td><td>TM repos import (repo_rate = fixed) Open</td><td>TRN_REPO_FIX_O</td><td>In\Direct\Transactions\TRN_FLSREPO_*.csv</td><td>TRN_REPO_FIX_O</td><td>PROD/Triggered_Plans/TRN_REPO_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_REPO.html">TRN_REPO</a> | TRN_REPO_FL_O</td><td>TM repos import (repo_rate = floating) Open</td><td>TRN_REPO_FL_O</td><td>In\Direct\Transactions\TRN_FLSREPO_*.csv</td><td>TRN_REPO_FL_O</td><td>PROD/Triggered_Plans/TRN_REPO_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_REPO.html">TRN_REPO</a> | TRN_REPO_UPD_CAN</td><td>Import Repos - Update Bloomberg Ref # for Close and Cxl</td><td>TRN_REPO_UPD_CAN</td><td>In\Direct\Transactions\TRN_FLSREPO_*.csv</td><td>TRN_REPO_UPD_CAN</td><td>PROD/Triggered_Plans/TRN_REPO_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_REPO.html">TRN_REPO</a> | TRN_REPO_VAR_O</td><td>TM repos import (repo_rate = variable) Open</td><td>TRN_REPO_VAR_O</td><td>In\Direct\Transactions\TRN_FLSREPO_*.csv</td><td>TRN_REPO_VAR_O</td><td>PROD/Triggered_Plans/TRN_REPO_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_SBB_O.html">TRN_SBB_O</a> | TRN_SBB_O</td><td>TM Sell Buy Back import</td><td>DFS_TRN_SBB_O</td><td>In\Direct\Transactions\TRN_SBBACK*.csv</td><td>TRN_SBB_O</td><td>PROD/Triggered_Plans/TRN_SBB_O_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_SECID_UPD.html">TRN_SECID_UPD</a> | TRN_REPO_SECID_UPD</td><td>Trade Manager Repo - Update trade Alt Sec ID</td><td>TRN_REPO_SEC_UPD</td><td>In\Direct\Transactions\UPD_TRN_REPO*.csv</td><td>TRN_REPO_SECID_UPD</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_SECID_UPD.html">TRN_SECID_UPD</a> | TRN_SBB_SECID_UPD</td><td>TM Sell Buy Back import - Update Alt. Sec. ID</td><td>TRN_SBB_SEC_UPD</td><td>In\Direct\Transactions\UPD_TRN_SBBACK*.csv</td><td>TRN_SBB_SECID_UPD</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_SETTL_ADJ_LOAD.html">TRN_SETTL_ADJ_LOAD</a> | TRN_SETTLE_CCA_ADJ</td><td>TRN_SETTLE_CCA_ADJ</td><td>TRN_SETTLE_D_DFS</td><td>In\Manual\FEE_PAYMENTS.csv</td><td>TRN_CC_ALM_FEE</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_SETTL_ADJ_LOAD.html">TRN_SETTL_ADJ_LOAD</a> | TRN_SETTLE_DEBT_ADJ</td><td>TRN_SETTLE_DEBT_ADJ</td><td>TRN_SETTLE_D_DFS</td><td>In\Manual\FEE_PAYMENTS.csv</td><td>TRN_SETDEBT_APPR</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_SETTLE_FUNDSRV.html">TRN_SETTLE_FUNDSRV</a> | TRN_SETTLE_FUNDSRV</td><td>Transaction - Settle Fund Service Costs</td><td>DFS_STL_FUNDSRV</td><td>In\Manual\MAN_SETTDEBT_*.csv</td><td>TRN_SETTLE_FUNDSRV</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_SWAPTION.html">TRN_SWAPTION</a> | TRN_SWAPTION_O</td><td>Import of OTC Vanilla Swaption to TM - Open</td><td>TRN_SWAPTION_O</td><td>In\Direct\Transactions\TRN_SWAPTION_*.csv</td><td>TRN_SWAPTION_O</td><td>PROD/Triggered_Plans/TRN_SWAPTION_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_TRS.html">TRN_TRS</a> | TRN_TRSE_C</td><td>Import of TRS (Equity) to TM - Close</td><td>TRN_TRSE_C</td><td>In\Direct\Transactions\TRN_TRSWAP_*.csv</td><td>TRN_TRSE_C</td><td>PROD/Triggered_Plans/TRN_TRS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_TRS.html">TRN_TRS</a> | TRN_TRSE_N</td><td>Import of TRS (Equity) to TM - Novation</td><td>TRN_TRSE_N</td><td>In\Direct\Transactions\TRN_TRSWAP_*.csv</td><td>TRN_TRSE_N</td><td>PROD/Triggered_Plans/TRN_TRS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_TRS.html">TRN_TRS</a> | TRN_TRSE_O</td><td>Import of TRS (Equity) to TM - Open</td><td>TRN_TRSE_O</td><td>In\Direct\Transactions\TRN_TRSWAP_*.csv</td><td>TRN_TRSE_O</td><td>PROD/Triggered_Plans/TRN_TRS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_TRS.html">TRN_TRS</a> | TRN_TRSI_C</td><td>Import of TRS (Index) to TM - Close</td><td>TRN_TRSI_C</td><td>In\Direct\Transactions\TRN_TRSWAP_*.csv</td><td>TRN_TRSI_C</td><td>PROD/Triggered_Plans/TRN_TRS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_TRS.html">TRN_TRS</a> | TRN_TRSI_N</td><td>Import of TRS (Index) to TM - Novation</td><td>TRN_TRSI_N</td><td>In\Direct\Transactions\TRN_TRSWAP_*.csv</td><td>TRN_TRSI_N</td><td>PROD/Triggered_Plans/TRN_TRS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_TRS.html">TRN_TRS</a> | TRN_TRSI_O</td><td>Import of TRS (Index) to TM - Open</td><td>TRN_TRSI_O</td><td>In\Direct\Transactions\TRN_TRSWAP_*.csv</td><td>TRN_TRSI_O</td><td>PROD/Triggered_Plans/TRN_TRS_TRIGGERED</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_VAR_SWAP.html">TRN_VAR_SWAP</a> | TRN_VAR_SWAP_C</td><td>Import of Variance Swaps to TM - Close</td><td>TRN_VAR_SWAP_C</td><td>In\Direct\Transactions\TRN_VARIANCESWAP_*.csv</td><td>TRN_VAR_SWAP_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_VAR_SWAP.html">TRN_VAR_SWAP</a> | TRN_VAR_SWAP_N</td><td>Import of Variance Swaps to TM - Novation</td><td>TRN_VAR_SWAP_N</td><td>In\Direct\Transactions\TRN_VARIANCESWAP_*.csv</td><td>TRN_VAR_SWAP_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_VAR_SWAP.html">TRN_VAR_SWAP</a> | TRN_VAR_SWAP_O</td><td>Import of Variance Swaps to TM - Open</td><td>TRN_VAR_SWAP_O</td><td>In\Direct\Transactions\TRN_VARIANCESWAP_*.csv</td><td>TRN_VAR_SWAP_O</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_VOL_SWAP.html">TRN_VOL_SWAP</a> | TRN_VOL_SWAP_C</td><td>Import of Volatility Swaps to TM - Close</td><td>TRN_VOL_SWAP_C</td><td>In\Direct\Transactions\TRN_VOLATILITYSWAP_*.csv</td><td>TRN_VOL_SWAP_C</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_VOL_SWAP.html">TRN_VOL_SWAP</a> | TRN_VOL_SWAP_N</td><td>Import of Volatility Swaps to TM - Novation</td><td>TRN_VOL_SWAP_N</td><td>In\Direct\Transactions\TRN_VOLATILITYSWAP_*.csv</td><td>TRN_VOL_SWAP_N</td><td>MANUAL</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\TRN_VOL_SWAP.html">TRN_VOL_SWAP</a> | TRN_VOL_SWAP_O</td><td>Import of Volatility Swaps to TM - Open</td><td>TRN_VOL_SWAP_O</td><td>In\Direct\Transactions\TRN_VOLATILITYSWAP_*.csv</td><td>TRN_VOL_SWAP_O</td><td>MANUAL</td>
+			</tr>
+		</tbody>
+		</table>
+        </div>
+
+        <script src="navbar.js"></script>
+    </body>
+</html>

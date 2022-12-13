@@ -14,7 +14,6 @@ __pycache__/
 jquery-3.6.1.js
 
 # Generated HTML pages by Python script
-html_pages/webpages/*.html
 html_pages/webpages/plan_pages/*.html
 
 outputCSV/

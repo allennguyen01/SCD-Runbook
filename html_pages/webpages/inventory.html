@@ -1,0 +1,2019 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>ActiveBatch Inventory</title>
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<link rel="stylesheet" href="styles.css" />
+
+		<!-- Add jQuery and DataTables library and Bootstrap 5 integration -->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+		<!-- <script src="..\html_pages\webpages\jquery-3.6.1.js"></script> -->
+		<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css"> -->
+
+		<!-- CSS library files needed for searchPane filter extension -->
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" />
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/searchpanes/2.0.2/css/searchPanes.bootstrap5.min.css" />
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.bootstrap5.min.css" />
+
+		<!-- JavaScript files needed for searchPane filter extension -->
+		<script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.0.2/js/dataTables.searchPanes.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.0.2/js/searchPanes.bootstrap5.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+
+		<!-- CSS library files needed for export buttons feature -->
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css" />
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css" />
+
+		<!-- JavaScript files needed for buttons feature -->
+		<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap5.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+		<!-- For Excel export button  -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+		<!-- For PDF export button -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+		<!-- For column visibility -->
+		<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" />
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+			crossorigin="anonymous"></script>
+
+		<script src="https://www.gstatic.com/charts/loader.js"></script>
+		<script src="addDataTablesFeatures.js"></script>
+		<script src="timeline.js"></script>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+				<a href="./../../index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+					<img class="me-4" src="images\BCI-logo-250x129.png" alt="BCI" height="32px" />
+					<h2 class="fw-bold mt-1">SCD Runbook</h2>
+				</a>
+
+				<ul class="nav nav-pills align-items-center">
+					<li class="nav-item">
+						<a href="scheduled.html" class="nav-link" id="scheduled-nav"> Scheduled Plans </a>
+					</li>
+					<li class="nav-item">
+						<a href="imports.html" class="nav-link" id="imports-nav"> SCD Imports </a>
+					</li>
+					<li class="nav-item">
+						<a href="exports.html" class="nav-link" id="exports-nav"> SCD Exports </a>
+					</li>
+					<li class="nav-item">
+						<a href="inventory.html" class="nav-link" id="inventory-nav"> ActiveBatch Inventory </a>
+					</li>
+					<li class="nav-item">
+						<a href="timeline.html" class="nav-link" id="timeline-nav"> Timeline </a>
+					</li>
+				</ul>
+			</header>
+		</div>
+
+		<div class="px-4 py-3 mb-4 bg-light rounded-3 fs-6">
+			<div class="container-fluid">
+				<div class="h3 fw-bold">ActiveBatch Inventory</div>
+				<div id="last-update" class="fw-semibold">Last Sync: 12/13/2022 @ 13:53:41</div>
+				<div class="col-md-12">
+					<div>Contains all the Active Batch plans that are:</div>
+
+					<ul>
+						<li><strong>Scheduled</strong>: have a schedule to start the job</li>
+
+						<li><strong>Triggered</strong>: arrival of a file</li>
+
+						<li><strong>Adhoc</strong>: no schedule or trigger, just ran adhoc</li>
+					</ul>
+				</div>
+
+				<div class="accordion" id="accordion">
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="headingOne">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								Table legend
+							</button>
+						</h2>
+						<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordion">
+							<div class="accordion-body">
+								<strong>Name:</strong> Identification field of Batch Job Group.<br />
+
+								<strong>Path Name:</strong> Complete path of Active Batch Plan.<br />
+
+								<strong>Description:</strong> Description of the Active Batch Plan.<br />
+
+								<strong>State:</strong> If plan is enabled/disabled.<br />
+
+								<strong>Schedule or Trigger:</strong> Describes the schedule or Trigger for the Active Batch Plan.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+			<table border="1" class="table table-hover table-bordered table-striped" id="table_id">
+				<thead>
+					<tr style="text-align: right">
+						<th>Name</th>
+						<th>Path Name</th>
+						<th>State</th>
+						<th>Description</th>
+						<th>Schedule or Trigger</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>ADHOC_DWHREC_ABOR_POS</td>
+						<td>PROD/Adhoc_Plans/Recon/ADHOC_DWHREC_ABOR_POS</td>
+						<td>Enabled</td>
+						<td>Needed to re-run the DWHREC_ABOR_POS for a specific Batch Date.</td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>ADHOC_DWHREC_FUND_DCMP</td>
+						<td>PROD/Adhoc_Plans/Recon/ADHOC_DWHREC_FUND_DCMP</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>ADHOC_DWHREC_GLHOLDNG</td>
+						<td>PROD/Adhoc_Plans/Recon/ADHOC_DWHREC_GLHOLDNG</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>ADHOC_DWHREC_IBOR_POS</td>
+						<td>PROD/Adhoc_Plans/Recon/ADHOC_DWHREC_IBOR_POS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>ADHOC_DWHREC_IBOR_SETT</td>
+						<td>PROD/Adhoc_Plans/Recon/ADHOC_DWHREC_IBOR_SETT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>ADHOC_PERF_20220618</td>
+						<td>PROD/Adhoc_Plans/Performance/ADHOC_PERF_20220618</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>ADHOC_PERF_DAILY_3</td>
+						<td>PROD/Adhoc_Plans/Performance/ADHOC_PERF_DAILY_3</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\ADHOC_PERF_DAILY_CLI.html">ADHOC_PERF_DAILY_CLI</a></td>
+						<td>PROD/Adhoc_Plans/Performance/zz_ADHOC_PERF_DAILY/ADHOC_PERF_DAILY_CLI</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\ADHOC_PERF_DAILY_FUN.html">ADHOC_PERF_DAILY_FUN</a></td>
+						<td>PROD/Adhoc_Plans/Performance/zz_ADHOC_PERF_DAILY/ADHOC_PERF_DAILY_FUN</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\ADHOC_PERF_DAILY_IDX.html">ADHOC_PERF_DAILY_IDX</a></td>
+						<td>PROD/Adhoc_Plans/Performance/zz_ADHOC_PERF_DAILY/ADHOC_PERF_DAILY_IDX</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\ADHOC_PERF_DEX_UPD.html">ADHOC_PERF_DEX_UPD</a></td>
+						<td>PROD/Adhoc_Plans/Performance/zz_ADHOC_PERF_DAILY/ADHOC_PERF_DEX_UPD</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\ADHOC_PERF_LBF.html">ADHOC_PERF_LBF</a></td>
+						<td>PROD/Adhoc_Plans/Performance/ADHOC_PERF_LBF</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\ADHOC_PERF_LBF.html">ADHOC_PERF_LBF</a></td>
+						<td>PROD/Adhoc_Plans/Performance/zz_ADHOC_PERF_DAILY/ADHOC_PERF_LBF</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>ADHOC_PERF_ME</td>
+						<td>PROD/Adhoc_Plans/Performance/ADHOC_PERF_ME</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\ADHOC_PERF_ME_CLIENT.html">ADHOC_PERF_ME_CLIENT</a></td>
+						<td>PROD/Adhoc_Plans/Performance/ADHOC_PERF_ME/ADHOC_PERF_ME_CLIENT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\ADHOC_PERF_ME_FUND.html">ADHOC_PERF_ME_FUND</a></td>
+						<td>PROD/Adhoc_Plans/Performance/ADHOC_PERF_ME/ADHOC_PERF_ME_FUND</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\ADHOC_PERF_TFA_MTD.html">ADHOC_PERF_TFA_MTD</a></td>
+						<td>PROD/Adhoc_Plans/Performance/ADHOC_PERF_TFA_MTD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>ADHOC_PRF_REP</td>
+						<td>PROD/Triggered_Plans/Performance/ADHOC_PRF_REP</td>
+						<td>Enabled</td>
+						<td>This plan move the file for both adhoc jobs ADHOC_PRF_REP_DAILY ADHOC_PRF_REP_MNTHLY</td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERSMF\</td>
+					</tr>
+					<tr>
+						<td>ADHOC_RE_PERF_DWH_LOAD</td>
+						<td>PROD/Adhoc_Plans/Performance/ADHOC_RE_PERF_DWH_LOAD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>AR_ADHOC</td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/AR_ADHOC</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\AR_MTHLY.html">AR_MTHLY</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/AR_MTHLY</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 AM; 10:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\AR_SYS_CHG.html">AR_SYS_CHG</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/AR_SYS_CHG</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>07:00 AM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\AS_24D_CA_CR_SDTR.html">AS_24D_CA_CR_SDTR</a></td>
+						<td>PROD/Scheduled_Plans/AS_24D_CA_CR_SDTR</td>
+						<td>Enabled</td>
+						<td>Completion Trigger executes Extracts & Reporting\DM_EXT_DIV_TRXNS</td>
+						<td>05:00 AM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\AUDIT_ACTIVE_USERS.html">AUDIT_ACTIVE_USERS</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/AUDIT_ACTIVE_USERS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>07:00 AM</td>
+					</tr>
+					<tr>
+						<td>BCI_FTP_TO_INTEGRATION</td>
+						<td>PROD/Triggered_Plans/Extracts_And_Reporting/BCI_FTP_TO_INTEGRATION</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\FX_Hedging\vce_FX_HEDGING_EXTRACT_FILENAM; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\DO_Swap_Mapping*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\Restitution_Age_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\Fee_age_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\Fee_Adj_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\LFCONTRACTS_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\Amortization*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\Audit_Trail_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\Backdate_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\BOOKCOR_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\Manual_GL_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\Setup_Bank_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\Setup_Custody_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\Setup_Fund_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\Setup_ModelPortfolio_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\Setup_Portfolio_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\Setup_PortfolioGroup_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Cash\RE_CASH_MGMT_*.*;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\PRF_STARTSTOP*; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\vl_NAV_PERF_RESULTS_CAD_FILEN;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\vl_NAV_PERF_RESULTS_USD_FILEN; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\SystemOperations\vl_AUDIT_ACTIVE_USERS_F;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\TRN_EXTRACT_IPD_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\IO\FRR_MAT_ALERT_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\IRR\EFRONT_OPEN_PAY_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\IO\IO_CASH_MGMT_*.txt;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\IO_FUT_TXN_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\IO\Settlement*Positions_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\ADHOC_PRF_*; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Public_Markets\EquityPortfolioDividends_*.;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\IO\TRN_EXTRACT_CO_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\PRF_CALC_*;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\PRF_INDX_RTN_*; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\PRF_PORT_COMP_*;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\PRF_REP_ FD_*; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\PRF_REP_C_*;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\PRF_REP_CL_*; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\PRF_REP_F_*;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Finance\FIN_PEND_FI_*; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Finance\FIN_PEND_REPO_*;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\IO\SCD_Dividends_*.*; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\SystemOperations\vl_SO_GENERAL_RECON_FIL;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Public_Markets\SCD_POS_FI_SELECT_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Finance\REF_BANK_ACCOUNT_IAB_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Finance\REF_FUND_CERT_IAB_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Finance\REF_FUND_DEF_IAB_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Finance\REF_MODEL_PORT_IAB_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Finance\REF_DYN_BANK_IAB_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Finance\REF_PORT_DATA_IAB_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\Performance_MP_Check_*;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\vl_PERF_CL_FUNDS_VS_NAV_FILEN; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\vl_PERF_BACKDATED_REPORT_FILE;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Cash\SCD_CashFore_AllCCY_*.txt; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Public_Markets\vl_AIM_WHT_DEDUCTIONS_FILEN;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\IPD_TRN_EXT_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\IPD_PRFCLC_EXT_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\SystemOperations\vl_NT_POSITIONS_FILENAM; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\SystemOperations\NT_CASH_PMT_*.txt;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\vl_PRF_MEAS_ERROR_LOGS_FILENA; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Performance\Equity_Attribution_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\IRR\FUTURES_TRANS_RISK_*.*; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Public_Markets\SCD_PROJ_DIVIDENDS_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Finance\Price_Exception_Report_*.csv; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\Reports\IO_LFCONTRACTS_*.csv;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\IO\PFC_CASH_MGMT_*.txt; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\SystemOperations\vl_SCD_POS_ABOR_FILENAM;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\SystemOperations\vl_SCD_POS_FUNDCMP_FILE; \\bciftp\ftp.bci.ca\SCD\Inbound\PROD\SystemOperations\vl_SCD_GLHOLDING_FILENA;
+							\\bciftp\ftp.bci.ca\SCD\Inbound\PROD\IO\IO_POS_EXTRACT_PD_LF_*.csv
+						</td>
+					</tr>
+					<tr>
+						<td>BCI_SYNC_SCD_TO_BCI</td>
+						<td>PROD/Triggered_Plans/BCI_SYNC_SCD_TO_BCI</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>CHECK_DWH_LOAD</td>
+						<td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_DWH_LOAD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>CHECK_EOD_PRICES</td>
+						<td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_EOD_PRICES</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>CHECK_FILE_AGE</td>
+						<td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_FILE_AGE</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 AM</td>
+					</tr>
+					<tr>
+						<td>CHECK_SCD_EOD_PROCESSING</td>
+						<td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_SCD_EOD_PROCESSING</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:00 PM</td>
+					</tr>
+					<tr>
+						<td>CHECK_SCD_RECON_NT_CASH_PMT</td>
+						<td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_SCD_RECON_NT_CASH_PMT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>09:30 PM</td>
+					</tr>
+					<tr>
+						<td>CHECK_SCD_SOD</td>
+						<td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_SCD_SOD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>07:00 AM</td>
+					</tr>
+					<tr>
+						<td>CHECK_SYSTEM_DATE</td>
+						<td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_SYSTEM_DATE</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>04:00 AM</td>
+					</tr>
+					<tr>
+						<td>Delete_Integration_Table</td>
+						<td>PROD/Adhoc_Plans/Integration/Delete_Integration_Table</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>Delete_IT_App_Variables</td>
+						<td>PROD/Adhoc_Plans/Integration/Delete_IT_App_Variables</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DIV_TXN_TD.html">DIV_TXN_TD</a></td>
+						<td>PROD/Adhoc_Plans/Extracts_And_Reporting/DIV_TXN_TD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DIV_TXN_TD.html">DIV_TXN_TD</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/DIV_TXN_TD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>07:00 AM; 03:00 PM</td>
+					</tr>
+					<tr>
+						<td>DM_ALT_INV_MV_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Alternative_Investments/DM_ALT_INV_MV_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_TRANSACTIONS_</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_COPY_NT_CASH_PMT.html">DM_COPY_NT_CASH_PMT</a></td>
+						<td>PROD/Scheduled_Plans/DM_COPY_NT_CASH_PMT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_COPY_NT_POS_FILE.html">DM_COPY_NT_POS_FILE</a></td>
+						<td>PROD/Scheduled_Plans/DM_COPY_NT_POS_FILE</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_EXT_ABOR_DH_CHK.html">DM_EXT_ABOR_DH_CHK</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_ABOR_DH_CHK</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>04:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_EXT_DER_POS.html">DM_EXT_DER_POS</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_DER_POS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_EXT_DIV_TRXNS.html">DM_EXT_DIV_TRXNS</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_DIV_TRXNS</td>
+						<td>Enabled</td>
+						<td>Triggered by a Completion Trigger on AS_24D_CA_CR_SDTR</td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>DM_EXT_EDM_SMF</td>
+						<td>PROD/Scheduled_Plans/DM_EXT_EDM_SMF</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>02:30 PM; 03:00 PM; 05:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_EXT_HLD_STD_CTRT.html">DM_EXT_HLD_STD_CTRT</a></td>
+						<td>PROD/Scheduled_Plans/DM_EXT_HLD_STD_CTRT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>05:00 AM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_EXT_PMRS_REP.html">DM_EXT_PMRS_REP</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_PMRS_REP</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>10:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_EXT_POS_FI.html">DM_EXT_POS_FI</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_POS_FI</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>08:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_EXT_POS_IO_PD_LF.html">DM_EXT_POS_IO_PD_LF</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_POS_IO_PD_LF</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>12:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_EXT_PROJ_DIV.html">DM_EXT_PROJ_DIV</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_PROJ_DIV</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>03:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_EXT_REFRATE_ALL.html">DM_EXT_REFRATE_ALL</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_REFRATE_ALL</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_EXT_TRN_CASH_OPS.html">DM_EXT_TRN_CASH_OPS</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_TRN_CASH_OPS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>07:00 AM; 03:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_EXT_TRN_IO_LF.html">DM_EXT_TRN_IO_LF</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_TRN_IO_LF</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>04:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_EXT_TRN_IO_ZERPMT.html">DM_EXT_TRN_IO_ZERPMT</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_TRN_IO_ZERPMT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_FX_RATE_COPY.html">DM_FX_RATE_COPY</a></td>
+						<td>PROD/Scheduled_Plans/DM_FX_RATE_COPY</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>05:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_FX_RATE_UPDT.html">DM_FX_RATE_UPDT</a></td>
+						<td>PROD/Constraint_Triggered_Plans/IntraDay/DM_FX_RATE_UPDT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>09:00 AM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_MDV_AUDIT_EXPORT.html">DM_MDV_AUDIT_EXPORT</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_MDV_AUDIT_EXPORT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:30 PM</td>
+					</tr>
+					<tr>
+						<td>DM_MKTDATA_IDXCONST_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/DM_MKTDATA_IDXCONST_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERCash\</td>
+					</tr>
+					<tr>
+						<td>DM_REF_BANK_HOLIDAYS_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/DM_REF_BANK_HOLIDAYS_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_REFERENCE_DAT</td>
+					</tr>
+					<tr>
+						<td>DM_REF_BONDS_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/DM_REF_BONDS_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\SMF\; \\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_MKTDATA_FOLDE</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_REF_FCDIV.html">DM_REF_FCDIV</a></td>
+						<td>PROD/Scheduled_Plans/DM_REF_FCDIV</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>07:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_REF_FORMULA_VALUE.html">DM_REF_FORMULA_VALUE</a></td>
+						<td>PROD/Triggered_Plans/DM_REF_FORMULA_VALUE</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_REFERENCE_DAT</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_REF_FUNDDEFN_DATA.html">DM_REF_FUNDDEFN_DATA</a></td>
+						<td>PROD/Adhoc_Plans/DM_REF_FUNDDEFN_DATA</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>DM_REF_FUNDDEFN_DATA_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Reference_Data/DM_REF_FUNDDEFN_DATA_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_REFERENCE_DAT</td>
+					</tr>
+					<tr>
+						<td>DM_REF_MKTDATA_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/DM_REF_MKTDATA_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>
+							\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_MKTDATA_FOLDE; \\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_MKTDATA_FOLDE;
+							\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_MKTDATA_FOLDE; \\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_MKTDATA_FOLDE;
+							\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_MKTDATA_FOLDE
+						</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_REF_MP.html">DM_REF_MP</a></td>
+						<td>PROD/Adhoc_Plans/DM_REF_MP</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>DM_REF_MP_EDM_IMPORT_1</td>
+						<td>PROD/Triggered_Plans/DM_REF_MP_EDM_IMPORT_1</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERCash\</td>
+					</tr>
+					<tr>
+						<td>DM_REF_MP_EDM_IMPORT_2</td>
+						<td>PROD/Triggered_Plans/DM_REF_MP_EDM_IMPORT_2</td>
+						<td>Enabled</td>
+						<td>
+							Note this job has file constraits and will only file when all three files arrive 1) vl_STRAT_TAG_FX_FILENAME 2) vl_STRAT_TAG_SEG_FILENAME 3)
+							vl_STRAT_TAG_POOL_FILENAME
+						</td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>DM_REF_MP_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Reference_Data/DM_REF_MP_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_REFERENCE_DAT</td>
+					</tr>
+					<tr>
+						<td>DM_REF_MP_TXN_EXPORT_2</td>
+						<td>PROD/Triggered_Plans/Extracts_And_Reporting/DM_REF_MP_TXN_EXPORT_2</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERCash\</td>
+					</tr>
+					<tr>
+						<td>DM_REF_PARTIES_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/DM_REF_PARTIES_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_REFERENCE_DAT</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_REF_PORTF_BNKACC.html">DM_REF_PORTF_BNKACC</a></td>
+						<td>PROD/Adhoc_Plans/DM_REF_PORTF_BNKACC</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_REF_PORTF_DATA.html">DM_REF_PORTF_DATA</a></td>
+						<td>PROD/Adhoc_Plans/DM_REF_PORTF_DATA</td>
+						<td>Enabled</td>
+						<td>NOTE - the data for this job is loaded from \\Bciprodnas01tr1\bcip1\ActiveData\DataMigration\ReferenceData\*.*</td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>DM_REF_PORTF_DATA_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Reference_Data/DM_REF_PORTF_DATA_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_REFERENCE_DAT</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_REF_SEC_ALL.html">DM_REF_SEC_ALL</a></td>
+						<td>PROD/Scheduled_Plans/DM_REF_SEC_ALL</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>03:00 PM; 05:00 PM</td>
+					</tr>
+					<tr>
+						<td>DM_REF_SMF_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/DM_REF_SMF_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>
+							\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\SMF\; \\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\SMF\;
+							\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\SMF\; \\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\SMF\;
+							\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\SMF\; \\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\SMF\;
+							\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\SMF\
+						</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DM_STP_MKT_DATA.html">DM_STP_MKT_DATA</a></td>
+						<td>PROD/Scheduled_Plans/DM_STP_MKT_DATA</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>03:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DWH_LINEAGE.html">DWH_LINEAGE</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/DWH_LINEAGE</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>10:30 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\DWH_SYNC.html">DWH_SYNC</a></td>
+						<td>PROD/Adhoc_Plans/DWH_SYNC</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>DWHREC_FILE_MOVE_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/DWHREC_FILE_MOVE_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\DataWarehouse\</td>
+					</tr>
+					<tr>
+						<td>EDM_SEC_EXTRACTS</td>
+						<td>PROD/Adhoc_Plans/Extracts_And_Reporting/EDM_SEC_EXTRACTS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>ERONT_OPEN_PAY</td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/ERONT_OPEN_PAY</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>08:00 AM</td>
+					</tr>
+					<tr>
+						<td>EXTMGR_COPY_TO_PROCESS_TRIGGER</td>
+						<td>PROD/Triggered_Plans/External_Manager/EXTMGR_COPY_TO_PROCESS_TRIGGER</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>
+							${vce_BCI_FTP_SERVER}SCD\Inbound\vce_SCD_ENVIRONMENTvc_SWIFT_FOLDERMT54*_*.*; VBA_BC_BuySell_*.csv; *.csv; BCIM316*.csv; BCI_Arga_USTrades_*.csv; ICBCSegTrades_*.csv
+						</td>
+					</tr>
+					<tr>
+						<td>EXTMGR_START_OF_DAY_MOVE_FILES</td>
+						<td>PROD/Scheduled_Plans/EXTMGR_START_OF_DAY_MOVE_FILES</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>05:00 AM</td>
+					</tr>
+					<tr>
+						<td>FIN_REPO_RECON_DEXS</td>
+						<td>PROD/Constraint_Triggered_Plans/FIN_REPO_RECON_DEXS</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>08:45 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\FLS_DEXS.html">FLS_DEXS</a></td>
+						<td>PROD/Scheduled_Plans/FLS_DEXS</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>03:30 PM</td>
+					</tr>
+					<tr>
+						<td>FLS_DEXS_DO</td>
+						<td>PROD/Scheduled_Plans/FLS_DEXS_DO</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>03:30 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\FLS_POS_HOLDINGS.html">FLS_POS_HOLDINGS</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/FLS_POS_HOLDINGS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>12:00 AM</td>
+					</tr>
+					<tr>
+						<td>FTP_CAP_PAY</td>
+						<td>PROD/Triggered_Plans/Evergreen/FTP_CAP_PAY</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>TRN_CAPPAY_*</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\FUTURES_TRANS_RISK.html">FUTURES_TRANS_RISK</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/FUTURES_TRANS_RISK</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:45 PM</td>
+					</tr>
+					<tr>
+						<td>FX_FWD_REPORT</td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_FWD_REPORT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 AM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\FX_HEDGE_EXTRACT.html">FX_HEDGE_EXTRACT</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_HEDGE_EXTRACT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 AM</td>
+					</tr>
+					<tr>
+						<td>FX_HEDGE_EXTRACT_CASH_OPS</td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_HEDGE_EXTRACT/FX_HEDGE_EXTRACT_CASH_OPS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>FX_HEDGE_EXTRACT_IRR</td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_HEDGE_EXTRACT/FX_HEDGE_EXTRACT_IRR</td>
+						<td>Enabled</td>
+						<td>This extract for ITT only runs on the 1st of the month with an effective date of the 1st of the previous month.</td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>FX_HEDGE_EXTRACT_PUBLIC_MARKET</td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_FWD_REPORT/FX_HEDGE_EXTRACT_PUBLIC_MARKET</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\FX_REAL_G_L.html">FX_REAL_G_L</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_REAL_G_L</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 AM</td>
+					</tr>
+					<tr>
+						<td>FX_REAL_G_L_CASH_OPS</td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_REAL_G_L/FX_REAL_G_L_CASH_OPS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>FX_REAL_G_L_IRR</td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_REAL_G_L/FX_REAL_G_L_IRR</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>FX_REAL_G_L_PUBLIC_MARKET</td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_REAL_G_L/FX_REAL_G_L_PUBLIC_MARKET</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>GET_DM_REF_FUNDDEFN</td>
+						<td>PROD/Triggered_Plans/Import_To_SCD/GET_DM_REF_FUNDDEFN</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>REF_BANKHOLIDAYS*.csv</td>
+					</tr>
+					<tr>
+						<td>GET_DM_REF_MP</td>
+						<td>PROD/Triggered_Plans/Import_To_SCD/GET_DM_REF_MP</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>REF_BANKHOLIDAYS*.csv</td>
+					</tr>
+					<tr>
+						<td>GET_PORTFDATA</td>
+						<td>PROD/Triggered_Plans/Import_To_SCD/GET_PORTFDATA</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>REF_BANKHOLIDAYS*.csv</td>
+					</tr>
+					<tr>
+						<td>GET_PORTFOLIO_PERF_DATES</td>
+						<td>PROD/Triggered_Plans/Import_To_SCD/GET_PORTFOLIO_PERF_DATES</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>REF_BANKHOLIDAYS*.csv</td>
+					</tr>
+					<tr>
+						<td>GET_SMF_FUND_CERTS_INTERNAL</td>
+						<td>PROD/Triggered_Plans/Import_To_SCD/GET_SMF_FUND_CERTS_INTERNAL</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>REF_BANKHOLIDAYS*.csv</td>
+					</tr>
+					<tr>
+						<td>GET_YIELD_SPREADS</td>
+						<td>PROD/Triggered_Plans/Import_To_SCD/GET_YIELD_SPREADS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>MANUAL_STD_CONTRACT_Q*.csv</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\GL_HOLDING_EXT.html">GL_HOLDING_EXT</a></td>
+						<td>PROD/Adhoc_Plans/Extracts_And_Reporting/GL_HOLDING_EXT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\HIST_RETURN.html">HIST_RETURN</a></td>
+						<td>PROD/Adhoc_Plans/HIST_RETURN</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>Insert_Integration_Table</td>
+						<td>PROD/Adhoc_Plans/Integration/Insert_Integration_Table</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>Insert_IT_App_Variables</td>
+						<td>PROD/Adhoc_Plans/Integration/Insert_IT_App_Variables</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\IO_AI_UNFUND_COMMIT.html">IO_AI_UNFUND_COMMIT</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/IO_AI_UNFUND_COMMIT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>07:00 AM; 04:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\IO_FUT_TXN.html">IO_FUT_TXN</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/IO_FUT_TXN</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 AM; 07:00 AM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\IO_SETTLE_POSITIONS.html">IO_SETTLE_POSITIONS</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/IO_SETTLE_POSITIONS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:30 AM; 11:30 AM; 03:30 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\IO_SWAP_ID_MAPPING.html">IO_SWAP_ID_MAPPING</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/IO_SWAP_ID_MAPPING</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 AM; 04:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\IPD_PRFCLC_EXT.html">IPD_PRFCLC_EXT</a></td>
+						<td>PROD/Adhoc_Plans/Extracts_And_Reporting/IPD_PRFCLC_EXT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\IPD_TRN_EXT.html">IPD_TRN_EXT</a></td>
+						<td>PROD/Adhoc_Plans/Extracts_And_Reporting/IPD_TRN_EXT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>KAM1SwiftPW01_Test</td>
+						<td>PROD/Adhoc_Plans/Temp/KAM1SwiftPW01_Test</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>LDOM_PRF_REP_DAILY</td>
+						<td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_PRF_REP_DAILY</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>07:00 PM</td>
+					</tr>
+					<tr>
+						<td>LDOM_PRF_REP_MONTHLY</td>
+						<td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_PRF_REP_MONTHLY</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>07:00 PM</td>
+					</tr>
+					<tr>
+						<td>LDOM_SCD_DWH_LOAD</td>
+						<td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_SCD_DWH_LOAD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:15 PM</td>
+					</tr>
+					<tr>
+						<td>LDOM_SCD_DWH_RECON</td>
+						<td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_SCD_DWH_RECON</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:30 PM</td>
+					</tr>
+					<tr>
+						<td>LDOM_SCD_EOD_PROCESSING</td>
+						<td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_SCD_EOD_PROCESSING</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 PM</td>
+					</tr>
+					<tr>
+						<td>LDOM_SCD_EXTRACTS_POST_EOD</td>
+						<td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_SCD_EXTRACTS_POST_EOD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:15 PM</td>
+					</tr>
+					<tr>
+						<td>LDOM_SCD_PERF_DAILY</td>
+						<td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_SCD_PERF_DAILY</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:30 PM</td>
+					</tr>
+					<tr>
+						<td>LDOM_SCD_SO_PFC_DEADLOCK_EXT</td>
+						<td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_SCD_SO_PFC_DEADLOCK_EXT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:45 PM</td>
+					</tr>
+					<tr>
+						<td>LDOM_SCD_SOD</td>
+						<td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_SCD_SOD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>03:30 AM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\LE_NAME_UPD.html">LE_NAME_UPD</a></td>
+						<td>PROD/Adhoc_Plans/LE_NAME_UPD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>List_Integration_Table</td>
+						<td>PROD/Adhoc_Plans/Integration/List_Integration_Table</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>List_IT_App_Variables</td>
+						<td>PROD/Adhoc_Plans/Integration/List_IT_App_Variables</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\MAN_FORMULA_VALUE.html">MAN_FORMULA_VALUE</a></td>
+						<td>PROD/Triggered_Plans/MAN_FORMULA_VALUE</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERSMF\</td>
+					</tr>
+					<tr>
+						<td>MANUAL_MOVE_TO_TRANSACTIONS</td>
+						<td>PROD/Triggered_Plans/Process_Email/MANUAL_MOVE_TO_TRANSACTIONS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION
+						</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\MANUAL_QUOTE.html">MANUAL_QUOTE</a></td>
+						<td>PROD/Triggered_Plans/MANUAL_QUOTE</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\Manual\</td>
+					</tr>
+					<tr>
+						<td>MANUAL_QUOTES</td>
+						<td>PROD/Scheduled_Plans/MANUAL_QUOTES</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>10:00 PM</td>
+					</tr>
+					<tr>
+						<td>MOVE_FILE_MANUAL_JOB</td>
+						<td>PROD/Triggered_Plans/Extracts_And_Reporting/MOVE_FILE_MANUAL_JOB</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\Out\Direct\IO\</td>
+					</tr>
+					<tr>
+						<td>MOVE_PORTFOLIO_PERF_DATES_TO_DIRECT</td>
+						<td>PROD/Triggered_Plans/Reference_Data/MOVE_PORTFOLIO_PERF_DATES_TO_DIRECT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_REFERENCE_DAT</td>
+					</tr>
+					<tr>
+						<td>PAYMENT_RECONCILIATION</td>
+						<td>PROD/Scheduled_Plans/PAYMENT_RECONCILIATION</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>09:00 AM</td>
+					</tr>
+					<tr>
+						<td>PERF_INDEX_UNIDATA_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/PERF_INDEX_UNIDATA_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_MKTDATA_FOLDE</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\PERF_IUD_IMPORT.html">PERF_IUD_IMPORT</a></td>
+						<td>PROD/Triggered_Plans/PERF_IUD_IMPORT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>PRF_CALC_IRR</td>
+						<td>PROD/Adhoc_Plans/Extracts_And_Reporting/PRF_CALC_IRR</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>PRF_CFT_EMAIL</td>
+						<td>PROD/Triggered_Plans/Extracts_And_Reporting/PRF_CFT_EMAIL</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION
+						</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\PRF_REP_MONTHLY.html">PRF_REP_MONTHLY</a></td>
+						<td>PROD/Constraint_Triggered_Plans/PRF_REP_MONTHLY</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:40 PM</td>
+					</tr>
+					<tr>
+						<td>PROCESS_SCD_BATCH_EMAIL_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Process_Email/Email_Azure_Trigger/PROCESS_SCD_BATCH_EMAIL_TRIGGERED</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>PROCESS_SCD_BATCH_EMAIL_TRIGGERED_NEW</td>
+						<td>PROD/Triggered_Plans/Process_Email/Email_Azure_Trigger/PROCESS_SCD_BATCH_EMAIL_TRIGGERED_NEW</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>PROCESS_SCD_BATCH_EMAIL_TRIGGERED_UPD</td>
+						<td>PROD/Triggered_Plans/Process_Email/Email_Azure_Trigger/PROCESS_SCD_BATCH_EMAIL_TRIGGERED_UPD</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\RE_CASH_MGMT.html">RE_CASH_MGMT</a></td>
+						<td>PROD/Scheduled_Plans/RE_CASH_MGMT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>05:00 AM; 12:00 PM; 03:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\RE_DWH_CLEAN.html">RE_DWH_CLEAN</a></td>
+						<td>PROD/Adhoc_Plans/RE_DWH_CLEAN</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\RE_DWH_CLEAN.html">RE_DWH_CLEAN</a></td>
+						<td>PROD/Scheduled_Plans/RE_DWH_CLEAN</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 PM</td>
+					</tr>
+					<tr>
+						<td>RE_DWH_LOAD_ADHOC</td>
+						<td>PROD/Adhoc_Plans/RE_DWH_LOAD_ADHOC</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\RE_DWH_LOAD_TEST.html">RE_DWH_LOAD_TEST</a></td>
+						<td>PROD/Adhoc_Plans/RE_DWH_LOAD_TEST</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\RE_DWH_PFC_CLEAN.html">RE_DWH_PFC_CLEAN</a></td>
+						<td>PROD/Scheduled_Plans/RE_DWH_PFC_CLEAN</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>07:00 PM</td>
+					</tr>
+					<tr>
+						<td>RE_PERF_DWH_LOAD_RESUBMIT</td>
+						<td>PROD/Scheduled_Plans/RE_PERF_DWH_LOAD_RESUBMIT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>RECON_AIM_CASH_RECON_SD_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Recon/RECON_AIM_CASH_RECON_SD_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\Direct\vce_RECON_FOLDE</td>
+					</tr>
+					<tr>
+						<td>RECON_AIM_CASH_RECON_TD_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Recon/RECON_AIM_CASH_RECON_TD_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\Direct\vce_RECON_FOLDE</td>
+					</tr>
+					<tr>
+						<td>RECON_AIM_FILE_MOVE_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/RECON_AIM_FILE_MOVE_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\Recon\</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\RECON_INT_BNK_CB.html">RECON_INT_BNK_CB</a></td>
+						<td>PROD/Adhoc_Plans/Recon/RECON_INT_BNK_CB</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\RECON_INT_DERIV.html">RECON_INT_DERIV</a></td>
+						<td>PROD/Adhoc_Plans/Recon/RECON_INT_DERIV</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>RECON_INT_DERIV_FILE_MOVE_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/RECON_INT_DERIV_FILE_MOVE_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\SuperD\</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\RECON_INT_UNIT_1.html">RECON_INT_UNIT_1</a></td>
+						<td>PROD/Adhoc_Plans/Recon/RECON_INT_UNIT_1</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\RECON_NT_CSH_PMT.html">RECON_NT_CSH_PMT</a></td>
+						<td>PROD/Adhoc_Plans/RECON_NT_CSH_PMT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>RECON_NT_WHT_FILE_MOVE_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/RECON_NT_WHT_FILE_MOVE_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\Recon\</td>
+					</tr>
+					<tr>
+						<td>RECON_NT_WTAX_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Recon/RECON_NT_WTAX_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\Direct\vce_RECON_FOLDE</td>
+					</tr>
+					<tr>
+						<td>REF_IAB_DATA</td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/REF_IAB_DATA</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:45 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\REF_SMF.html">REF_SMF</a></td>
+						<td>PROD/Adhoc_Plans/Temp/REF_SMF</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\REF_SMF_LFCONTRACTS.html">REF_SMF_LFCONTRACTS</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/REF_SMF_LFCONTRACTS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 AM; 12:30 PM; 03:00 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\SA_CASH_MGMT.html">SA_CASH_MGMT</a></td>
+						<td>PROD/Adhoc_Plans/SA_CASH_MGMT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\SA_CASH_MGMT.html">SA_CASH_MGMT</a></td>
+						<td>PROD/Constraint_Triggered_Plans/SA_CASH_MGMT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>03:30 AM</td>
+					</tr>
+					<tr>
+						<td>SA_CASH_MGMT_FILE_MOVE_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/SA_CASH_MGMT_FILE_MOVE_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>Cash\Outgoing\PFC_CASH_MGMT_*.txt; Cash\Outgoing\CASH_MGMT_*.csv; Cash\Outgoing\IO_CASH_MGMT_*.txt</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\SA_CASH_MGMT_PFC.html">SA_CASH_MGMT_PFC</a></td>
+						<td>PROD/Adhoc_Plans/SA_CASH_MGMT_PFC</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>SA_CASHFORE_ALLCCY_FILE_MOVE_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/SA_CASHFORE_ALLCCY_FILE_MOVE_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>Cash\Outgoing\SCD_CashFore_AllCCY_*.txt</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\SA_PAYR_RAISE_STAT.html">SA_PAYR_RAISE_STAT</a></td>
+						<td>PROD/Adhoc_Plans/SA_PAYR_RAISE_STAT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>SCD_AIM_WHT_DEDUCTIONS</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_AIM_WHT_DEDUCTIONS</td>
+						<td>Enabled</td>
+						<td>Delivers a file to AIM/Integration with Withholding taxes on Coupons/dividends. Related to SCD-4807</td>
+						<td>03:30 AM</td>
+					</tr>
+					<tr>
+						<td>SCD_Callout</td>
+						<td>PROD/Adhoc_Plans/SCD_Callout</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>SCD_Callout_Rotation</td>
+						<td>PROD/Scheduled_Plans/Callout/SCD_Callout_Rotation</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>05:00 AM</td>
+					</tr>
+					<tr>
+						<td>SCD_DWH_LOAD</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_DWH_LOAD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>08:45 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_DWH_RECON</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_DWH_RECON</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:30 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_DWH_RECON_GLHOLDING</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_DWH_RECON_GLHOLDING</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:30 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_EOD_PROCESSING</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_EOD_PROCESSING</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>08:30 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_EXTRACTS_6pm</td>
+						<td>PROD/Scheduled_Plans/SCD_EXTRACTS_6pm</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>06:00 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_EXTRACTS_POST_DWH</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_EXTRACTS_POST_DWH</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:00 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_EXTRACTS_POST_EOD</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_EXTRACTS_POST_EOD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>08:45 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_FLS_DEX_EXTRACT</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_FLS_DEX_EXTRACT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>08:45 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_FRR_MAT_ALERT</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_FRR_MAT_ALERT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 AM</td>
+					</tr>
+					<tr>
+						<td>SCD_MANUAL_QUOTE</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_MANUAL_QUOTE</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>08:30 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_PERF</td>
+						<td>PROD/Adhoc_Plans/Performance/SCD_PERF</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>SCD_PERF_DAILY</td>
+						<td>PROD/Adhoc_Plans/Performance/SCD_PERF_DAILY</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>SCD_PERF_DAILY_1</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_PERF_DAILY_1</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:00 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_PERF_DAILY_2</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_PERF_DAILY_2</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:00 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_PERF_DAILY_3</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_PERF_DAILY_3</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:00 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_PERF_DAILY_INDEX</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_PERF_DAILY_INDEX</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:00 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_PERF_DWH_LOAD</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_PERF_DWH_LOAD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:00 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_PERF_EXTRACT_UPD</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_PERF_EXTRACT_UPD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:00 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_PERF_ME</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_PERF_ME</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:40 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_PERF_REP_DAILY_1</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_PERF_REP_DAILY_1</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:00 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_PERF_REP_DAILY_2</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_PERF_REP_DAILY_2</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:00 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_PERF_WEEKLY_1</td>
+						<td>PROD/Scheduled_Plans/Performance/SCD_PERF_WEEKLY_1</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_RECON</td>
+						<td>PROD/Adhoc_Plans/Recon/SCD_RECON</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>SCD_RECON</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_RECON</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:00 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_RECON_AIM_POSITIONS</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_RECON_AIM_POSITIONS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>11:45 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_RECON_NT_CASH_PMT</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_RECON_NT_CASH_PMT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>08:00 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_REPO_FLOAT_MAT_POST_SOD</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_REPO_FLOAT_MAT_POST_SOD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>07:00 AM</td>
+					</tr>
+					<tr>
+						<td>SCD_SO_PFC_DEADLOCK_EXT</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_SO_PFC_DEADLOCK_EXT</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>08:45 PM</td>
+					</tr>
+					<tr>
+						<td>SCD_SOD</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_SOD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>03:30 AM</td>
+					</tr>
+					<tr>
+						<td>SCD_STREPO_DEXS</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_STREPO_DEXS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>08:45 PM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\SECURITY_DEAL_ID.html">SECURITY_DEAL_ID</a></td>
+						<td>PROD/Constraint_Triggered_Plans/SECURITY_DEAL_ID</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 PM</td>
+					</tr>
+					<tr>
+						<td>Set_App_Variable_DWH_LOAD_End</td>
+						<td>PROD/Adhoc_Plans/Temp/Set_App_Variable_DWH_LOAD_End</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>Set_App_Variable_DWH_LOAD_Start</td>
+						<td>PROD/Adhoc_Plans/Temp/Set_App_Variable_DWH_LOAD_Start</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>Set_App_Variable_DWH_LOAD_Start</td>
+						<td>PROD/Constraint_Triggered_Plans/SCD_DWH_LOAD/Set_App_Variable_DWH_LOAD_Start</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>SFTP_MOVE_TO_MANUAL</td>
+						<td>PROD/Triggered_Plans/Process_Email/SFTP_MOVE_TO_MANUAL</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION
+						</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\SO_CBU_CLEANUP.html">SO_CBU_CLEANUP</a></td>
+						<td>PROD/Adhoc_Plans/System_Operations/SO_CBU_CLEANUP</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>SO_DWHREC_CLEANUP</td>
+						<td>PROD/Scheduled_Plans/System_Operations/SO_DWHREC_CLEANUP</td>
+						<td>Enabled</td>
+						<td>
+							Runs Cleanup General Reconciliations task (passing TD-100BD) to only clean one days Recon for DWHREC_ABOR_01,DWHREC_ABOR_02,DWHREC_ABOR_03,DWHREC_ABOR_04,
+							DWHREC_GLHOL_01.DWHREC_GLHOL_02.DWHREC_GLHOL_03.DWHREC_GLHOL_04.
+						</td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>SO_GEN_REC_STATS_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Extracts_And_Reporting/System_Operations/SO_GEN_REC_STATS_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>REF_BANKHOLIDAYS*.csv</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\SO_V_BUS_DATA.html">SO_V_BUS_DATA</a></td>
+						<td>PROD/Scheduled_Plans/System_Operations/SO_V_BUS_DATA</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>06:00 PM</td>
+					</tr>
+					<tr>
+						<td>SOD_SET_DATE</td>
+						<td>PROD/Constraint_Triggered_Plans/SOD_SET_DATE</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>01:00 AM</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\STREPO_DEXS.html">STREPO_DEXS</a></td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/STREPO_DEXS</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>03:30 PM</td>
+					</tr>
+					<tr>
+						<td>STREPO_DEXS_DO</td>
+						<td>PROD/Scheduled_Plans/Extracts_And_Reporting/STREPO_DEXS_DO</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>SWIFT_GET_FILES_AND_FTP_TO_SCD</td>
+						<td>PROD/Scheduled_Plans/SWIFT/SWIFT_GET_FILES_AND_FTP_TO_SCD</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>12:00 AM</td>
+					</tr>
+					<tr>
+						<td>SWIFT_MOVE_TO_COMM_SERVER</td>
+						<td>PROD/Scheduled_Plans/SWIFT/SWIFT_MOVE_TO_COMM_SERVER</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>N/A</td>
+					</tr>
+					<tr>
+						<td>Swift_Test</td>
+						<td>PROD/Adhoc_Plans/Temp/Swift_Test</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>Test Permissions</td>
+						<td>PROD/Adhoc_Plans/Test Permissions</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>test_alerts</td>
+						<td>PROD/Adhoc_Plans/test_alerts</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>TEST_DWH_PFC</td>
+						<td>PROD/Adhoc_Plans/TEST_DWH_PFC</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>TM_DEPO_REPO_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TM_DEPO_REPO_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_TRANSACTIONS_; \\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_TRANSACTIONS_</td>
+					</tr>
+					<tr>
+						<td>TRN_ALT_INV_INC_EXP_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Alternative_Investments/TRN_ALT_INV_INC_EXP_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\TRN_BANK_ACC_OPN_BAL.html">TRN_BANK_ACC_OPN_BAL</a></td>
+						<td>PROD/Triggered_Plans/TRN_BANK_ACC_OPN_BAL</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_TRANSACTIONS_</td>
+					</tr>
+					<tr>
+						<td>TRN_BOOK_CORR_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Alternative_Investments/TRN_BOOK_CORR_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>TRN_CAP_PAY_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Alternative_Investments/TRN_CAP_PAY_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>TRN_CASH_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_CASH_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERCash\; \\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\Cash\$;
+							\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\Cash\$; \\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\Cash\$;
+							\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\Cash\$; \\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\Cash\$;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERCash\
+						</td>
+					</tr>
+					<tr>
+						<td>TRN_CDS_IDX_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_CDS_IDX_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>TRN_CDS_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_CDS_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>TRN_DIV_SWAP_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_DIV_SWAP_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>TRN_EXT_CL_TRD_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_EXT_CL_TRD_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_TRANSACTIONS_; \\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_TRANSACTIONS_</td>
+					</tr>
+					<tr>
+						<td>TRN_FUT_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_FUT_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\vce_TRANSACTIONS_; \\Bciprodnas01tr1\BCIP1\ActiveData\Interfaces\In\SFTP\SMF\</td>
+					</tr>
+					<tr>
+						<td>TRN_FX_OPT_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_FX_OPT_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>TRN_IRS_BASIS_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_IRS_BASIS_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTIO</td>
+					</tr>
+					<tr>
+						<td>TRN_IRS_FI_FL_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_IRS_FI_FL_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>TRN_IRS_OIS_FI_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_IRS_OIS_FI_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>TRN_IRS_OIS_FL_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_IRS_OIS_FL_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\TRN_LF_EVENTS.html">TRN_LF_EVENTS</a></td>
+						<td>PROD/Triggered_Plans/Alternative_Investments/TRN_LF_EVENTS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td><a href="plan_pages\TRN_LF_PAYDOWNS.html">TRN_LF_PAYDOWNS</a></td>
+						<td>PROD/Triggered_Plans/Alternative_Investments/TRN_LF_PAYDOWNS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>TRN_LN_FAC_DWN_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Alternative_Investments/TRN_LN_FAC_DWN_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>TRN_LN_FAC_ROL_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Alternative_Investments/TRN_LN_FAC_ROL_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>TRN_OTC_OPT_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_OTC_OPT_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERSMF\;
+							\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION
+						</td>
+					</tr>
+					<tr>
+						<td>TRN_PDWN_LN_FAC_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/Alternative_Investments/TRN_PDWN_LN_FAC_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>TRN_REPO_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_REPO_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERCash\</td>
+					</tr>
+					<tr>
+						<td>TRN_SBB_O_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_SBB_O_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>TRN_SWAPTION_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_SWAPTION_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>TRN_TRS_TRIGGERED</td>
+						<td>PROD/Triggered_Plans/TRN_TRS_TRIGGERED</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>\\Bciprodnas01tr1\vce_APPLICATIONActiveData\Interfaces\In\vce_SFTP_FOLDERvce_TRANSACTION</td>
+					</tr>
+					<tr>
+						<td>Update_Integration_Table</td>
+						<td>PROD/Adhoc_Plans/Integration/Update_Integration_Table</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>Update_IT_App_Variables</td>
+						<td>PROD/Adhoc_Plans/Integration/Update_IT_App_Variables</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>ZIP_AND_DELETE_FTP_FOLDERS</td>
+						<td>PROD/Adhoc_Plans/Admin/ZIP_AND_DELETE_FTP_FOLDERS</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>ZIP_AND_DELETE_SWIFT_FOLDER</td>
+						<td>PROD/Adhoc_Plans/Admin/ZIP_AND_DELETE_SWIFT_FOLDER</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>zz_ADHOC_PERF_DAILY</td>
+						<td>PROD/Adhoc_Plans/Performance/zz_ADHOC_PERF_DAILY</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>zz_ADHOC_PERF_DAILY_CLI</td>
+						<td>PROD/Adhoc_Plans/Performance/zz_ADHOC_PERF_DAILY_CLI</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>zz_ADHOC_PERF_DAILY_FUN</td>
+						<td>PROD/Adhoc_Plans/Performance/zz_ADHOC_PERF_DAILY_FUN</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>zz_PERF_REP_DAILY</td>
+						<td>PROD/Adhoc_Plans/Performance/zz_PERF_REP_DAILY</td>
+						<td>Enabled</td>
+						<td></td>
+						<td>ADHOC</td>
+					</tr>
+					<tr>
+						<td>zz_PRF_REP_DAILY</td>
+						<td>PROD/Constraint_Triggered_Plans/zz_PRF_REP_DAILY</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>11:45 PM</td>
+					</tr>
+					<tr>
+						<td>zz_SCD_EXTRACTS_PRE_EOD</td>
+						<td>PROD/Constraint_Triggered_Plans/zz_SCD_EXTRACTS_PRE_EOD</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>06:00 PM</td>
+					</tr>
+					<tr>
+						<td>zz_SCD_PERF_DAILY</td>
+						<td>PROD/Constraint_Triggered_Plans/zz_SCD_PERF_DAILY</td>
+						<td>Disabled</td>
+						<td></td>
+						<td>11:00 PM</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<script src="navbar.js"></script>
+	</body>
+</html>

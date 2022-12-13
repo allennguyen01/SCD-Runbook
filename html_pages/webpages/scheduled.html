@@ -1,0 +1,452 @@
+
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <title>Scheduled Plans</title>
+            <meta name="description" content="">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+
+            <link rel="stylesheet" href="styles.css">
+
+            <!-- Add jQuery and DataTables library and Bootstrap 5 integration -->
+            <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+            <!-- <script src="..\html_pages\webpages\jquery-3.6.1.js"></script> -->
+            <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css"> -->
+
+            <!-- CSS library files needed for searchPane filter extension -->
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/searchpanes/2.0.2/css/searchPanes.bootstrap5.min.css">
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.bootstrap5.min.css">
+
+            <!-- JavaScript files needed for searchPane filter extension -->
+            <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.0.2/js/dataTables.searchPanes.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.0.2/js/searchPanes.bootstrap5.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+
+            <!-- CSS library files needed for export buttons feature -->
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css"/>
+
+            <!-- JavaScript files needed for buttons feature -->
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap5.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+                <!-- For Excel export button  -->
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+                <!-- For PDF export button -->
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+                <!-- For column visibility -->
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
+
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+            		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+			crossorigin="anonymous"></script>
+
+            <script src="https://www.gstatic.com/charts/loader.js"></script>
+            <script src="addDataTablesFeatures.js"></script>
+            <script src="timeline.js"></script>
+        </head>
+    <body>
+        <div class="container-fluid">
+            <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+                <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                    <img class="me-4" src="images\BCI-logo-250x129.png" alt="BCI" height="32px">
+                    <h2 class="fw-bold mt-1">SCD Runbook</h2>
+                </a>
+        
+                <ul class="nav nav-pills align-items-center">
+                    <li class="nav-item">
+                        <a href="scheduled.html" class="nav-link" id="scheduled-nav">
+                            Scheduled Plans
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="imports.html" class="nav-link" id="imports-nav">
+                            SCD Imports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="exports.html" class="nav-link" id="exports-nav">
+                            SCD Exports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="inventory.html" class="nav-link" id="inventory-nav">
+                            ActiveBatch Inventory
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="timeline.html" class="nav-link" id="timeline-nav">
+                            Timeline
+                        </a>
+                    </li>
+                </ul>
+            </header>
+        </div>
+
+        <div class="px-4 py-3 mb-4 bg-light rounded-3 fs-6">
+            <div class="container-fluid">
+                <div class="h3 fw-bold">Scheduled Plans</div>
+                <div id="last-update" class="fw-semibold">Last Sync: 12/13/2022 @ 13:53:27</div>
+                <div class="col-md-12">Contains scheduled and constraint triggered plans from ActiveBatch</div>
+                
+                <div class="accordion" id="accordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Table legend
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordion">
+                            <div class="accordion-body">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <table border="1" class="table table-hover table-bordered table-striped" id="table_id">
+		<thead>
+			<tr style="text-align: right;"><th>Name</th><th>Path Name</th><th>Scheduled Times</th></tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>AR_ADHOC</td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/AR_ADHOC</td><td>06:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\AR_MTHLY.html">AR_MTHLY</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/AR_MTHLY</td><td>06:00 AM; 10:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\AR_SYS_CHG.html">AR_SYS_CHG</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/AR_SYS_CHG</td><td>07:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\AS_24D_CA_CR_SDTR.html">AS_24D_CA_CR_SDTR</a></td><td>PROD/Scheduled_Plans/AS_24D_CA_CR_SDTR</td><td>05:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\AUDIT_ACTIVE_USERS.html">AUDIT_ACTIVE_USERS</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/AUDIT_ACTIVE_USERS</td><td>07:00 AM</td>
+			</tr>
+			<tr>
+				<td>CHECK_DWH_LOAD</td><td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_DWH_LOAD</td><td></td>
+			</tr>
+			<tr>
+				<td>CHECK_EOD_PRICES</td><td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_EOD_PRICES</td><td></td>
+			</tr>
+			<tr>
+				<td>CHECK_FILE_AGE</td><td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_FILE_AGE</td><td>06:00 AM</td>
+			</tr>
+			<tr>
+				<td>CHECK_SCD_EOD_PROCESSING</td><td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_SCD_EOD_PROCESSING</td><td>11:00 PM</td>
+			</tr>
+			<tr>
+				<td>CHECK_SCD_RECON_NT_CASH_PMT</td><td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_SCD_RECON_NT_CASH_PMT</td><td>09:30 PM</td>
+			</tr>
+			<tr>
+				<td>CHECK_SCD_SOD</td><td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_SCD_SOD</td><td>07:00 AM</td>
+			</tr>
+			<tr>
+				<td>CHECK_SYSTEM_DATE</td><td>PROD/Scheduled_Plans/Constraint_And_Plan_Checks/CHECK_SYSTEM_DATE</td><td>04:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DIV_TXN_TD.html">DIV_TXN_TD</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/DIV_TXN_TD</td><td>07:00 AM; 03:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_COPY_NT_CASH_PMT.html">DM_COPY_NT_CASH_PMT</a></td><td>PROD/Scheduled_Plans/DM_COPY_NT_CASH_PMT</td><td></td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_COPY_NT_POS_FILE.html">DM_COPY_NT_POS_FILE</a></td><td>PROD/Scheduled_Plans/DM_COPY_NT_POS_FILE</td><td></td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_EXT_ABOR_DH_CHK.html">DM_EXT_ABOR_DH_CHK</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_ABOR_DH_CHK</td><td>04:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_EXT_DER_POS.html">DM_EXT_DER_POS</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_DER_POS</td><td></td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_EXT_DIV_TRXNS.html">DM_EXT_DIV_TRXNS</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_DIV_TRXNS</td><td></td>
+			</tr>
+			<tr>
+				<td>DM_EXT_EDM_SMF</td><td>PROD/Scheduled_Plans/DM_EXT_EDM_SMF</td><td>02:30 PM; 03:00 PM; 05:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_EXT_HLD_STD_CTRT.html">DM_EXT_HLD_STD_CTRT</a></td><td>PROD/Scheduled_Plans/DM_EXT_HLD_STD_CTRT</td><td>05:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_EXT_PMRS_REP.html">DM_EXT_PMRS_REP</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_PMRS_REP</td><td>10:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_EXT_POS_FI.html">DM_EXT_POS_FI</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_POS_FI</td><td>08:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_EXT_POS_IO_PD_LF.html">DM_EXT_POS_IO_PD_LF</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_POS_IO_PD_LF</td><td>12:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_EXT_PROJ_DIV.html">DM_EXT_PROJ_DIV</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_PROJ_DIV</td><td>03:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_EXT_REFRATE_ALL.html">DM_EXT_REFRATE_ALL</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_REFRATE_ALL</td><td></td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_EXT_TRN_CASH_OPS.html">DM_EXT_TRN_CASH_OPS</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_TRN_CASH_OPS</td><td>07:00 AM; 03:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_EXT_TRN_IO_LF.html">DM_EXT_TRN_IO_LF</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_TRN_IO_LF</td><td>04:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_EXT_TRN_IO_ZERPMT.html">DM_EXT_TRN_IO_ZERPMT</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_EXT_TRN_IO_ZERPMT</td><td></td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_FX_RATE_COPY.html">DM_FX_RATE_COPY</a></td><td>PROD/Scheduled_Plans/DM_FX_RATE_COPY</td><td>05:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_FX_RATE_UPDT.html">DM_FX_RATE_UPDT</a></td><td>PROD/Constraint_Triggered_Plans/IntraDay/DM_FX_RATE_UPDT</td><td>09:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_MDV_AUDIT_EXPORT.html">DM_MDV_AUDIT_EXPORT</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/DM_MDV_AUDIT_EXPORT</td><td>11:30 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_FCDIV.html">DM_REF_FCDIV</a></td><td>PROD/Scheduled_Plans/DM_REF_FCDIV</td><td>07:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_REF_SEC_ALL.html">DM_REF_SEC_ALL</a></td><td>PROD/Scheduled_Plans/DM_REF_SEC_ALL</td><td>03:00 PM; 05:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DM_STP_MKT_DATA.html">DM_STP_MKT_DATA</a></td><td>PROD/Scheduled_Plans/DM_STP_MKT_DATA</td><td>03:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\DWH_LINEAGE.html">DWH_LINEAGE</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/DWH_LINEAGE</td><td>10:30 PM</td>
+			</tr>
+			<tr>
+				<td>ERONT_OPEN_PAY</td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/ERONT_OPEN_PAY</td><td>08:00 AM</td>
+			</tr>
+			<tr>
+				<td>EXTMGR_START_OF_DAY_MOVE_FILES</td><td>PROD/Scheduled_Plans/EXTMGR_START_OF_DAY_MOVE_FILES</td><td>05:00 AM</td>
+			</tr>
+			<tr>
+				<td>FLS_DEXS_DO</td><td>PROD/Scheduled_Plans/FLS_DEXS_DO</td><td>03:30 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\FLS_POS_HOLDINGS.html">FLS_POS_HOLDINGS</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/FLS_POS_HOLDINGS</td><td>12:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\FUTURES_TRANS_RISK.html">FUTURES_TRANS_RISK</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/FUTURES_TRANS_RISK</td><td>11:45 PM</td>
+			</tr>
+			<tr>
+				<td>FX_FWD_REPORT</td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_FWD_REPORT</td><td>06:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\FX_HEDGE_EXTRACT.html">FX_HEDGE_EXTRACT</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_HEDGE_EXTRACT</td><td>06:00 AM</td>
+			</tr>
+			<tr>
+				<td>FX_HEDGE_EXTRACT_CASH_OPS</td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_HEDGE_EXTRACT/FX_HEDGE_EXTRACT_CASH_OPS</td><td></td>
+			</tr>
+			<tr>
+				<td>FX_HEDGE_EXTRACT_IRR</td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_HEDGE_EXTRACT/FX_HEDGE_EXTRACT_IRR</td><td></td>
+			</tr>
+			<tr>
+				<td>FX_HEDGE_EXTRACT_PUBLIC_MARKET</td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_FWD_REPORT/FX_HEDGE_EXTRACT_PUBLIC_MARKET</td><td></td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\FX_REAL_G_L.html">FX_REAL_G_L</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_REAL_G_L</td><td>06:00 AM</td>
+			</tr>
+			<tr>
+				<td>FX_REAL_G_L_CASH_OPS</td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_REAL_G_L/FX_REAL_G_L_CASH_OPS</td><td></td>
+			</tr>
+			<tr>
+				<td>FX_REAL_G_L_IRR</td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_REAL_G_L/FX_REAL_G_L_IRR</td><td></td>
+			</tr>
+			<tr>
+				<td>FX_REAL_G_L_PUBLIC_MARKET</td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/FX_REAL_G_L/FX_REAL_G_L_PUBLIC_MARKET</td><td></td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\IO_AI_UNFUND_COMMIT.html">IO_AI_UNFUND_COMMIT</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/IO_AI_UNFUND_COMMIT</td><td>07:00 AM; 04:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\IO_FUT_TXN.html">IO_FUT_TXN</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/IO_FUT_TXN</td><td>06:00 AM; 07:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\IO_SETTLE_POSITIONS.html">IO_SETTLE_POSITIONS</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/IO_SETTLE_POSITIONS</td><td>06:30 AM; 11:30 AM; 03:30 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\IO_SWAP_ID_MAPPING.html">IO_SWAP_ID_MAPPING</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/IO_SWAP_ID_MAPPING</td><td>06:00 AM; 04:00 PM</td>
+			</tr>
+			<tr>
+				<td>LDOM_PRF_REP_DAILY</td><td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_PRF_REP_DAILY</td><td>07:00 PM</td>
+			</tr>
+			<tr>
+				<td>LDOM_PRF_REP_MONTHLY</td><td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_PRF_REP_MONTHLY</td><td>07:00 PM</td>
+			</tr>
+			<tr>
+				<td>LDOM_SCD_DWH_LOAD</td><td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_SCD_DWH_LOAD</td><td>06:15 PM</td>
+			</tr>
+			<tr>
+				<td>LDOM_SCD_DWH_RECON</td><td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_SCD_DWH_RECON</td><td>06:30 PM</td>
+			</tr>
+			<tr>
+				<td>LDOM_SCD_EOD_PROCESSING</td><td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_SCD_EOD_PROCESSING</td><td>06:00 PM</td>
+			</tr>
+			<tr>
+				<td>LDOM_SCD_EXTRACTS_POST_EOD</td><td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_SCD_EXTRACTS_POST_EOD</td><td>06:15 PM</td>
+			</tr>
+			<tr>
+				<td>LDOM_SCD_PERF_DAILY</td><td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_SCD_PERF_DAILY</td><td>06:30 PM</td>
+			</tr>
+			<tr>
+				<td>LDOM_SCD_SO_PFC_DEADLOCK_EXT</td><td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_SCD_SO_PFC_DEADLOCK_EXT</td><td>11:45 PM</td>
+			</tr>
+			<tr>
+				<td>LDOM_SCD_SOD</td><td>PROD/Constraint_Triggered_Plans/LastDayOfMonth_Triggers/LDOM_SCD_SOD</td><td>03:30 AM</td>
+			</tr>
+			<tr>
+				<td>PAYMENT_RECONCILIATION</td><td>PROD/Scheduled_Plans/PAYMENT_RECONCILIATION</td><td>09:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\PRF_REP_MONTHLY.html">PRF_REP_MONTHLY</a></td><td>PROD/Constraint_Triggered_Plans/PRF_REP_MONTHLY</td><td>11:40 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\RE_CASH_MGMT.html">RE_CASH_MGMT</a></td><td>PROD/Scheduled_Plans/RE_CASH_MGMT</td><td>05:00 AM; 12:00 PM; 03:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\RE_DWH_CLEAN.html">RE_DWH_CLEAN</a></td><td>PROD/Scheduled_Plans/RE_DWH_CLEAN</td><td>06:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\RE_DWH_PFC_CLEAN.html">RE_DWH_PFC_CLEAN</a></td><td>PROD/Scheduled_Plans/RE_DWH_PFC_CLEAN</td><td>07:00 PM</td>
+			</tr>
+			<tr>
+				<td>RE_PERF_DWH_LOAD_RESUBMIT</td><td>PROD/Scheduled_Plans/RE_PERF_DWH_LOAD_RESUBMIT</td><td></td>
+			</tr>
+			<tr>
+				<td>REF_IAB_DATA</td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/REF_IAB_DATA</td><td>11:45 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\REF_SMF_LFCONTRACTS.html">REF_SMF_LFCONTRACTS</a></td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/REF_SMF_LFCONTRACTS</td><td>06:00 AM; 12:30 PM; 03:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SA_CASH_MGMT.html">SA_CASH_MGMT</a></td><td>PROD/Constraint_Triggered_Plans/SA_CASH_MGMT</td><td>03:30 AM</td>
+			</tr>
+			<tr>
+				<td>SCD_AIM_WHT_DEDUCTIONS</td><td>PROD/Constraint_Triggered_Plans/SCD_AIM_WHT_DEDUCTIONS</td><td>03:30 AM</td>
+			</tr>
+			<tr>
+				<td>SCD_Callout_Rotation</td><td>PROD/Scheduled_Plans/Callout/SCD_Callout_Rotation</td><td>05:00 AM</td>
+			</tr>
+			<tr>
+				<td>SCD_DWH_LOAD</td><td>PROD/Constraint_Triggered_Plans/SCD_DWH_LOAD</td><td>08:45 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_DWH_RECON</td><td>PROD/Constraint_Triggered_Plans/SCD_DWH_RECON</td><td>11:30 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_DWH_RECON_GLHOLDING</td><td>PROD/Constraint_Triggered_Plans/SCD_DWH_RECON_GLHOLDING</td><td>11:30 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_EOD_PROCESSING</td><td>PROD/Constraint_Triggered_Plans/SCD_EOD_PROCESSING</td><td>08:30 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_EXTRACTS_POST_DWH</td><td>PROD/Constraint_Triggered_Plans/SCD_EXTRACTS_POST_DWH</td><td>11:00 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_EXTRACTS_POST_EOD</td><td>PROD/Constraint_Triggered_Plans/SCD_EXTRACTS_POST_EOD</td><td>08:45 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_FLS_DEX_EXTRACT</td><td>PROD/Constraint_Triggered_Plans/SCD_FLS_DEX_EXTRACT</td><td>08:45 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_FRR_MAT_ALERT</td><td>PROD/Constraint_Triggered_Plans/SCD_FRR_MAT_ALERT</td><td>06:00 AM</td>
+			</tr>
+			<tr>
+				<td>SCD_MANUAL_QUOTE</td><td>PROD/Constraint_Triggered_Plans/SCD_MANUAL_QUOTE</td><td>08:30 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_PERF_DAILY_1</td><td>PROD/Constraint_Triggered_Plans/SCD_PERF_DAILY_1</td><td>11:00 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_PERF_DAILY_2</td><td>PROD/Constraint_Triggered_Plans/SCD_PERF_DAILY_2</td><td>11:00 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_PERF_DAILY_3</td><td>PROD/Constraint_Triggered_Plans/SCD_PERF_DAILY_3</td><td>11:00 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_PERF_DAILY_INDEX</td><td>PROD/Constraint_Triggered_Plans/SCD_PERF_DAILY_INDEX</td><td>11:00 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_PERF_DWH_LOAD</td><td>PROD/Constraint_Triggered_Plans/SCD_PERF_DWH_LOAD</td><td>11:00 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_PERF_EXTRACT_UPD</td><td>PROD/Constraint_Triggered_Plans/SCD_PERF_EXTRACT_UPD</td><td>11:00 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_PERF_ME</td><td>PROD/Constraint_Triggered_Plans/SCD_PERF_ME</td><td>11:40 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_PERF_REP_DAILY_1</td><td>PROD/Constraint_Triggered_Plans/SCD_PERF_REP_DAILY_1</td><td>11:00 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_PERF_REP_DAILY_2</td><td>PROD/Constraint_Triggered_Plans/SCD_PERF_REP_DAILY_2</td><td>11:00 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_PERF_WEEKLY_1</td><td>PROD/Scheduled_Plans/Performance/SCD_PERF_WEEKLY_1</td><td>06:00 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_RECON</td><td>PROD/Constraint_Triggered_Plans/SCD_RECON</td><td>11:00 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_RECON_AIM_POSITIONS</td><td>PROD/Constraint_Triggered_Plans/SCD_RECON_AIM_POSITIONS</td><td>11:45 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_RECON_NT_CASH_PMT</td><td>PROD/Constraint_Triggered_Plans/SCD_RECON_NT_CASH_PMT</td><td>08:00 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_REPO_FLOAT_MAT_POST_SOD</td><td>PROD/Constraint_Triggered_Plans/SCD_REPO_FLOAT_MAT_POST_SOD</td><td>07:00 AM</td>
+			</tr>
+			<tr>
+				<td>SCD_SO_PFC_DEADLOCK_EXT</td><td>PROD/Constraint_Triggered_Plans/SCD_SO_PFC_DEADLOCK_EXT</td><td>08:45 PM</td>
+			</tr>
+			<tr>
+				<td>SCD_SOD</td><td>PROD/Constraint_Triggered_Plans/SCD_SOD</td><td>03:30 AM</td>
+			</tr>
+			<tr>
+				<td>SCD_STREPO_DEXS</td><td>PROD/Constraint_Triggered_Plans/SCD_STREPO_DEXS</td><td>08:45 PM</td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SECURITY_DEAL_ID.html">SECURITY_DEAL_ID</a></td><td>PROD/Constraint_Triggered_Plans/SECURITY_DEAL_ID</td><td>06:00 PM</td>
+			</tr>
+			<tr>
+				<td>Set_App_Variable_DWH_LOAD_Start</td><td>PROD/Constraint_Triggered_Plans/SCD_DWH_LOAD/Set_App_Variable_DWH_LOAD_Start</td><td></td>
+			</tr>
+			<tr>
+				<td>SO_DWHREC_CLEANUP</td><td>PROD/Scheduled_Plans/System_Operations/SO_DWHREC_CLEANUP</td><td></td>
+			</tr>
+			<tr>
+				<td><a href="plan_pages\SO_V_BUS_DATA.html">SO_V_BUS_DATA</a></td><td>PROD/Scheduled_Plans/System_Operations/SO_V_BUS_DATA</td><td>06:00 PM</td>
+			</tr>
+			<tr>
+				<td>SOD_SET_DATE</td><td>PROD/Constraint_Triggered_Plans/SOD_SET_DATE</td><td>01:00 AM</td>
+			</tr>
+			<tr>
+				<td>STREPO_DEXS_DO</td><td>PROD/Scheduled_Plans/Extracts_And_Reporting/STREPO_DEXS_DO</td><td></td>
+			</tr>
+			<tr>
+				<td>SWIFT_GET_FILES_AND_FTP_TO_SCD</td><td>PROD/Scheduled_Plans/SWIFT/SWIFT_GET_FILES_AND_FTP_TO_SCD</td><td>12:00 AM</td>
+			</tr>
+			<tr>
+				<td>SWIFT_MOVE_TO_COMM_SERVER</td><td>PROD/Scheduled_Plans/SWIFT/SWIFT_MOVE_TO_COMM_SERVER</td><td></td>
+			</tr>
+		</tbody>
+		</table>
+        </div>
+
+        <script src="navbar.js"></script>
+    </body>
+</html>
