@@ -10,7 +10,7 @@ page_template = """<!DOCTYPE html>
             <meta name="description" content="">
             <meta name="viewport" content="width=device-width, initial-scale=1">
 
-            <link rel="stylesheet" href="styles.css">
+            <link rel="stylesheet" href="%(plan_page_path)sstyles.css">
 
             <!-- Add jQuery and DataTables library and Bootstrap 5 integration -->
             <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>
@@ -49,7 +49,7 @@ page_template = """<!DOCTYPE html>
             <!-- Bootstrap CSS -->
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
 
-            <script src="searchPanes.js"></script>
+            <script src="%(plan_page_path)saddDataTablesFeatures.js"></script>
             <script src="https://www.gstatic.com/charts/loader.js"></script>
             <script src="timeline.js"></script>
         </head>
@@ -93,7 +93,7 @@ page_template = """<!DOCTYPE html>
 
         <div class="p-4 mb-4 bg-light rounded-3">
             <div class="container-fluid py-2">
-                <h1 class="display-6 fw-bold">%(page_title)s</h1>
+                <div class="h2 fw-bold">%(page_title)s</div>
                 <p class="col-md-12 fs-5">%(description)s</p>
                 <div class="accordion" id="accordionExample">
                     <div class="accordion-item">
@@ -116,7 +116,7 @@ page_template = """<!DOCTYPE html>
             %(body_content)s
         </div>
 
-        <script src="navbar.js"></script>
+        <script src="%(plan_page_path)snavbar.js"></script>
     </body>
 </html>
     """
@@ -156,7 +156,7 @@ def create_table_pages(sql_path, out_html_path):
     elif title == 'inventory':
         page_title = 'ActiveBatch Inventory'
         description = 'This page lists all the Active Batch plans that are: <br>\n \
-        <ul class="fs-5">\n \
+        <ul class="fs-6">\n \
             <li><strong>Scheduled</strong>: have a schedule to start the job</li>\n \
             <li><strong>Triggered</strong>: arrival of a file</li>\n \
             <li><strong>Adhoc</strong>: no schedule or trigger, just ran adhoc</li>\n \
@@ -206,12 +206,12 @@ def create_plan_pages(sql_path, scd_config_sql_path):
             f.write(page_template % vars())
 
 if __name__ == '__main__':
-    # create_table_pages('html_pages\SQL_queries\SCHEDULED_PLANS.sql', 'html_pages\webpages\scheduled.html')
-    # create_table_pages('html_pages\SQL_queries\IMPORTS.sql', 'html_pages\webpages\imports.html')
-    # create_table_pages('html_pages\SQL_queries\EXPORTS.sql', 'html_pages\webpages\exports.html')
-    # create_table_pages('html_pages\SQL_queries\ABAT_INVENTORY.sql', 'html_pages\webpages\inventory.html')
+    create_table_pages('html_pages\SQL_queries\SCHEDULED_PLANS.sql', 'html_pages\webpages\scheduled.html')
+    create_table_pages('html_pages\SQL_queries\IMPORTS.sql', 'html_pages\webpages\imports.html')
+    create_table_pages('html_pages\SQL_queries\EXPORTS.sql', 'html_pages\webpages\exports.html')
+    create_table_pages('html_pages\SQL_queries\ABAT_INVENTORY.sql', 'html_pages\webpages\inventory.html')
 
     # create_plan_pages('html_pages\SQL_queries\SCHEDULED_PLANS.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
     # create_plan_pages('html_pages\SQL_queries\ABAT_INVENTORY.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
-    create_plan_pages('html_pages\SQL_queries\IMPORTS.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
+    # create_plan_pages('html_pages\SQL_queries\IMPORTS.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
     # create_plan_pages('html_pages\SQL_queries\EXPORTS.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
