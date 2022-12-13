@@ -1,5 +1,5 @@
 from generate_html_pages import create_table_pages
-from generate_html_pages import create_plan_pages
+from generate_plan_pages import create_plan_pages
 from generate_timeline import generate_timeline
 import os
 
@@ -16,10 +16,10 @@ if __name__ == "__main__":
         os.mkdir("html_pages\webpages\plan_pages")
     except FileExistsError:
         print("'plan_pages' folder already exists.")
-    create_plan_pages('html_pages\SQL_queries\SCHEDULED_PLANS.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
-    create_plan_pages('html_pages\SQL_queries\ABAT_INVENTORY.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
-    create_plan_pages('html_pages\SQL_queries\IMPORTS.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
-    create_plan_pages('html_pages\SQL_queries\EXPORTS.sql', 'html_pages\SQL_queries\SCD_CONFIG.sql')
+    create_plan_pages('html_pages\SQL_queries\SCHEDULED_PLANS.sql')
+    create_plan_pages('html_pages\SQL_queries\ABAT_INVENTORY.sql')
+    create_plan_pages('html_pages\SQL_queries\IMPORTS.sql')
+    create_plan_pages('html_pages\SQL_queries\EXPORTS.sql')
     print("SCD config pages for Batch Job Groups generated successfully.")
 
     generate_timeline('html_pages\SQL_queries\SCHEDULED_PLANS_TIMELINE.sql')

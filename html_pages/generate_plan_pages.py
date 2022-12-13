@@ -1,5 +1,5 @@
-from sql_to_dataframe import sql_to_dataframe
 from dataframe_to_htmltable import dataframe_to_htmltable
+from sql_to_dataframe import sql_to_dataframe
 
 page_template = """<!DOCTYPE html>
     <html>
@@ -95,20 +95,6 @@ page_template = """<!DOCTYPE html>
             <div class="container-fluid py-2">
                 <div class="h2 fw-bold">%(page_title)s</div>
                 <p class="col-md-12 fs-5">%(description)s</p>
-                <div class="accordion" id="accordionExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Table legend
-                            </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                %(legend)s
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -121,62 +107,37 @@ page_template = """<!DOCTYPE html>
 </html>
     """
 
-def create_table_pages(sql_path, out_html_path):
-    df = sql_to_dataframe(sql_path)
-    
+def create_plan_pages(sql_path):
+    plan_df = sql_to_dataframe(sql_path)
 
-    # To be inserted into the page_template 
-    table_html = dataframe_to_htmltable(df) 
+    plan_template = """
+        <h4>SCD Batch Job Group Execution</h4>
+        %(batchjobgroup_html_table)s
+    """
+    config_df = sql_to_dataframe('html_pages\SQL_queries\SCD_CONFIG.sql')
 
-    # Extract the title of the page from the output file path name
-    title = out_html_path.split('\\')[-1].split('.')[0]
-    
-    # Initialize variables for the page template
-    body_content = table_html
-    plan_page_path = ''
-    legend = ''
-    if title == 'scheduled':
-        page_title = 'Scheduled Plans'
-        description = 'This page includes two datatables: ActiveBatch Scheduled Plans and Triggered Plans'
-    elif title == 'imports':
-        page_title = 'SCD Imports'
-        description = 'Import files to SimCorp Dimension.'
-    elif title == 'exports':
-        page_title = 'SCD Exports'
-        description = 'This page lists all the SCD Configuration objects that have a Batch Task of "Extracts Exporter Definitions - Execute", "Extraction Setups - Execute".'
-        legend = '<strong>Batch Job Group | Batch Job:</strong> Identification field of Batch Job Group along with the Batch Job Name. <br> \
-        <strong>Batch Job Name:</strong> Descriptive name of Batch Job.<br> \
-        <strong>Reference File Export:</strong> Name of the reference file to write to.<br> \
-        <strong>Entire Reference File String:</strong> Full Path of Reference File Export.<br> \
-        <strong>LAN Output:</strong> If applicable, the output from the Batch Job to the LAN.<br> \
-        <strong>Extraction Setup:</strong> If applicable, the ID of the Data extraction setup.<br> \
-        <strong>Data Format Setup:</strong> If applicable (Destination Type = Message Queue), the ID of the Data Format Setup.<br> \
-        <strong>Extract Table:</strong> If applicable (Destination Type = Extract table), the ID of the Data Format Setup.<br> \
-        <strong>ActiveBatch Path:</strong> If applicable the Active Batch Plan that calls this Batch Job Group.'
-    elif title == 'inventory':
-        page_title = 'ActiveBatch Inventory'
-        description = 'This page lists all the Active Batch plans that are: <br>\n \
-        <ul class="fs-6">\n \
-            <li><strong>Scheduled</strong>: have a schedule to start the job</li>\n \
-            <li><strong>Triggered</strong>: arrival of a file</li>\n \
-            <li><strong>Adhoc</strong>: no schedule or trigger, just ran adhoc</li>\n \
-        </ul>\n'
-        legend = '<strong>Name:</strong> Identification field of Batch Job Group.<br>\n \
-            <strong>Path Name:</strong> Complete path of Active Batch Plan.<br>\n \
-            <strong>Description:</strong> Description of the Active Batch Plan.<br>\n \
-            <strong>State:</strong> If plan is enabled/disabled.<br>\n \
-            <strong>Schedule or Trigger:</strong> Describes the schedule or Trigger for the Active Batch Plan.'
-    else: 
-        page_title = title
-        description = ''
-        legend = ''
+    for i in range(len(plan_df)):
+        row = plan_df.iloc[i]
+        name = row[0]
+        if '|' in name:
+            name = name.split(' | ')[0]
 
-    # Create and write to a new HTML file
-    with open(out_html_path, 'w') as f:
-        f.write(page_template % vars())
+        plan_config_df = config_df.loc[config_df['Batch Job Group'] == name]
+        if (plan_config_df.empty): 
+            continue
+        batchjobgroup_html_table = dataframe_to_htmltable(plan_config_df)
+
+        # Initialize variables for the page template
+        body_content = plan_template % vars()
+        page_title = name
+        description = 'If description or documentation available show here.'
+        plan_page_path = '..\\'
+
+        with open(f"html_pages\webpages\plan_pages\{name}.html", 'w') as f:
+            f.write(page_template % vars())
 
 if __name__ == '__main__':
-    create_table_pages('html_pages\SQL_queries\SCHEDULED_PLANS.sql', 'html_pages\webpages\scheduled.html')
-    # create_table_pages('html_pages\SQL_queries\IMPORTS.sql', 'html_pages\webpages\imports.html')
-    # create_table_pages('html_pages\SQL_queries\EXPORTS.sql', 'html_pages\webpages\exports.html')
-    # create_table_pages('html_pages\SQL_queries\ABAT_INVENTORY.sql', 'html_pages\webpages\inventory.html')
+    create_plan_pages('html_pages\SQL_queries\SCHEDULED_PLANS.sql')
+    create_plan_pages('html_pages\SQL_queries\ABAT_INVENTORY.sql')
+    create_plan_pages('html_pages\SQL_queries\IMPORTS.sql')
+    create_plan_pages('html_pages\SQL_queries\EXPORTS.sql')
