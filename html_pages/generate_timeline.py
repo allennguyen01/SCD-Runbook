@@ -26,6 +26,7 @@ function drawChart() {
 	page_title = 'Timeline'
 	plan_page_path = ''
 	description = ''
+	last_update_datetime = datetime.now().strftime("%m/%d/%Y @ %H:%M:%S")
 	legend = ''
 	body_content = '<div id="table_div_jscode" class="vh-100"></div>'
 

@@ -5,3 +5,11 @@ a.nav-link {
 table {
 	font-size: 14px;
 }
+
+#accordion {
+	margin-top: 20px;
+}
+
+.dt-buttons {
+	gap: 10px;
+}
