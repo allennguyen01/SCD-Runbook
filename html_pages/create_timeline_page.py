@@ -1,9 +1,9 @@
 import gviz_api
 from datetime import *
 from sql_to_dataframe import sql_to_dataframe
-from generate_html_pages import page_template
+from create_main_pages import page_template
 
-def generate_timeline(sql_path):
+def create_timeline_page(sql_path):
 	timeline_js = \
 """google.charts.load('current', {'packages':['timeline']});
 google.charts.setOnLoadCallback(drawChart);
@@ -65,4 +65,4 @@ function drawChart() {
 		f.write(page_template % vars())
 
 if __name__ == '__main__':
-	generate_timeline('html_pages\SQL_queries\SCHEDULED_PLANS_TIMELINE.sql')
+	create_timeline_page('html_pages\SQL_queries\SCHEDULED_PLANS_TIMELINE.sql')
