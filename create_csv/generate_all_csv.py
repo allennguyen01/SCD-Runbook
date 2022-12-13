@@ -1,10 +1,10 @@
-from getScheduledPlans import getScheduledPlans
-from getVariables import getVariables
-from getPathNames import getPathNames
-from getExecutionOrder import getExecutionOrder
-from getSchedules import getSchedules
-from getFileTriggers import getFileTriggers
-from getBatchJobGroups import getBatchJobGroups
+from get_scheduled_plans import get_scheduled_plans
+from get_variables import get_variables
+from get_path_names import get_path_names
+from get_execution_order import get_execution_order
+from get_schedules import get_schedules
+from get_file_triggers import get_file_triggers
+from get_batch_job_group import get_batch_job_groups
 import os
 
 if __name__ == '__main__':
@@ -21,22 +21,22 @@ if __name__ == '__main__':
     except FileExistsError:
         print("'csv' folder already exists.")
 
-    getSchedules(xmlFile, 'csv\Schedules.csv')
+    get_schedules(xmlFile, 'csv\Schedules.csv')
     print("Schedules.csv generated successfully!")
 
-    getPathNames(xmlFile, 'csv\PathNames.csv')
+    get_path_names(xmlFile, 'csv\PathNames.csv')
     print("PathNames.csv generated successfully!")
 
-    getVariables(xmlFile, 'csv\Variables.csv')
+    get_variables(xmlFile, 'csv\Variables.csv')
     print("Variables.csv generated successfully!")
 
-    getFileTriggers(xmlFile, 'csv\FileTriggers.csv')
+    get_file_triggers(xmlFile, 'csv\FileTriggers.csv')
     print("FileTriggers.csv generated successfully!")
 
-    getScheduledPlans(xmlFile, 'csv\Schedules.csv', 'csv\ScheduledPlans.csv')
+    get_scheduled_plans(xmlFile, 'csv\Schedules.csv', 'csv\ScheduledPlans.csv')
     print("ScheduledPlans.csv generated successfully!")
 
-    getBatchJobGroups(xmlFile, 'csv\PathNames.csv', 'csv\BatchJobGroups.csv')
+    get_batch_job_groups(xmlFile, 'csv\PathNames.csv', 'csv\BatchJobGroups.csv')
     print("BatchJobGroups.csv generated successfully!")
     
     print("All csv files generated successfully in csv folder.")

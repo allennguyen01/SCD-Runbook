@@ -3,7 +3,7 @@ import csv
 import pandas as pd
 # from getJobPlans import jobPlanDict
 
-def getBatchJobGroups(xmlFile, pathnameCSVFile, outputCSVFile):
+def get_batch_job_groups(xmlFile, pathnameCSVFile, outputCSVFile):
     tree = ET.parse(xmlFile)
     root = tree.getroot()
     pathNameDF = pd.read_csv(pathnameCSVFile, index_col='ID')
@@ -31,5 +31,5 @@ def getBatchJobGroups(xmlFile, pathnameCSVFile, outputCSVFile):
     bjgDF.to_csv(outputCSVFile)
 
 if __name__ == '__main__':
-    getBatchJobGroups('XMLs\PROD_2022_10_12.xml', 'outputCSV\PathNames_PROD_20221012.csv', 'outputCSV\Batch_Job_Groups_PROD_1.csv')
+    get_batch_job_groups('XMLs\PROD_2022_10_12.xml', 'outputCSV\PathNames_PROD_20221012.csv', 'outputCSV\Batch_Job_Groups_PROD_1.csv')
     

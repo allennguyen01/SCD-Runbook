@@ -2,7 +2,7 @@ import xml.etree.ElementTree as ET
 import pandas as pd
 
 # TODO: Add the top level plan for execution order 
-def getExecutionOrder(xmlFile, pathnameCSVFile, outputCSVFile):
+def get_execution_order(xmlFile, pathnameCSVFile, outputCSVFile):
     tree = ET.parse(xmlFile)
     root = tree.getroot()
     Events = root.iter('Event')
@@ -69,4 +69,4 @@ def getExecutionOrder(xmlFile, pathnameCSVFile, outputCSVFile):
     eoDF.to_csv(outputCSVFile)
 
 if __name__ == '__main__':
-    getExecutionOrder('XMLs\PROD_20221004.xml', 'outputCSV\PathNames_PROD.csv', 'outputCSV\ExecutionOrder_PROD_1.csv')
+    get_execution_order('XMLs\PROD_20221004.xml', 'outputCSV\PathNames_PROD.csv', 'outputCSV\ExecutionOrder_PROD_1.csv')

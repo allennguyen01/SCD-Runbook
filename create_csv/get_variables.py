@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
 
-def getVariables(xmlFile, outputCSVFile):
+def get_variables(xmlFile, outputCSVFile):
     tree = ET.parse(xmlFile)
     root = tree.getroot()
     Objects = root.iter('Object')
@@ -29,4 +29,4 @@ def getVariables(xmlFile, outputCSVFile):
     varDF.to_csv(outputCSVFile, index_label="ID")
 
 if __name__ == "__main__":
-    getVariables('XMLs\PROD_20221004.xml', 'outputCSV\Variables_PROD_1.csv')
+    get_variables('XMLs\PROD_20221004.xml', 'outputCSV\Variables_PROD_1.csv')

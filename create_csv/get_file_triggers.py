@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
 
-def getFileTriggers(xmlFile, outputCSVFile):
+def get_file_triggers(xmlFile, outputCSVFile):
     tree = ET.parse(xmlFile)
     root = tree.getroot()
     Events = root.iter('Event')
@@ -36,4 +36,4 @@ def getFileTriggers(xmlFile, outputCSVFile):
     fileTriggerDF.to_csv(outputCSVFile)
 
 if __name__ == '__main__':
-    getFileTriggers('XMLs\PROD_20221004.xml', 'outputCSV\FileTriggers_PROD_test_1.csv')
+    get_file_triggers('XMLs\PROD_20221004.xml', 'outputCSV\FileTriggers_PROD_test_1.csv')

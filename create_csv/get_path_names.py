@@ -2,7 +2,7 @@ from pydoc import Doc
 import xml.etree.ElementTree as ET
 import pandas as pd
 
-def getPathNames(xmlFile, outputCSVFile):
+def get_path_names(xmlFile, outputCSVFile):
     tree = ET.parse(xmlFile)
     root = tree.getroot()
 
@@ -57,4 +57,4 @@ def getPathNames(xmlFile, outputCSVFile):
     pathNameDict.to_csv(outputCSVFile)
 
 if __name__ == "__main__":
-    getPathNames('XMLs\PROD_2022_10_12.xml', 'outputCSV\PathNames_PROD_20221012.csv')
+    get_path_names('XMLs\PROD_2022_10_12.xml', 'outputCSV\PathNames_PROD_20221012.csv')

@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
 
-def getScheduledPlans(xmlFile, schedulesCSVFile, outputCSVFile):
+def get_scheduled_plans(xmlFile, schedulesCSVFile, outputCSVFile):
     tree = ET.parse(xmlFile)
     root = tree.getroot()
     Objects = root.iter('Object')
@@ -29,4 +29,4 @@ def getScheduledPlans(xmlFile, schedulesCSVFile, outputCSVFile):
     scheduledPlansDF.to_csv(outputCSVFile)
 
 if __name__ == "__main__":
-    getScheduledPlans('XMLs\PROD_20221004.xml', 'outputCSV\Schedules_PROD.csv', 'outputCSV\SCHEDULED_PLANS_1.csv')
+    get_scheduled_plans('XMLs\PROD_20221004.xml', 'outputCSV\Schedules_PROD.csv', 'outputCSV\SCHEDULED_PLANS_1.csv')

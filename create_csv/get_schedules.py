@@ -19,7 +19,7 @@ def getTime(obj):
     return t
 
 # TODO: Find ActiveBatch Day Specifications and add them to scheduleDF (WEEKDAY, EOM, etc.)
-def getSchedules(xmlFile, outputCSVFile):
+def get_schedules(xmlFile, outputCSVFile):
     tree = ET.parse(xmlFile)
     root = tree.getroot()
     Objects = root.iter('Object')
@@ -43,4 +43,4 @@ def getSchedules(xmlFile, outputCSVFile):
     scheduleDF.to_csv(outputCSVFile)
 
 if __name__ == "__main__":
-    getSchedules('XMLs\PROD_20221004.xml','outputCSV/Schedules_PROD.csv')
+    get_schedules('XMLs\PROD_20221004.xml','outputCSV/Schedules_PROD.csv')
