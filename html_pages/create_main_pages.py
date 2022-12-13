@@ -62,7 +62,7 @@ page_template = """
     <body>
         <div class="container-fluid">
             <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-                <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                <a href="./../../index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
                     <img class="me-4" src="%(plan_page_path)simages\BCI-logo-250x129.png" alt="BCI" height="32px">
                     <h2 class="fw-bold mt-1">SCD Runbook</h2>
                 </a>
