@@ -25,7 +25,7 @@ function addDataTablesFeatures() {
 
 	$(document).ready(function () {
 		var table = $("#table_id").DataTable({
-			dom: "BPlfrtip",
+			// dom: "BPlfrtip",
 			processing: true,
 			searchPanes: {
 				initCollapsed: true,
@@ -65,6 +65,9 @@ function addDataTablesFeatures() {
 				},
 			],
 		});
+		table.searchPanes.container().prependTo(table.table().container());
+		table.searchPanes.resizePanes();
+		table.buttons().container().prependTo(table.table().container());
 	});
 }
 
